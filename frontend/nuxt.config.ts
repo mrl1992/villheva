@@ -8,7 +8,7 @@ export default defineNuxtConfig({
   modules: [
     "@pinia/nuxt", // ✅ Pinia integration
   ],
-  css: [],
+  css: ["~/assets/styles/global.scss", "vuetify/styles"],
   runtimeConfig: {
     public: {
       sanityProjectId: process.env.SANITY_PROJECT_ID || "u8jecufq",
@@ -23,6 +23,7 @@ export default defineNuxtConfig({
     plugins: [
       vuetify({
         autoImport: true,
+        styles: true,
       }),
     ],
   },

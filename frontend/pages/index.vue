@@ -11,13 +11,17 @@
 
     <div class="hero-content">
       <div class="content-wrapper">
-        <h1 class="hero-title">Bakt med kjærlighet, håndlaget med omhu</h1>
+        <h2 class="hero-title">
+          Velkommen til Villheva – ditt mikrobakeri og håndverksverksted
+        </h2>
 
         <p class="hero-subtitle">
-          Håndverks surdeig og håndlagde trefat og smørkniver. Laget fra vårt
-          hjemmekjøkken med omsorg og tradisjon.
+          Villheva kombinerer lidenskap for ferskt bakverk med unike, håndlagde
+          treprodukter som smørkniver og fjøler. Opplev ekte håndverk som smaker
+          og varer.
         </p>
 
+        <!-- Buttons -->
         <div class="button-group">
           <v-btn
             size="large"
@@ -38,6 +42,7 @@
       </div>
     </div>
 
+    <!-- Scroll indicator -->
     <div class="scroll-indicator">
       <svg
         class="bounce-arrow"
@@ -54,6 +59,10 @@
       </svg>
     </div>
   </section>
+  <section
+    id="about"
+    style="height: 60vh; background-color: oklch(0.96 0.01 70)"
+  ></section>
 </template>
 
 <script setup lang="ts">

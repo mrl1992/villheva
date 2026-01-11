@@ -1,0 +1,50 @@
+@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Cardo:ital@0;1&display=swap");
+
+// Font family definitions
+$font-title: "Bree Serif", serif;
+$font-body: "Cardo", serif;
+
+// Color definitions
+$olive: #4d4738;
+$seafoam: #bab9a7;
+$earth: #755f4a;
+$oak: #c0ae94;
+
+// Global styles
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  font-family: $font-body;
+}
+
+// Heading styles
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $font-title;
+}
+
+// Title classes
+.title,
+.heading,
+.app-bar-title {
+  font-family: $font-title;
+}
+
+// Body text
+p,
+span,
+a,
+button,
+input,
+textarea {
+  font-family: $font-body;
+}

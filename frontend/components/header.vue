@@ -1,14 +1,7 @@
 <template>
   <v-app-bar :elevation="0" class="app-bar-custom">
     <template v-slot:prepend>
-      <v-app-bar-nav-icon v-if="logo">
-        <v-img
-          :src="logo.imageUrl"
-          :alt="logo.altText"
-          width="60"
-          height="50"
-        />
-      </v-app-bar-nav-icon>
+      <img src="/logo.png" alt="Villheva" class="logo" />
     </template>
     <v-app-bar-title class="ml-n2 app-bar-title">Villheva</v-app-bar-title>
     <v-btn
@@ -19,8 +12,10 @@
     >
       {{ tab }}
     </v-btn>
-    <v-btn icon>
-      <v-icon> mdi-delete </v-icon>
+    <v-btn icon class="mr-6">
+      <v-badge location="top right" color="seafoam" content="4">
+        <v-icon color="earth"> mdi-cart </v-icon>
+      </v-badge>
     </v-btn>
   </v-app-bar>
 </template>
@@ -28,12 +23,7 @@
 <script setup lang="ts">
   import { mediaService } from "~/services/mediaService";
 
-  const tabs = ref(["Home", "About", "Contact"]);
-  const logo = ref<any>(null);
-
-  onMounted(async () => {
-    logo.value = await mediaService.getMediaBySlug("logo-icon");
-  });
+  const tabs = ref(["Products", "Gallery", "About"]);
 </script>
 
 <style scoped>
@@ -49,10 +39,15 @@
     border-bottom: 1px solid rgba(186, 185, 167, 0.3) !important;
   }
 
+  .logo {
+    height: 40px;
+    width: auto;
+    margin: 0 12px;
+  }
+
   .app-bar-title {
-    font-family: serif !important;
+    font-family: "Bree Serif", serif !important;
     font-size: 1.5rem !important;
-    font-weight: 600 !important;
     color: #4d4738 !important;
     font-style: italic !important;
   }
