@@ -1,4 +1,6 @@
-import {products} from './products'
+import {bakingProducts} from './baking-products'
+import {woodProducts} from './wood-products'
 import {media} from './media'
+import {allergens} from './allergens'
 
-export const schemaTypes = [products, media]
+export const schemaTypes = [bakingProducts, woodProducts, media, allergens]

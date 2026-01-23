@@ -1,78 +1,96 @@
 <template>
-  <section class="hero-section">
-    <v-img
-      src="/hero-sourdough.png"
-      alt="Fersk surdeigbrød"
-      cover
-      class="hero-image"
-    >
-      <div class="hero-overlay"></div>
-    </v-img>
+  <div class="loader-container" v-if="loading">
+    <v-progress-circular
+      indeterminate
+      color="primary"
+      size="64"
+    ></v-progress-circular>
+  </div>
+  <v-container max-width="2200" class="mt-0 pa-0" v-else>
+    <section class="hero-section">
+      <v-img
+        src="/hero-sourdough.png"
+        alt="Fersk surdeigbrød"
+        cover
+        class="hero-image"
+      >
+        <div class="hero-overlay"></div>
+      </v-img>
 
-    <div class="hero-content">
-      <div class="content-wrapper">
-        <h2 class="hero-title">
-          Velkommen til Villheva – ditt mikrobakeri og håndverksverksted
-        </h2>
+      <div class="hero-content">
+        <div class="content-wrapper">
+          <h2 class="hero-title">
+            Velkommen til Villheva – ditt mikrobakeri og håndverksverksted
+          </h2>
 
-        <p class="hero-subtitle">
-          Villheva kombinerer lidenskap for ferskt bakverk med unike, håndlagde
-          treprodukter som smørkniver og fjøler. Opplev ekte håndverk som smaker
-          og varer.
-        </p>
+          <p class="hero-subtitle">
+            Villheva kombinerer lidenskap for ferskt bakverk med unike,
+            håndlagde treprodukter som smørkniver og fjøler. Opplev ekte
+            håndverk som smaker og varer.
+          </p>
 
-        <!-- Buttons -->
-        <div class="button-group">
-          <v-btn
-            size="large"
-            class="btn-primary"
-            @click="navigateTo('/produkter')"
-          >
-            Utforsk produktene våre
-          </v-btn>
-          <v-btn
-            size="large"
-            variant="outlined"
-            class="btn-secondary"
-            @click="navigateTo('/om-oss')"
-          >
-            Les vår historie
-          </v-btn>
+          <!-- Buttons -->
+          <div class="button-group">
+            <v-btn
+              size="large"
+              class="btn-primary"
+              @click="navigateTo('/produkter')"
+            >
+              Utforsk produktene våre
+            </v-btn>
+            <v-btn
+              size="large"
+              variant="outlined"
+              class="btn-secondary"
+              @click="navigateTo('/om-oss')"
+            >
+              Les vår historie
+            </v-btn>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Scroll indicator -->
-    <div class="scroll-indicator">
-      <svg
-        class="bounce-arrow"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M19 14l-7 7m0 0l-7-7m7 7V3"
-        />
-      </svg>
-    </div>
-  </section>
-  <section
-    id="about"
-    style="height: 60vh; background-color: oklch(0.96 0.01 70)"
-  ></section>
+      <div class="scroll-indicator">
+        <svg
+          class="bounce-arrow"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 14l-7 7m0 0l-7-7m7 7V3"
+          />
+        </svg>
+      </div>
+    </section>
+    <section
+      id="about"
+      style="height: 60vh; background-color: oklch(0.96 0.01 70)"
+    >
+      <about />
+    </section>
+    <section style="height: 60vh; background-color: rgb(var(--v-theme-olive))">
+      <pricelist />
+    </section>
+    <section
+      id="about"
+      style="height: 60vh; background-color: oklch(0.96 0.01 70)"
+    ></section>
+  </v-container>
 </template>
 
 <script setup lang="ts">
-  const productStore = useProductsStore();
-  const { products } = storeToRefs(productStore);
+  import About from "~/components/About.vue";
+  import Pricelist from "~/components/Pricelist.vue";
 
-  onMounted(async () => {
-    await productStore.fetchProducts();
-    console.log(products.value);
-  });
+  const productStore = useProductsStore();
+  const { loading, bakingProducts, woodProducts } = productStore;
+
+  // Fetch products before rendering
+  await productStore.fetchAllProducts();
 </script>
 
 <style scoped>
@@ -243,5 +261,13 @@
     50% {
       transform: translateY(-0.5rem);
     }
+  }
+
+  .loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: oklch(0.96 0.01 70);
   }
 </style>
