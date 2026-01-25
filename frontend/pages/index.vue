@@ -20,10 +20,11 @@
       <div class="hero-content">
         <div class="content-wrapper">
           <h2 class="hero-title">
-            Velkommen til Villheva – ditt mikrobakeri og håndverksverksted
+            {{ site?.heroTitle }}
           </h2>
 
           <p class="hero-subtitle">
+            {{ site?.heroSubtitle }}
             Villheva kombinerer lidenskap for ferskt bakverk med unike,
             håndlagde treprodukter som smørkniver og fjøler. Opplev ekte
             håndverk som smaker og varer.
@@ -85,12 +86,15 @@
 <script setup lang="ts">
   import About from "~/components/About.vue";
   import Pricelist from "~/components/Pricelist.vue";
+  import { sanityService } from "~/services/sanityService";
 
   const productStore = useProductsStore();
   const { loading, bakingProducts, woodProducts } = productStore;
-
   // Fetch products before rendering
   await productStore.fetchAllProducts();
+  const { data: site } = await useAsyncData("site-settings", () =>
+    sanityService.getSiteSettings(),
+  );
 </script>
 
 <style scoped>

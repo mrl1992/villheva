@@ -47,4 +47,35 @@ export const sanityService = {
     }`;
     return await client.fetch(query);
   },
+
+  // Fetch a single product by slug (handles both baking and wood products)
+  async getProductBySlug(
+    slug: string,
+  ): Promise<BakingProduct | WoodProduct | null> {
+    const client = useSanity();
+    const query = `*[_type in ["baking-products", "wood-products"] && slug.current == $slug][0]{
+      _id,
+      _type,
+      title,
+      "slug": slug.current,
+      "imageUrl": poster.asset->url,
+      price,
+      weight,
+      description,
+      "allergens": allergens[]->{_id, title}
+    }`;
+    return await client.fetch(query, { slug });
+  },
+
+  async getSiteSettings() {
+    const client = useSanity();
+    const query = `*[_type == "site-settings"][0]{
+    heroTitle,
+    heroSubtitle,
+    heroCtaLabel,
+    heroCtaHref,
+    "heroImageUrl": heroImage.asset->url
+  }`;
+    return client.fetch(query);
+  },
 };
