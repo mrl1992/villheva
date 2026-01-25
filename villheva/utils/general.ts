@@ -24,4 +24,16 @@ export const productBaseFields = [
     type: 'number',
     validation: (rule) => rule.required(),
   },
+  {
+    name: 'inStock',
+    title: 'På lager',
+    type: 'boolean',
+    initialValue: true,
+  },
+  {
+    name: 'bestSeller',
+    title: 'Bestselger',
+    type: 'boolean',
+    initialValue: true,
+  },
 ]

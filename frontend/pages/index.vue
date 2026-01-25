@@ -68,16 +68,16 @@
     </section>
     <section
       id="about"
-      style="height: 60vh; background-color: oklch(0.96 0.01 70)"
+      style="height: 80vh; background-color: oklch(0.96 0.01 70)"
     >
       <about />
     </section>
-    <section style="height: 60vh; background-color: rgb(var(--v-theme-olive))">
+    <section style="height: 80vh; background-color: rgb(var(--v-theme-olive))">
       <pricelist />
     </section>
     <section
       id="about"
-      style="height: 60vh; background-color: oklch(0.96 0.01 70)"
+      style="height: 80vh; background-color: oklch(0.96 0.01 70)"
     ></section>
   </v-container>
 </template>

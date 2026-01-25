@@ -13,7 +13,7 @@
             {{ product.title }}
           </h4>
           <p class="text-body-2 text-brown-700 text-opacity-70">
-            {{ product.weight ?? product.description }}
+            {{ `${product.weight}g` }}
           </p>
         </div>
 
