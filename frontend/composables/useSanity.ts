@@ -4,6 +4,7 @@ export const useSanity = () => {
   const config = useRuntimeConfig();
   const previewCookie = useCookie("__sanity_preview");
   const isDraftMode = !!previewCookie.value;
+  const isDev = process.dev;
 
   return createClient({
     projectId: config.public.sanityProjectId,
@@ -13,7 +14,7 @@ export const useSanity = () => {
     perspective: isDraftMode ? "previewDrafts" : "published",
     token: isDraftMode ? (previewCookie.value ?? undefined) : undefined,
     stega: {
-      enabled: isDraftMode,
+      enabled: isDev || isDraftMode,
       studioUrl: "http://localhost:3333",
     },
   });
