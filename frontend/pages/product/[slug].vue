@@ -51,8 +51,6 @@
 </template>
 
 <script setup lang="ts">
-  import type { BakingProduct } from "~/models/baking-product.interface";
-  import type { WoodProduct } from "~/models/wood-product.interface";
   import { sanityService } from "~/services/sanityService";
 
   const route = useRoute();

@@ -9,6 +9,19 @@ export default defineNuxtPlugin((nuxtApp) => {
   const vuetify = createVuetify({
     components,
     directives,
+    defaults: {
+      VTextField: {
+        variant: "outlined",
+        density: "compact",
+        hideDetails: "auto",
+        class: "rounded-xl",
+      },
+      VTextarea: {
+        variant: "outlined",
+        density: "compact",
+        hideDetails: "auto",
+      },
+    },
     theme: {
       themes: {
         light: {

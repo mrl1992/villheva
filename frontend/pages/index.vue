@@ -9,7 +9,7 @@
   <v-container max-width="2200" class="mt-0 pa-0" v-else>
     <section class="hero-section">
       <v-img
-        src="/hero-sourdough.png"
+        :src="site?.heroImageUrl"
         alt="Fersk surdeigbrød"
         cover
         class="hero-image"
@@ -25,9 +25,6 @@
 
           <p class="hero-subtitle">
             {{ site?.heroSubtitle }}
-            Villheva kombinerer lidenskap for ferskt bakverk med unike,
-            håndlagde treprodukter som smørkniver og fjøler. Opplev ekte
-            håndverk som smaker og varer.
           </p>
 
           <!-- Buttons -->
@@ -37,7 +34,7 @@
               class="btn-primary"
               @click="navigateTo('/produkter')"
             >
-              Utforsk produktene våre
+              {{ site.heroCtaLabel }}
             </v-btn>
             <v-btn
               size="large"
@@ -79,22 +76,24 @@
     <section
       id="about"
       style="height: 80vh; background-color: oklch(0.96 0.01 70)"
-    ></section>
+    >
+      <contact-form />
+    </section>
   </v-container>
 </template>
 
 <script setup lang="ts">
   import About from "~/components/About.vue";
   import Pricelist from "~/components/Pricelist.vue";
-  import { sanityService } from "~/services/sanityService";
 
   const productStore = useProductsStore();
+  const settingsStore = useSettingsStore();
   const { loading, bakingProducts, woodProducts } = productStore;
-  // Fetch products before rendering
+  // Fetch products and settings before rendering
   await productStore.fetchAllProducts();
-  const { data: site } = await useAsyncData("site-settings", () =>
-    sanityService.getSiteSettings(),
-  );
+  await settingsStore.fetchSiteSettings();
+
+  const site = computed(() => settingsStore.siteSettings);
 </script>
 
 <style scoped>

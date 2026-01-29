@@ -11,4 +11,6 @@ export interface BakingProduct {
   price: number;
   weight: number;
   allergens: Allergen[];
+  inStock?: boolean;
+  bestSeller?: boolean;
 }

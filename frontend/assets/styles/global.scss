@@ -48,3 +48,21 @@ input,
 textarea {
   font-family: $font-body;
 }
+
+// Hero title style
+.hero-title {
+  margin-bottom: 1.5rem;
+  font-family: serif;
+  font-weight: 400;
+  font-size: 2.25rem;
+  line-height: 2.75rem;
+  color: #4d4738;
+  text-wrap: balance;
+}
+
+@media (min-width: 640px) {
+  .hero-title {
+    font-size: 3rem;
+    line-height: 1.1;
+  }
+}

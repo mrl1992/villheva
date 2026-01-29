@@ -9,11 +9,11 @@ export const useSanity = () => {
     projectId: config.public.sanityProjectId,
     dataset: config.public.sanityDataset,
     apiVersion: config.public.sanityApiVersion,
-    useCdn: false, // Always fetch fresh in development for stega
+    useCdn: false,
     perspective: isDraftMode ? "previewDrafts" : "published",
-    token: isDraftMode ? previewCookie.value : undefined,
+    token: isDraftMode ? (previewCookie.value ?? undefined) : undefined,
     stega: {
-      enabled: true, // Always enable stega so Studio can encode overlays
+      enabled: isDraftMode,
       studioUrl: "http://localhost:3333",
     },
   });

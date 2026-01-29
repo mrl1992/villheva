@@ -29,7 +29,9 @@ export const sanityService = {
       "imageUrl": poster.asset->url,
       price,
       weight,
-      "allergens": allergens[]->{_id, title}
+      "allergens": allergens[]->{_id, title},
+      bestSeller,
+      inStock
     }`;
     return await client.fetch(query);
   },
@@ -43,7 +45,9 @@ export const sanityService = {
       "slug": slug.current,
       "imageUrl": poster.asset->url,
       price,
-      description
+      description,
+      bestSeller,
+      inStock
     }`;
     return await client.fetch(query);
   },
@@ -74,7 +78,11 @@ export const sanityService = {
     heroSubtitle,
     heroCtaLabel,
     heroCtaHref,
-    "heroImageUrl": heroImage.asset->url
+    "heroImageUrl": heroImage->image.asset->url,
+  aboutUsTitle,
+  aboutUsText1,
+  aboutUsText2,
+  aboutUsText3
   }`;
     return client.fetch(query);
   },

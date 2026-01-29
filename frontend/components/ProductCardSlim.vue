@@ -12,8 +12,17 @@
           <h4 class="text-brown-700 font-weight-medium mb-1">
             {{ product.title }}
           </h4>
-          <p class="text-body-2 text-brown-700 text-opacity-70">
+          <p
+            class="text-body-2 text-brown-700 text-opacity-70"
+            v-if="product.weight"
+          >
             {{ `${product.weight}g` }}
+          </p>
+          <p
+            class="text-body-2 text-brown-700 text-opacity-70"
+            v-else-if="product.inStock"
+          >
+            {{ product.inStock ? "På lager" : "Utsolgt" }}
           </p>
         </div>
 
@@ -45,7 +54,8 @@
     id: string | number;
     title: string;
     price: number;
-    weight?: string;
+    weight?: number;
+    inStock?: boolean;
     category?: string;
     description?: string;
   }

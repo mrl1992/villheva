@@ -5,4 +5,6 @@ export interface WoodProduct {
   imageUrl: string;
   price: number;
   description?: string;
+  inStock?: boolean;
+  bestSeller?: boolean;
 }
