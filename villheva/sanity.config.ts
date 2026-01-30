@@ -13,6 +13,20 @@ export default defineConfig({
   dataset: 'product',
 
   plugins: [
+    presentationTool({
+      resolve: {
+        locations,
+        mainDocuments,
+      },
+      previewUrl: {
+        initial: 'http://localhost:3000',
+        previewMode: {
+          enable: '/api/draft-mode/enable',
+          disable: '/api/draft-mode/disable',
+        },
+      },
+      allowOrigins: ['http://localhost:*'],
+    }),
     structureTool({
       structure: (S) =>
         S.list()
@@ -29,20 +43,6 @@ export default defineConfig({
           ]),
     }),
     visionTool(),
-    presentationTool({
-      resolve: {
-        locations,
-        mainDocuments,
-      },
-      previewUrl: {
-        initial: 'http://localhost:3000',
-        previewMode: {
-          enable: '/api/draft-mode/enable',
-          disable: '/api/draft-mode/disable',
-        },
-      },
-      allowOrigins: ['http://localhost:*'],
-    }),
   ],
 
   schema: {

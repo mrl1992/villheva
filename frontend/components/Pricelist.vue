@@ -1,6 +1,6 @@
 <template>
   <div class="w-100 h-100 pricelist-wrapper">
-    <div class="mb-12">
+    <div class="mb-12 pt-12">
       <h1 class="text-center hero-title" style="color: #c0ae94">Prisliste</h1>
       <p class="text-center" style="color: #c0ae94">
         Fersk brød bakt daglig og håndlagde trevarer laget med omsorg

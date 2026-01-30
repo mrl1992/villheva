@@ -70,7 +70,7 @@
     >
       <about />
     </section>
-    <section style="height: 80vh; background-color: rgb(var(--v-theme-olive))">
+    <section class="pricelist-section">
       <pricelist />
     </section>
     <section
@@ -144,6 +144,12 @@
     width: 100%;
     padding: 5rem 1rem;
     text-align: center;
+  }
+
+  .pricelist-section {
+    height: auto;
+    padding-bottom: 5rem;
+    background-color: rgb(var(--v-theme-olive));
   }
 
   @media (min-width: 640px) {
