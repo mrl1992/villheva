@@ -1,5 +1,5 @@
 <template>
-  <div class="loader-container" v-show="true">
+  <div class="loader-container" v-show="isLoading">
     <v-progress-circular
       indeterminate
       color="primary"
