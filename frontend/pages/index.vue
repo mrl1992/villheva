@@ -79,10 +79,7 @@
   import Pricelist from "~/components/Pricelist.vue";
   import ContactForm from "~/components/ContactForm.vue";
 
-  const productStore = useProductsStore();
   const settingsStore = useSettingsStore();
-  const { loading, bakingProducts, woodProducts } = productStore;
-  // Fetch products and settings before rendering
 
   const site = computed(() => settingsStore.siteSettings);
 </script>

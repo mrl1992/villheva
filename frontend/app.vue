@@ -1,10 +1,6 @@
 <template>
   <div class="loader-container" v-show="isLoading">
-    <v-progress-circular
-      indeterminate
-      color="primary"
-      size="64"
-    ></v-progress-circular>
+    <LoadingOverlay />
   </div>
   <div v-show="!isLoading">
     <v-app class="h-100">
@@ -18,6 +14,8 @@
 </template>
 
 <script setup lang="ts">
+  import LoadingOverlay from "./components/LoadingOverlay.vue";
+
   const settingsStore = useSettingsStore();
   const productStore = useProductsStore();
 
@@ -25,14 +23,24 @@
   const isLoading = ref(true);
 
   // Fetch products and settings before rendering
-  await productStore.fetchAllProducts();
-  await settingsStore.fetchSiteSettings();
+  const fetchData = async () => {
+    await Promise.all([
+      settingsStore.fetchSiteSettings(),
+      productStore.fetchBakingProducts(),
+      productStore.fetchWoodProducts(),
+    ]);
+  };
+  onMounted(async () => {
+    setTimeout(async () => {
+      await fetchData();
+      isLoading.value = false;
+    }, 500); // Optional: small delay to show loader
+  });
 
   // Data is loaded
   isLoading.value = false;
 
   const site = computed(() => settingsStore.siteSettings);
-  const { loading, bakingProducts, woodProducts } = productStore;
 </script>
 
 <style scoped>
