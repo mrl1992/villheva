@@ -12,7 +12,6 @@ export const useSettingsStore = defineStore("settings", () => {
     error.value = null;
     try {
       siteSettings.value = await sanityService.getSiteSettings();
-      console.log("🚀 ~ siteSettings:", siteSettings.value);
     } catch (err: any) {
       error.value = err.message;
       console.error("Failed to fetch site settings:", err);

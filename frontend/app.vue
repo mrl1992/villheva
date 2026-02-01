@@ -1,7 +1,7 @@
 <template>
   <v-app class="h-100">
     <Header />
-    <v-main class="h-100">
+    <v-main>
       <NuxtPage />
     </v-main>
     <Footer />

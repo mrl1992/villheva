@@ -3,15 +3,12 @@
     <template v-slot:prepend>
       <img src="/logo.png" alt="Villheva" class="logo" />
     </template>
-    <v-app-bar-title class="ml-n2 app-bar-title">Villheva</v-app-bar-title>
-    <v-btn
-      variant="plain"
-      v-for="tab in tabs"
-      :key="tab"
-      :to="tab === 'Home' ? '/' : `/${tab.toLowerCase()}`"
-    >
-      {{ tab }}
-    </v-btn>
+    <v-app-bar-title class="ml-n2 app-bar-title">
+      <NuxtLink to="/">Villheva</NuxtLink>
+    </v-app-bar-title>
+    <NuxtLink to="/products" class="nav-link">Produkter</NuxtLink>
+    <NuxtLink to="/gallery" class="nav-link">Galleri</NuxtLink>
+
     <v-btn icon class="mr-6">
       <v-badge location="top right" color="seafoam" content="4">
         <v-icon color="earth"> mdi-cart </v-icon>
@@ -23,7 +20,7 @@
 <script setup lang="ts">
   import { mediaService } from "~/services/mediaService";
 
-  const tabs = ref(["Products", "Gallery", "About"]);
+  const tabs = ref(["Product", "Gallery", "About"]);
 </script>
 
 <style scoped>
@@ -50,9 +47,6 @@
     font-size: 1.5rem !important;
     color: #4d4738 !important;
     font-style: italic !important;
-  }
-
-  @media (min-width: 640px) {
     .app-bar-title {
       font-size: 1.875rem !important;
     }

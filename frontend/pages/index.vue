@@ -29,18 +29,16 @@
 
           <!-- Buttons -->
           <div class="button-group">
-            <v-btn
-              size="large"
-              class="btn-primary"
-              @click="navigateTo('/produkter')"
-            >
-              {{ site.heroCtaLabel }}
-            </v-btn>
+            <NuxtLink to="/products">
+              <v-btn size="large" class="btn-primary">
+                {{ site.heroCtaLabel }}
+              </v-btn>
+            </NuxtLink>
             <v-btn
               size="large"
               variant="outlined"
               class="btn-secondary"
-              @click="navigateTo('/om-oss')"
+              @click="scrollToSection('about')"
             >
               Les vår historie
             </v-btn>
@@ -74,8 +72,9 @@
       <pricelist />
     </section>
     <section
-      id="about"
-      style="height: 80vh; background-color: oklch(0.96 0.01 70)"
+      id="contact"
+      class="d-flex align-center justify-center"
+      style="height: 700px; background-color: oklch(0.96 0.01 70)"
     >
       <contact-form />
     </section>
@@ -85,6 +84,7 @@
 <script setup lang="ts">
   import About from "~/components/About.vue";
   import Pricelist from "~/components/Pricelist.vue";
+  import ContactForm from "~/components/ContactForm.vue";
 
   const productStore = useProductsStore();
   const settingsStore = useSettingsStore();
@@ -147,8 +147,10 @@
   }
 
   .pricelist-section {
-    height: auto;
-    padding-bottom: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 900px;
     background-color: rgb(var(--v-theme-olive));
   }
 

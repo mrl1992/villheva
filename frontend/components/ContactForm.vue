@@ -1,6 +1,6 @@
 <template>
   <v-container class="contact-container mx-auto px-4">
-    <h1 class="text-center hero-title">Kontakt oss</h1>
+    <Title :title="'Kontakt oss'" />
     <p class="text-center mb-6">
       Har du spørsmål eller ønsker å komme i kontakt med oss? Fyll ut skjemaet
       nedenfor, så svarer vi så snart som mulig.
@@ -29,6 +29,8 @@
 </template>
 
 <script setup lang="ts">
+  import Title from "./Title.vue";
+
   const form = useTemplateRef("form");
 
   const contactInfo = reactive({

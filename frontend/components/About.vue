@@ -11,7 +11,7 @@
       </div>
       <div class="content-column">
         <div class="content-inner">
-          <h1 class="hero-title">{{ siteSettings?.aboutUsTitle }}</h1>
+          <Title :title="siteSettings?.aboutUsTitle" />
           <p class="mb-4">
             {{ siteSettings?.aboutUsText1 }}
           </p>
@@ -28,6 +28,8 @@
 </template>
 
 <script setup>
+  import Title from "./Title.vue";
+
   const { siteSettings } = useSettingsStore();
 </script>
 
