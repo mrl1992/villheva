@@ -10,7 +10,7 @@ export const sanityService = {
       _id,
       title,
       "slug": slug.current,
-      "imageUrl": poster.asset->url,
+      "imageUrls": images[]->image.asset->url,
       price,
       weight,
       "allergens": allergens[]->{_id, title},
@@ -26,7 +26,7 @@ export const sanityService = {
       _id,
       title,
       "slug": slug.current,
-      "imageUrl": poster->image.asset->url,
+      "imageUrls": images[]->image.asset->url,
       price,
       weight,
       "allergens": allergens[]->{_id, title},
@@ -43,7 +43,7 @@ export const sanityService = {
       _id,
       title,
       "slug": slug.current,
-      "imageUrl": poster->image.asset->url,
+      "imageUrls": images[]->image.asset->url,
       price,
       description,
       bestSeller,
@@ -62,11 +62,13 @@ export const sanityService = {
       _type,
       title,
       "slug": slug.current,
-      "imageUrl": poster->image.asset->url,
+      "imageUrls": images[]->image.asset->url,
       price,
       weight,
       description,
-      "allergens": allergens[]->{_id, title}
+      "allergens": allergens[]->{_id, title},
+      bestSeller,
+      inStock
     }`;
     return await client.fetch(query, { slug });
   },

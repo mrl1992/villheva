@@ -50,10 +50,7 @@
         </svg>
       </div>
     </section>
-    <section
-      id="about"
-      style="height: 80vh; background-color: oklch(0.96 0.01 70)"
-    >
+    <section style="height: 80vh; background-color: oklch(0.96 0.01 70)">
       <about />
     </section>
     <section class="pricelist-section">
@@ -133,13 +130,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 900px;
+    height: auto;
     background-color: rgb(var(--v-theme-olive));
   }
 
   @media (min-width: 640px) {
     .hero-content {
       padding: 8rem 1.5rem;
+    }
+    .pricelist-section {
+      height: 700px;
     }
   }
 

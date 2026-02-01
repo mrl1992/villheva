@@ -13,10 +13,11 @@ export const productBaseFields = [
     validation: (rule) => rule.required(),
   },
   {
-    name: 'poster',
-    title: 'Produktbilde',
-    type: 'reference',
-    to: [{type: 'media'}],
+    name: 'images',
+    title: 'Produktbilder',
+    type: 'array',
+    of: [{type: 'reference', to: [{type: 'media'}]}],
+    validation: (rule) => rule.min(1).required(),
   },
   {
     name: 'price',

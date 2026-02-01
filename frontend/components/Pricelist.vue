@@ -9,7 +9,7 @@
     <v-row class="d-flex justify-center" cols="1" md="2" gap="12">
       <v-col>
         <h1 class="price-heading text-center">Brød & Boller</h1>
-        <div class="d-flex flex-column ga-3 ml-4">
+        <div class="d-flex flex-column ga-3 product-list product-list-left">
           <product-card-slim
             v-for="product in bestSellingBakingProducts.slice(0, 3)"
             :key="product._id"
@@ -18,9 +18,9 @@
           />
         </div>
       </v-col>
-      <v-col class="ml-2">
+      <v-col class="wood-column">
         <h1 class="price-heading text-center">Trearbeid</h1>
-        <div class="d-flex flex-column ga-3 mr-4">
+        <div class="d-flex flex-column ga-3 product-list product-list-right">
           <product-card-slim
             v-for="product in bestSellingWoodProducts.slice(0, 3)"
             :key="product._id"
@@ -30,26 +30,6 @@
         </div>
       </v-col>
     </v-row>
-
-    <button
-      class="products-arrow"
-      aria-label="Gå til produkter"
-      @click="goToProducts"
-    >
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        aria-hidden="true"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M5 12h14m-6-6l6 6-6 6"
-        />
-      </svg>
-    </button>
   </div>
 </template>
 
@@ -121,5 +101,28 @@
   .products-arrow svg {
     width: 1.5rem;
     height: 1.5rem;
+  }
+
+  .wood-column {
+    margin-left: 0;
+  }
+
+  .product-list {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  @media (min-width: 960px) {
+    .wood-column {
+      margin-left: 0.5rem;
+    }
+
+    .product-list-left {
+      margin-left: 1rem;
+    }
+
+    .product-list-right {
+      margin-right: 1rem;
+    }
   }
 </style>

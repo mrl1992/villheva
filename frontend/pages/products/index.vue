@@ -18,66 +18,67 @@
           />
 
           <div class="products-list">
-            <article
+            <NuxtLink
               v-for="product in breadProducts"
               :key="product._id"
-              class="product-row product-row-light"
+              :to="`/products/${product.slug}`"
+              class="product-link"
             >
-              <div class="product-image-wrap">
-                <img
-                  v-if="product.imageUrl"
-                  :src="product.imageUrl"
-                  :alt="product.title"
-                  class="product-image"
-                />
-                <div v-else class="image-placeholder">/placeholder.svg</div>
-                <span
-                  v-if="product.bestSeller"
-                  class="bestseller-badge bestseller-badge-light"
-                >
-                  ⭐ Bestselger
-                </span>
-              </div>
-              <div class="product-content">
-                <div>
-                  <div class="product-title-row">
-                    <h3 class="product-title-light">{{ product.title }}</h3>
-                    <span class="product-badge-light">
-                      {{ product.weight ? `${product.weight}g` : "N/A" }}
-                    </span>
-                  </div>
-                  <p class="product-description-light">
-                    {{ product.description || "Håndlaget og fersk" }}
-                  </p>
-                </div>
-                <div class="product-footer">
-                  <div class="price-stock-wrapper">
-                    <span class="product-price-light">
-                      {{ product.price }} kr
-                    </span>
-                    <span
-                      :class="[
-                        'stock-indicator',
-                        product.inStock !== false
-                          ? 'in-stock-light'
-                          : 'out-of-stock-light',
-                      ]"
-                    >
-                      {{
-                        product.inStock !== false ? "✓ På lager" : "✕ Utsolgt"
-                      }}
-                    </span>
-                  </div>
-                  <button
-                    class="product-button-light"
-                    type="button"
-                    :disabled="product.inStock === false"
+              <article class="product-row product-row-light">
+                <div class="product-image-wrap">
+                  <img
+                    v-if="product.imageUrls?.length"
+                    :src="product.imageUrls[0]"
+                    :alt="product.title"
+                    class="product-image"
+                  />
+                  <div v-else class="image-placeholder">/placeholder.svg</div>
+                  <span
+                    v-if="product.bestSeller"
+                    class="bestseller-badge bestseller-badge-light"
                   >
-                    Legg til
-                  </button>
+                    ⭐ Bestselger
+                  </span>
                 </div>
-              </div>
-            </article>
+                <div class="product-content">
+                  <div>
+                    <div class="product-title-row">
+                      <h3 class="product-title-light">{{ product.title }}</h3>
+                      <span class="product-badge-light">
+                        {{ product.weight ? `${product.weight}g` : "N/A" }}
+                      </span>
+                    </div>
+                  </div>
+                  <div class="product-footer">
+                    <div class="price-stock-wrapper">
+                      <span class="product-price-light">
+                        {{ product.price }} kr
+                      </span>
+                      <span
+                        :class="[
+                          'stock-indicator',
+                          product.inStock !== false
+                            ? 'in-stock-light'
+                            : 'out-of-stock-light',
+                        ]"
+                      >
+                        {{
+                          product.inStock !== false ? "✓ På lager" : "✕ Utsolgt"
+                        }}
+                      </span>
+                    </div>
+                    <button
+                      class="product-button-light"
+                      type="button"
+                      :disabled="product.inStock === false"
+                      @click.prevent
+                    >
+                      Se detaljer
+                    </button>
+                  </div>
+                </div>
+              </article>
+            </NuxtLink>
           </div>
         </div>
       </div>
@@ -93,62 +94,67 @@
         />
 
         <div class="products-list">
-          <article
+          <NuxtLink
             v-for="product in woodProducts"
             :key="product._id"
-            class="product-row product-row-dark"
+            :to="`/products/${product.slug}`"
+            class="product-link"
           >
-            <div class="product-image-wrap">
-              <img
-                v-if="product.imageUrl"
-                :src="product.imageUrl"
-                :alt="product.title"
-                class="product-image"
-              />
-              <div v-else class="image-placeholder">/placeholder.svg</div>
-              <span
-                v-if="product.bestSeller"
-                class="bestseller-badge bestseller-badge-dark"
-              >
-                ⭐ Bestselger
-              </span>
-            </div>
-            <div class="product-content">
-              <div>
-                <div class="product-title-row">
-                  <h3 class="product-title-dark">{{ product.title }}</h3>
-                  <span class="product-badge-dark">
-                    {{ product.weight ? `${product.weight}g` : "N/A" }}
-                  </span>
-                </div>
-                <p class="product-description-dark">
-                  {{ product.description || "Håndlaget med omtanke" }}
-                </p>
-              </div>
-              <div class="product-footer">
-                <div class="price-stock-wrapper">
-                  <span class="product-price-dark">{{ product.price }} kr</span>
-                  <span
-                    :class="[
-                      'stock-indicator',
-                      product.inStock !== false
-                        ? 'in-stock-dark'
-                        : 'out-of-stock-dark',
-                    ]"
-                  >
-                    {{ product.inStock !== false ? "✓ På lager" : "✕ Utsolgt" }}
-                  </span>
-                </div>
-                <button
-                  class="product-button-dark"
-                  type="button"
-                  :disabled="product.inStock === false"
+            <article class="product-row product-row-dark">
+              <div class="product-image-wrap">
+                <img
+                  v-if="product.imageUrls?.length"
+                  :src="product.imageUrls[0]"
+                  :alt="product.title"
+                  class="product-image"
+                />
+                <div v-else class="image-placeholder">/placeholder.svg</div>
+                <span
+                  v-if="product.bestSeller"
+                  class="bestseller-badge bestseller-badge-dark"
                 >
-                  Legg til
-                </button>
+                  ⭐ Bestselger
+                </span>
               </div>
-            </div>
-          </article>
+              <div class="product-content">
+                <div>
+                  <div class="product-title-row">
+                    <h3 class="product-title-dark">{{ product.title }}</h3>
+                  </div>
+                  <p class="product-description-dark">
+                    {{ product.description || "Håndlaget med omtanke" }}
+                  </p>
+                </div>
+                <div class="product-footer">
+                  <div class="price-stock-wrapper">
+                    <span class="product-price-dark"
+                      >{{ product.price }} kr</span
+                    >
+                    <span
+                      :class="[
+                        'stock-indicator',
+                        product.inStock !== false
+                          ? 'in-stock-dark'
+                          : 'out-of-stock-dark',
+                      ]"
+                    >
+                      {{
+                        product.inStock !== false ? "✓ På lager" : "✕ Utsolgt"
+                      }}
+                    </span>
+                  </div>
+                  <button
+                    class="product-button-dark"
+                    type="button"
+                    :disabled="product.inStock === false"
+                    @click.prevent
+                  >
+                    Se detaljer
+                  </button>
+                </div>
+              </div>
+            </article>
+          </NuxtLink>
         </div>
       </div>
     </section>
@@ -227,12 +233,19 @@
     gap: 2rem;
   }
 
+  .product-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
   .product-row {
     display: flex;
     gap: 1.5rem;
     padding: 1rem;
     border-radius: 1.5rem;
     transition: background-color 0.3s ease;
+    cursor: pointer;
   }
 
   .product-row-light {

@@ -2,7 +2,7 @@ export interface WoodProduct {
   _id: string;
   title: string;
   slug: string;
-  imageUrl: string;
+  imageUrls?: string[];
   price: number;
   description?: string;
   inStock?: boolean;

@@ -11,7 +11,7 @@
       <!-- Left Steam -->
       <path
         d="M80 55 C70 40, 90 30, 80 15"
-        stroke="black"
+        stroke="#755f4a"
         stroke-width="4"
         stroke-linecap="round"
         fill="none"
@@ -34,7 +34,7 @@
       <!-- Center Steam -->
       <path
         d="M110 55 C100 40, 120 30, 110 15"
-        stroke="black"
+        stroke="#755f4a"
         stroke-width="4"
         stroke-linecap="round"
         fill="none"
@@ -57,7 +57,7 @@
       <!-- Right Steam -->
       <path
         d="M140 55 C130 40, 150 30, 140 15"
-        stroke="black"
+        stroke="#755f4a"
         stroke-width="4"
         stroke-linecap="round"
         fill="none"
@@ -85,7 +85,7 @@
          C55 85, 165 85, 165 120
          C165 150, 55 150, 55 120Z"
         fill="none"
-        stroke="black"
+        stroke="#755f4a"
         stroke-width="4"
       >
         <!-- Rising animation -->
@@ -101,19 +101,19 @@
       <!-- Bread Cuts -->
       <path
         d="M85 95 C80 115, 80 130, 85 145"
-        stroke="black"
+        stroke="#755f4a"
         stroke-width="4"
         stroke-linecap="round"
       />
       <path
         d="M110 92 C105 115, 105 132, 110 145"
-        stroke="black"
+        stroke="#755f4a"
         stroke-width="4"
         stroke-linecap="round"
       />
       <path
         d="M135 95 C130 115, 130 130, 135 145"
-        stroke="black"
+        stroke="#755f4a"
         stroke-width="4"
         stroke-linecap="round"
       />
@@ -126,13 +126,13 @@
       text-anchor="middle"
       font-size="18"
       font-family="Georgia, serif"
-      fill="black"
+      fill="#755f4a"
     >
       Baker
     </text>
 
     <!-- Animated Dots -->
-    <circle cx="145" cy="166" r="3" fill="black">
+    <circle cx="145" cy="166" r="3" fill="#755f4a">
       <animate
         attributeName="opacity"
         values="0;1;0"
@@ -141,7 +141,7 @@
       />
     </circle>
 
-    <circle cx="155" cy="166" r="3" fill="black">
+    <circle cx="155" cy="166" r="3" fill="#755f4a">
       <animate
         attributeName="opacity"
         values="0;1;0"
@@ -151,7 +151,7 @@
       />
     </circle>
 
-    <circle cx="165" cy="166" r="3" fill="black">
+    <circle cx="165" cy="166" r="3" fill="#755f4a">
       <animate
         attributeName="opacity"
         values="0;1;0"

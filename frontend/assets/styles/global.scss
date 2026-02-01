@@ -20,6 +20,8 @@ $oak: #c0ae94;
 html,
 body {
   font-family: $font-body;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 // Heading styles

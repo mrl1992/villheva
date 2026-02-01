@@ -1,5 +1,6 @@
 <template>
   <v-footer
+    class="footer-root"
     style="
       background-color: rgba(255, 255, 255, 0.9) !important;
       backdrop-filter: blur(8px);
@@ -7,8 +8,8 @@
     "
   >
     <div class="d-flex flex-column w-100">
-      <div class="d-flex align-center w-100">
-        <v-col>
+      <div class="footer-columns w-100">
+        <v-col class="footer-col logo-col">
           <v-img
             src="/logo-proposal.png"
             alt="Fersk surdeigbrød"
@@ -17,23 +18,23 @@
             width="250"
           />
         </v-col>
-        <v-col
-          >Produkter
+        <v-col class="footer-col">
+          Produkter
           <v-list>
             <v-list-item-title>Brød</v-list-item-title>
             <v-list-item-title>Kaker</v-list-item-title>
             <v-list-item-title>Småkaker</v-list-item-title>
           </v-list>
         </v-col>
-        <v-col
-          >Vår historie
+        <v-col class="footer-col">
+          Vår historie
           <v-list>
             <v-list-item-title>Om oss</v-list-item-title>
             <v-list-item-title>Prosess</v-list-item-title>
             <v-list-item-title>Kontakt</v-list-item-title>
           </v-list>
         </v-col>
-        <v-col>
+        <v-col class="footer-col">
           Følg oss
           <v-list>
             <v-list-item-title
@@ -62,3 +63,65 @@
 </template>
 
 <script setup lang="ts"></script>
+
+<style scoped>
+  .footer-root {
+    padding: 1.5rem 1rem;
+  }
+
+  .footer-columns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .footer-col {
+    flex: 1 1 200px;
+    min-width: 180px;
+  }
+
+  .logo-col {
+    display: flex;
+    justify-content: center;
+  }
+
+  @media (max-width: 600px) {
+    .footer-columns {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1rem;
+    }
+
+    .footer-col {
+      width: 100%;
+      max-width: 320px;
+      max-height: 120px;
+    }
+
+    .logo-col {
+      order: -1;
+    }
+
+    .footer-root {
+      padding: 1rem 0.75rem;
+    }
+
+    .footer-col :deep(.v-list) {
+      padding: 0;
+      margin-top: 0.25rem;
+    }
+
+    .footer-col :deep(.v-list-item-title) {
+      font-size: 0.95rem;
+      line-height: 1.2;
+      padding: 0.125rem 0;
+    }
+
+    .footer-col {
+      font-size: 1rem;
+    }
+  }
+</style>
