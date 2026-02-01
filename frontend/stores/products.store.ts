@@ -16,7 +16,6 @@ export const useProductsStore = defineStore("products", () => {
     error.value = null;
     try {
       bakingProducts.value = await sanityService.getBakingProducts();
-      console.log("🚀 ~ bakingProducts.value:", bakingProducts.value);
     } catch (err: any) {
       error.value = err.message;
     } finally {
@@ -29,7 +28,6 @@ export const useProductsStore = defineStore("products", () => {
     error.value = null;
     try {
       woodProducts.value = await sanityService.getWoodProducts();
-      console.log("🚀 ~ woodProducts.value:", woodProducts.value);
     } catch (err: any) {
       error.value = err.message;
     } finally {
@@ -47,8 +45,6 @@ export const useProductsStore = defineStore("products", () => {
       ]);
       bakingProducts.value = baking;
       woodProducts.value = wood;
-      console.log("🚀 ~ bakingProducts:", bakingProducts.value);
-      console.log("🚀 ~ woodProducts:", woodProducts.value);
     } catch (err: any) {
       error.value = err.message;
     } finally {
@@ -56,20 +52,17 @@ export const useProductsStore = defineStore("products", () => {
     }
   }
 
-  // Filter products by price range
   function filterByPrice(minPrice: number, maxPrice: number): Product[] {
     const all = [...bakingProducts.value, ...woodProducts.value];
     return all.filter((p) => p.price >= minPrice && p.price <= maxPrice);
   }
 
-  // Filter products by search query
   function searchProducts(query: string): Product[] {
     const all = [...bakingProducts.value, ...woodProducts.value];
     const lowerQuery = query.toLowerCase();
     return all.filter((p) => p.title.toLowerCase().includes(lowerQuery));
   }
 
-  // Filter baking products by allergen (exclude products with allergen)
   function filterByAllergenFree(allergenIds: string[]): BakingProduct[] {
     if (allergenIds.length === 0) return bakingProducts.value;
     return bakingProducts.value.filter(
@@ -78,18 +71,14 @@ export const useProductsStore = defineStore("products", () => {
     );
   }
 
-  // Get only in-stock products
   function getInStockProducts(products: Product[]): Product[] {
     return products.filter((p) => p.inStock !== false);
   }
-
-  // Get best sellers
   function getBestSellers(): Product[] {
     const all = [...bakingProducts.value, ...woodProducts.value];
     return all.filter((p) => p.bestSeller).sort((a, b) => b.price - a.price);
   }
 
-  // Get all unique allergens from baking products
   function getAllAllergens() {
     const allergenMap = new Map<string, string>();
     bakingProducts.value.forEach((product) => {

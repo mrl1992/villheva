@@ -1,12 +1,5 @@
 <template>
-  <div class="loader-container" v-if="loading">
-    <v-progress-circular
-      indeterminate
-      color="primary"
-      size="64"
-    ></v-progress-circular>
-  </div>
-  <v-container max-width="2200" class="mt-0 pa-0" v-else>
+  <v-container max-width="2200" class="mt-0 pa-0">
     <section class="hero-section">
       <v-img
         :src="site?.heroImageUrl"
@@ -90,8 +83,6 @@
   const settingsStore = useSettingsStore();
   const { loading, bakingProducts, woodProducts } = productStore;
   // Fetch products and settings before rendering
-  await productStore.fetchAllProducts();
-  await settingsStore.fetchSiteSettings();
 
   const site = computed(() => settingsStore.siteSettings);
 </script>
