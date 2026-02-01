@@ -24,15 +24,10 @@
           <div class="button-group">
             <NuxtLink to="/products">
               <v-btn size="large" class="btn-primary">
-                {{ site.heroCtaLabel }}
+                {{ site?.heroCtaLabel }}
               </v-btn>
             </NuxtLink>
-            <v-btn
-              size="large"
-              variant="outlined"
-              class="btn-secondary"
-              @click="scrollToSection('about')"
-            >
+            <v-btn size="large" variant="outlined" class="btn-secondary">
               Les vår historie
             </v-btn>
           </div>
