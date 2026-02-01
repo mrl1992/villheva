@@ -56,7 +56,9 @@
 <script setup>
   import ProductCardSlim from "./ProductCardSlim.vue";
 
-  const { bakingProducts, woodProducts } = useProductsStore();
+  const productsStore = useProductsStore();
+  const { bakingProducts, woodProducts } = storeToRefs(productsStore);
+
   const goToProducts = () => navigateTo("/produkter");
   const handleAdd = (item) => {
     console.log("Added item:", item);
@@ -64,10 +66,10 @@
   };
 
   const bestSellingBakingProducts = computed(() =>
-    bakingProducts.filter((p) => p.bestSeller === true),
+    bakingProducts.value.filter((p) => p.bestSeller === true),
   );
   const bestSellingWoodProducts = computed(() =>
-    woodProducts.filter((p) => p.bestSeller === true),
+    woodProducts.value.filter((p) => p.bestSeller === true),
   );
 </script>
 

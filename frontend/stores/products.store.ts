@@ -16,8 +16,10 @@ export const useProductsStore = defineStore("products", () => {
     error.value = null;
     try {
       bakingProducts.value = await sanityService.getBakingProducts();
+      console.log("Baking products fetched:", bakingProducts.value);
     } catch (err: any) {
       error.value = err.message;
+      console.error("Error fetching baking products:", error.value);
     } finally {
       loading.value = false;
     }
@@ -28,8 +30,10 @@ export const useProductsStore = defineStore("products", () => {
     error.value = null;
     try {
       woodProducts.value = await sanityService.getWoodProducts();
+      console.log("Wood products fetched:", woodProducts.value);
     } catch (err: any) {
       error.value = err.message;
+      console.error("Error fetching wood products:", error.value);
     } finally {
       loading.value = false;
     }

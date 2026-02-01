@@ -37,9 +37,6 @@
     }, 500); // Optional: small delay to show loader
   });
 
-  // Data is loaded
-  isLoading.value = false;
-
   const site = computed(() => settingsStore.siteSettings);
 </script>
 

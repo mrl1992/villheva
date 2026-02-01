@@ -30,7 +30,8 @@
 <script setup>
   import Title from "./Title.vue";
 
-  const { siteSettings } = useSettingsStore();
+  const settingsStore = useSettingsStore();
+  const { siteSettings } = storeToRefs(settingsStore);
 </script>
 
 <style lang="scss" scoped>
