@@ -4,7 +4,6 @@
       <NuxtLink to="/">
         <div class="brand">
           <img src="/logo.png" alt="Villheva" class="logo" />
-          <img src="/logo-text.png" alt="Fersk surdeigbrød" class="logo-text" />
         </div>
       </NuxtLink>
     </template>
@@ -34,15 +33,30 @@
       </v-list>
     </v-menu>
 
-    <v-btn icon class="mr-6 cart-button">
-      <v-badge location="top right" color="seafoam" content="4">
+    <v-btn icon class="mr-6 cart-button" @click="openCart">
+      <v-badge
+        v-if="cartStore.cartCount > 0"
+        location="top right"
+        color="seafoam"
+        :content="cartStore.cartCount"
+      >
         <v-icon color="earth"> mdi-cart </v-icon>
       </v-badge>
+      <v-icon v-else color="earth"> mdi-cart </v-icon>
     </v-btn>
+
+    <CartOverlay ref="cartOverlay" />
   </v-app-bar>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  const cartStore = useCartStore();
+  const cartOverlay = ref();
+
+  const openCart = () => {
+    cartOverlay.value?.openCart();
+  };
+</script>
 
 <style scoped>
   .app-bar-custom {
@@ -58,7 +72,8 @@
   }
 
   .logo {
-    height: 40px;
+    height: auto;
+    max-height: 60px;
     width: auto;
     margin: 0;
     display: block;

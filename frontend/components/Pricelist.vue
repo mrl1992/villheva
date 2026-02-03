@@ -43,12 +43,13 @@
   import Title from "./Title.vue";
 
   const productsStore = useProductsStore();
+  const cartStore = useCartStore();
   const { bakingProducts, woodProducts } = storeToRefs(productsStore);
 
   const goToProducts = () => navigateTo("/produkter");
   const handleAdd = (item) => {
-    console.log("Added item:", item);
-    // Add to cart logic here
+    cartStore.addToCart(item);
+    console.log("Added to cart:", item);
   };
 
   const bestSellingBakingProducts = computed(() =>

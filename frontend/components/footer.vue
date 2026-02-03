@@ -7,27 +7,26 @@
       <div class="footer-columns w-100">
         <v-col class="footer-col logo-col">
           <v-img
-            src="/logo-text.png"
+            src="/logo.png"
             alt="Fersk surdeigbrød"
-            cover
-            height="150"
-            width="250"
+            height="auto"
+            width="80"
+            max-height="100"
+            contain
           />
         </v-col>
         <v-col class="footer-col">
           Produkter
           <v-list>
-            <v-list-item-title>Brød</v-list-item-title>
-            <v-list-item-title>Kaker</v-list-item-title>
-            <v-list-item-title>Småkaker</v-list-item-title>
+            <v-list-item-title>Bakevarer</v-list-item-title>
+            <v-list-item-title>Trearbeid</v-list-item-title>
           </v-list>
         </v-col>
         <v-col class="footer-col">
-          Vår historie
           <v-list>
-            <v-list-item-title>Om oss</v-list-item-title>
+            Om oss
+            <v-list-item-title>Vår historie</v-list-item-title>
             <v-list-item-title>Prosess</v-list-item-title>
-            <v-list-item-title>Kontakt</v-list-item-title>
           </v-list>
         </v-col>
         <v-col class="footer-col">

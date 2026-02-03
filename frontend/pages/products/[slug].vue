@@ -193,6 +193,7 @@
 
   const route = useRoute();
   const slug = route.params.slug as string;
+  const cartStore = useCartStore();
 
   const {
     data: product,
@@ -219,13 +220,17 @@
   };
 
   const addToCart = () => {
-    // TODO: Implement cart functionality
-    console.log(`Adding ${quantity.value} of ${product.value?.title} to cart`);
-    showSnackbar.value = true;
-    // Reset quantity after adding to cart
-    setTimeout(() => {
-      quantity.value = 1;
-    }, 500);
+    if (product.value) {
+      for (let i = 0; i < quantity.value; i++) {
+        cartStore.addToCart(product.value);
+      }
+      console.log(`Added ${quantity.value} of ${product.value.title} to cart`);
+      showSnackbar.value = true;
+      // Reset quantity after adding to cart
+      setTimeout(() => {
+        quantity.value = 1;
+      }, 500);
+    }
   };
 </script>
 
