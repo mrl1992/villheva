@@ -1,6 +1,6 @@
 <template>
   <v-container class="contact-container mx-auto px-4">
-    <Title :title="'Kontakt oss'" />
+    <Title :title="'Kontakt oss'" color="#755f4a" />
     <p class="text-center mb-6">
       Har du spørsmål eller ønsker å komme i kontakt med oss? Fyll ut skjemaet
       nedenfor, så svarer vi så snart som mulig.

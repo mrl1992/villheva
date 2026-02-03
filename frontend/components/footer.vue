@@ -1,17 +1,13 @@
 <template>
-  <v-footer
-    class="footer-root"
-    style="
-      background-color: rgba(255, 255, 255, 0.9) !important;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-    "
-  >
-    <div class="d-flex flex-column w-100">
+  <v-footer class="footer-root">
+    <div
+      class="d-flex flex-column w-100"
+      style="max-width: 2200px; margin: 0 auto"
+    >
       <div class="footer-columns w-100">
         <v-col class="footer-col logo-col">
           <v-img
-            src="/logo-proposal.png"
+            src="/logo-text.png"
             alt="Fersk surdeigbrød"
             cover
             height="150"
@@ -67,6 +63,7 @@
 <style scoped>
   .footer-root {
     padding: 1.5rem 1rem;
+    background-color: oklch(0.98 0.005 75);
   }
 
   .footer-columns {
@@ -86,7 +83,9 @@
     display: flex;
     justify-content: center;
   }
-
+  .v-list {
+    background-color: transparent;
+  }
   @media (max-width: 600px) {
     .footer-columns {
       flex-direction: column;

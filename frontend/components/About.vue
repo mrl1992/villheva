@@ -11,7 +11,7 @@
       </div>
       <div class="content-column">
         <div class="content-inner">
-          <Title :title="siteSettings?.aboutUsTitle" />
+          <Title :title="siteSettings?.aboutUsTitle" color="#755f4a" />
           <p class="mb-4">
             {{ siteSettings?.aboutUsText1 }}
           </p>

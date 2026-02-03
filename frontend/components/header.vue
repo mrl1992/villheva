@@ -1,10 +1,12 @@
 <template>
   <v-app-bar :elevation="0" class="app-bar-custom">
     <template v-slot:prepend>
-      <div class="brand">
-        <img src="/logo.png" alt="Villheva" class="logo" />
-        <NuxtLink to="/" class="brand-name">Villheva</NuxtLink>
-      </div>
+      <NuxtLink to="/">
+        <div class="brand">
+          <img src="/logo.png" alt="Villheva" class="logo" />
+          <img src="/logo-text.png" alt="Fersk surdeigbrød" class="logo-text" />
+        </div>
+      </NuxtLink>
     </template>
 
     <div class="nav-links-centered">
@@ -59,12 +61,21 @@
     height: 40px;
     width: auto;
     margin: 0;
+    display: block;
+  }
+
+  .logo-text {
+    height: 1000px;
+    width: 200px;
+    margin: 0;
+    padding: 0;
+    display: block;
   }
 
   .brand {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 12px;
     padding-left: 12px;
   }
 

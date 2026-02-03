@@ -1,15 +1,20 @@
 <template>
   <div class="w-100 h-100 pricelist-wrapper">
-    <div class="mb-12 pt-12">
-      <h1 class="text-center hero-title" style="color: #c0ae94">Prisliste</h1>
+    <div class="mb-12">
+      <Title title="Prisliste" color="#c0ae94" />
       <p class="text-center" style="color: #c0ae94">
         Fersk brød bakt daglig og håndlagde trevarer laget med omsorg
       </p>
     </div>
-    <v-row class="d-flex justify-center" cols="1" md="2" gap="12">
-      <v-col>
-        <h1 class="price-heading text-center">Brød & Boller</h1>
-        <div class="d-flex flex-column ga-3 product-list product-list-left">
+    <v-row
+      class="d-flex justify-center pricelist-row"
+      cols="1"
+      md="2"
+      no-gutters
+    >
+      <v-col class="pricelist-col">
+        <h1 class="price-heading text-center">Brød & Bakeverk</h1>
+        <div class="d-flex flex-column ga-2 product-list product-list-left">
           <product-card-slim
             v-for="product in bestSellingBakingProducts.slice(0, 3)"
             :key="product._id"
@@ -18,9 +23,9 @@
           />
         </div>
       </v-col>
-      <v-col class="wood-column">
+      <v-col class="wood-column pricelist-col">
         <h1 class="price-heading text-center">Trearbeid</h1>
-        <div class="d-flex flex-column ga-3 product-list product-list-right">
+        <div class="d-flex flex-column ga-2 product-list product-list-right">
           <product-card-slim
             v-for="product in bestSellingWoodProducts.slice(0, 3)"
             :key="product._id"
@@ -35,6 +40,7 @@
 
 <script setup>
   import ProductCardSlim from "./ProductCardSlim.vue";
+  import Title from "./Title.vue";
 
   const productsStore = useProductsStore();
   const { bakingProducts, woodProducts } = storeToRefs(productsStore);
@@ -112,17 +118,37 @@
     margin-right: 0;
   }
 
+  .pricelist-row {
+    column-gap: 150px;
+  }
+
+  .pricelist-col {
+    flex: 0 1 520px;
+    max-width: 520px;
+  }
+
+  @media (max-width: 768px) {
+    .pricelist-row {
+      column-gap: 0;
+    }
+
+    .pricelist-col {
+      flex: 0 1 100%;
+      max-width: 100%;
+    }
+  }
+
   @media (min-width: 960px) {
     .wood-column {
-      margin-left: 0.5rem;
+      margin-left: 0;
     }
 
     .product-list-left {
-      margin-left: 1rem;
+      margin-left: 0;
     }
 
     .product-list-right {
-      margin-right: 1rem;
+      margin-right: 0;
     }
   }
 </style>

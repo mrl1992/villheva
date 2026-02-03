@@ -116,7 +116,6 @@
   .gallery-page {
     min-height: 100vh;
     padding: 4rem 0;
-    background: linear-gradient(180deg, #f5f2ed 0%, #ffffff 50%, #f5f2ed 100%);
   }
 
   .gallery-container {

@@ -1,8 +1,8 @@
 <template>
-  <div class="pb-6">
+  <div class="pb-3">
     <v-card
       v-if="product"
-      class="pa-5 rounded-xl"
+      class="pa-5 rounded-xl pricelist-card"
       elevation="2"
       color="#C0AE94"
       variant="elevated"
@@ -83,5 +83,11 @@
   }
   .text-brown-700 {
     color: #4d4738;
+  }
+
+  .pricelist-card {
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
   }
 </style>

@@ -73,87 +73,89 @@
         </v-col>
 
         <!-- Product Info -->
-        <v-col cols="12" md="6">
-          <div class="product-info">
-            <Title style="justify-content: start" :title="product.title" />
+        <v-col cols="12" md="6" class="product-info-column">
+          <div class="product-info-layout">
+            <div class="product-info">
+              <Title style="justify-content: start" :title="product.title" />
 
-            <!-- Price and Stock -->
-            <div class="d-flex align-center gap-3 mb-6">
-              <p class="product-price text-h4 font-weight-bold mb-0">
-                {{ product.price }} kr
-              </p>
-              <v-chip
-                :color="product.inStock ? 'success' : 'error'"
-                variant="flat"
-                size="small"
+              <!-- Price and Stock -->
+              <div class="d-flex align-center gap-3 mb-6">
+                <p class="product-price text-h4 font-weight-bold mb-0">
+                  {{ product.price }} kr
+                </p>
+                <v-chip
+                  :color="product.inStock ? 'success' : 'error'"
+                  variant="flat"
+                  size="small"
+                >
+                  <v-icon
+                    start
+                    :icon="
+                      product.inStock ? 'mdi-check-circle' : 'mdi-alert-circle'
+                    "
+                  />
+                  {{ product.inStock ? "På lager" : "Utsolgt" }}
+                </v-chip>
+              </div>
+
+              <!-- Weight -->
+              <p
+                v-if="product.weight"
+                class="text-body-1 text-medium-emphasis mb-4"
               >
-                <v-icon
-                  start
-                  :icon="
-                    product.inStock ? 'mdi-check-circle' : 'mdi-alert-circle'
-                  "
-                />
-                {{ product.inStock ? "På lager" : "Utsolgt" }}
-              </v-chip>
+                <v-icon icon="mdi-weight" size="small" class="mr-1" />
+                {{ product.weight }}g
+              </p>
+
+              <!-- Description -->
+              <p
+                v-if="product.description"
+                class="text-body-1 mb-6 product-description"
+              >
+                {{ product.description }}
+              </p>
+
+              <v-divider class="my-6" />
             </div>
-
-            <!-- Weight -->
-            <p
-              v-if="product.weight"
-              class="text-body-1 text-medium-emphasis mb-4"
-            >
-              <v-icon icon="mdi-weight" size="small" class="mr-1" />
-              {{ product.weight }}g
-            </p>
-
-            <!-- Description -->
-            <p
-              v-if="product.description"
-              class="text-body-1 mb-6 product-description"
-            >
-              {{ product.description }}
-            </p>
-
-            <v-divider class="my-6" />
-
-            <!-- Quantity Counter & Add to Cart -->
-            <div class="cart-section">
-              <h3 class="text-h6 mb-4">Velg antall</h3>
-              <div class="d-flex align-center gap-4 mb-4">
-                <div class="quantity-control d-flex align-center">
-                  <v-btn
-                    icon="mdi-minus"
-                    size="large"
-                    variant="outlined"
-                    :disabled="!product.inStock || quantity <= 1"
-                    @click="decrementQuantity"
-                  />
-                  <div class="quantity-display text-h5 font-weight-bold mx-4">
-                    {{ quantity }}
+            <div class="product-bottom">
+              <!-- Quantity Counter & Add to Cart -->
+              <div class="cart-section">
+                <div class="cart-actions">
+                  <div class="quantity-pill">
+                    <button
+                      type="button"
+                      class="quantity-pill__button"
+                      :disabled="!product.inStock || quantity <= 1"
+                      @click="decrementQuantity"
+                      aria-label="Reduser antall"
+                    >
+                      <v-icon icon="mdi-minus" size="16" />
+                    </button>
+                    <span class="quantity-pill__value">{{ quantity }}</span>
+                    <button
+                      type="button"
+                      class="quantity-pill__button"
+                      :disabled="!product.inStock"
+                      @click="incrementQuantity"
+                      aria-label="Øk antall"
+                    >
+                      <v-icon icon="mdi-plus" size="16" />
+                    </button>
                   </div>
+
                   <v-btn
-                    icon="mdi-plus"
-                    size="large"
-                    variant="outlined"
+                    size="x-large"
+                    color="earth"
+                    prepend-icon="mdi-cart-plus"
                     :disabled="!product.inStock"
-                    @click="incrementQuantity"
-                  />
+                    @click="addToCart"
+                    class="add-to-cart-btn"
+                  >
+                    Legg i handlekurv
+                  </v-btn>
                 </div>
               </div>
 
-              <v-btn
-                block
-                size="x-large"
-                color="earth"
-                prepend-icon="mdi-cart-plus"
-                :disabled="!product.inStock"
-                @click="addToCart"
-                class="add-to-cart-btn"
-              >
-                Legg i handlekurv
-              </v-btn>
-
-              <!-- Allergens -->
               <v-expansion-panels
                 v-if="product.allergens?.length"
                 class="allergens-expansion mt-4"
@@ -177,18 +179,6 @@
                   </v-expansion-panel-text>
                 </v-expansion-panel>
               </v-expansion-panels>
-
-              <v-snackbar
-                v-model="showSnackbar"
-                :timeout="2000"
-                color="success"
-                location="top"
-              >
-                <v-icon icon="mdi-check-circle" class="mr-2" />
-                {{ quantity }}
-                {{ quantity === 1 ? "produkt" : "produkter" }} lagt til i
-                handlekurven!
-              </v-snackbar>
             </div>
           </div>
         </v-col>
@@ -241,6 +231,21 @@
 
 <style scoped lang="scss">
   .product-detail {
+    .product-info-column {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-info-layout {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .product-bottom {
+      margin-top: auto;
+    }
+
     .product-image-card {
       border-radius: 16px;
       overflow: hidden;
@@ -290,10 +295,15 @@
     .cart-section {
       padding: 24px;
       border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
 
-      h3 {
-        font-family: "Bree Serif", serif;
-        color: #4d4738;
+      .cart-actions {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        flex-wrap: wrap;
       }
 
       .allergens-expansion {
@@ -320,12 +330,39 @@
           }
         }
       }
-    }
 
-    .quantity-control {
-      .quantity-display {
-        min-width: 60px;
+      .quantity-pill {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: #ffffff;
+        border-radius: 9999px;
+        padding: 8px 16px;
+        border: 1px solid rgba(192, 174, 148, 0.5);
+      }
+
+      .quantity-pill__button {
+        padding: 4px;
+        color: #4d4738;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        transition: color 0.2s ease;
+
+        &:hover:not(:disabled) {
+          color: #755f4a;
+        }
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+      }
+
+      .quantity-pill__value {
+        width: 32px;
         text-align: center;
+        font-weight: 600;
         color: #4d4738;
       }
     }
@@ -334,6 +371,8 @@
       font-weight: 600;
       letter-spacing: 0.5px;
       border-radius: 9999px;
+      flex: 1 1 220px;
+      min-width: 200px;
     }
   }
 

@@ -1,5 +1,5 @@
 <template>
-  <v-container max-width="2200" class="mt-0 pa-0">
+  <div class="mt-0 pa-0">
     <section class="hero-section">
       <v-img
         :src="site?.heroImageUrl"
@@ -59,11 +59,11 @@
     <section
       id="contact"
       class="d-flex align-center justify-center"
-      style="height: 700px; background-color: oklch(0.96 0.01 70)"
+      style="height: 700px; background-color: linear-gradient(#faf9f7)"
     >
       <contact-form />
     </section>
-  </v-container>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -132,6 +132,9 @@
     align-items: center;
     height: auto;
     background-color: rgb(var(--v-theme-olive));
+    width: 100%;
+    overflow-x: hidden;
+    padding: 2rem 1rem;
   }
 
   @media (min-width: 640px) {
@@ -139,7 +142,8 @@
       padding: 8rem 1.5rem;
     }
     .pricelist-section {
-      height: 700px;
+      height: auto;
+      padding: 3rem 1rem;
     }
   }
 
