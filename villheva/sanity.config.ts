@@ -5,13 +5,13 @@ import {presentationTool} from 'sanity/presentation'
 import {schemaTypes} from './schemaTypes'
 import {locations, mainDocuments} from './lib/presentation/resolve'
 
-// Determine the preview URL based on environment
-const previewUrl = process.env.SANITY_STUDIO_PREVIEW_URL || 'http://localhost:3000'
-const isLocalDev = previewUrl.includes('localhost')
+// Determine environment mode
+const isDev = process.env.NODE_ENV === 'development'
+const previewUrl = !isDev ? process.env.SANITY_STUDIO_PREVIEW_URL : 'http://localhost:3000'
 
 // Ensure allowOrigins only contains valid URL patterns
 // Must be proper URLs with http/https or patterns like http://localhost:*
-const allowOrigins = (isLocalDev
+const allowOrigins = (isDev
   ? ['http://localhost:*']
   : [
       'http://localhost:*',
@@ -26,8 +26,8 @@ const allowOrigins = (isLocalDev
   return origin.includes('://');
 });
 
+console.log('[Sanity Config] Environment:', isDev ? 'DEVELOPMENT' : 'PRODUCTION');
 console.log('[Sanity Config] Preview URL:', previewUrl);
-console.log('[Sanity Config] Is Local Dev:', isLocalDev);
 console.log('[Sanity Config] Allow Origins:', JSON.stringify(allowOrigins));
 
 // Safety check - ensure no origin is just '*'
