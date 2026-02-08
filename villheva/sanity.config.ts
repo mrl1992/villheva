@@ -25,7 +25,10 @@ export default defineConfig({
           disable: '/api/draft-mode/disable',
         },
       },
-      allowOrigins: ['http://localhost:*'],
+      allowOrigins: [
+        'http://localhost:*',
+        process.env.SANITY_STUDIO_PREVIEW_URL || '*',
+      ],
     }),
     structureTool({
       structure: (S) =>
