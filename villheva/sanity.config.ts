@@ -5,6 +5,36 @@ import {presentationTool} from 'sanity/presentation'
 import {schemaTypes} from './schemaTypes'
 import {locations, mainDocuments} from './lib/presentation/resolve'
 
+// Determine the preview URL based on environment
+const previewUrl = process.env.SANITY_STUDIO_PREVIEW_URL || 'http://localhost:3000'
+const isLocalDev = previewUrl.includes('localhost')
+
+// Ensure allowOrigins only contains valid URL patterns
+// Must be proper URLs with http/https or patterns like http://localhost:*
+const allowOrigins = (isLocalDev
+  ? ['http://localhost:*']
+  : [
+      'http://localhost:*',
+      'https://villheva.sanity.studio',
+      previewUrl,
+    ]
+).filter(origin => {
+  // Validate that the origin is not just '*' and is a valid pattern
+  if (!origin || origin === '*') return false;
+  if (typeof origin !== 'string') return false;
+  // Allow patterns like http://localhost:* or full URLs
+  return origin.includes('://');
+});
+
+console.log('[Sanity Config] Preview URL:', previewUrl);
+console.log('[Sanity Config] Is Local Dev:', isLocalDev);
+console.log('[Sanity Config] Allow Origins:', JSON.stringify(allowOrigins));
+
+// Safety check - ensure no origin is just '*'
+if (allowOrigins.some(o => o === '*')) {
+  throw new Error('[Sanity Config] Invalid allowOrigins configuration: contains wildcard "*". This is not allowed.');
+}
+
 export default defineConfig({
   name: 'default',
   title: 'Villheva',
@@ -19,17 +49,14 @@ export default defineConfig({
         mainDocuments,
       },
       previewUrl: {
-        initial: 'http://localhost:3000',
+        initial: previewUrl,
         previewMode: {
           enable: '/api/draft-mode/enable',
           disable: '/api/draft-mode/disable',
         },
       },
-      allowOrigins: [
-        'http://localhost:*',
-        process.env.SANITY_STUDIO_PREVIEW_URL || '*',
-      ],
-    }),
+      allowOrigins,
+    }),     
     structureTool({
       structure: (S) =>
         S.list()
