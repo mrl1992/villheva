@@ -7,7 +7,9 @@ import {locations, mainDocuments} from './lib/presentation/resolve'
 
 // Determine environment mode
 const isDev = process.env.NODE_ENV === 'development'
-const previewUrl = !isDev ? process.env.SANITY_STUDIO_PREVIEW_URL : 'http://localhost:3000'
+const previewUrl = isDev 
+  ? 'http://localhost:3000'
+  : (process.env.SANITY_STUDIO_PREVIEW_URL || 'https://villheva.vercel.app')
 
 // Ensure allowOrigins only contains valid URL patterns
 // Must be proper URLs with http/https or patterns like http://localhost:*

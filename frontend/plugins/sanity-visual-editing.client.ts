@@ -1,15 +1,38 @@
 import { enableVisualEditing } from "@sanity/visual-editing";
 
-export default defineNuxtPlugin(() => {
-  if (import.meta.client) {
+export default defineNuxtPlugin((nuxtApp) => {
+  if (!import.meta.client) return;
+
+  try {
     const previewCookie = useCookie("__sanity_preview");
     const isDraftMode = !!previewCookie.value;
+    const isInIframe = window.self !== window.top;
 
-    // Only enable visual editing in development or draft mode
-    if (import.meta.dev || isDraftMode) {
-      enableVisualEditing({
-        zIndex: 999999,
+    const shouldEnable = isDraftMode || isInIframe;
+
+    if (!shouldEnable) {
+      console.log("[Visual Editing] Not enabled");
+      return;
+    }
+
+    console.log("[Visual Editing] Enabling...");
+
+    // Simple enablement without complex history handling
+    const cleanup = enableVisualEditing({
+      zIndex: 999999,
+    });
+
+    console.log("[Visual Editing] Enabled successfully");
+
+    // Clean up on app unmount
+    if (nuxtApp) {
+      nuxtApp.hook("app:unmounted", () => {
+        if (cleanup && typeof cleanup === "function") {
+          cleanup();
+        }
       });
     }
+  } catch (error) {
+    console.error("[Visual Editing] Error:", error);
   }
 });
