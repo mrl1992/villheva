@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!isProduction" class="production-wrapper">
+  <div v-if="isProduction" class="production-wrapper">
     <div class="maintenance-overlay">
       <div class="maintenance-content">
         <img src="/logo.png" alt="Villheva Logo" class="logo" />
