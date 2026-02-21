@@ -1,6 +1,15 @@
 <template>
   <div class="mt-0 pa-0">
-    <section class="hero-section">
+    <div v-if="isProduction" class="production-wrapper">
+      <div class="maintenance-overlay">
+        <div class="maintenance-content">
+          <h1>Nettstedet er under oppsett</h1>
+          <p>Vi arbeider for å få nettstedet klart snart. Takk for tålmodigheten!</p>
+        </div>
+      </div>
+    </div>
+    <template v-else>
+      <section class="hero-section">
       <v-img
         :src="site?.heroImageUrl"
         alt="Fersk surdeigbrød"
@@ -50,7 +59,14 @@
         </svg>
       </div>
     </section>
-    <section style="min-height: 80vh; background-color: oklch(0.96 0.01 70); display: flex; align-items: center;">
+    <section
+      style="
+        min-height: 80vh;
+        background-color: oklch(0.96 0.01 70);
+        display: flex;
+        align-items: center;
+      "
+    >
       <about />
     </section>
     <section class="pricelist-section">
@@ -59,10 +75,15 @@
     <section
       id="contact"
       class="d-flex align-center justify-center"
-      style="min-height: 700px; background-color: linear-gradient(#faf9f7); padding: 3rem 1.5rem;"
+      style="
+        min-height: 700px;
+        background-color: linear-gradient(#faf9f7);
+        padding: 3rem 1.5rem;
+      "
     >
       <contact-form />
     </section>
+    </template>
   </div>
 </template>
 
@@ -72,6 +93,7 @@
   import ContactForm from "~/components/ContactForm.vue";
 
   const settingsStore = useSettingsStore();
+  const isProduction = process.env.NODE_ENV === "production";
 
   const site = computed(() => settingsStore.siteSettings);
 </script>
@@ -293,5 +315,58 @@
     align-items: center;
     min-height: 100vh;
     background-color: oklch(0.96 0.01 70);
+  }
+
+  .production-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+  }
+
+  .maintenance-overlay {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      135deg,
+      rgba(77, 71, 56, 0.95) 0%,
+      rgba(117, 95, 74, 0.95) 50%,
+      rgba(192, 174, 148, 0.9) 100%
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .maintenance-content {
+    text-align: center;
+    color: white;
+    max-width: 500px;
+  }
+
+  .maintenance-content h1 {
+    font-family: "Playfair Display", serif;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: 400;
+  }
+
+  .maintenance-content p {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    opacity: 0.95;
+  }
+
+  @media (min-width: 640px) {
+    .maintenance-content h1 {
+      font-size: 3.5rem;
+    }
+
+    .maintenance-content p {
+      font-size: 1.25rem;
+    }
   }
 </style>
