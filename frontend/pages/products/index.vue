@@ -71,9 +71,9 @@
                       class="product-button-light"
                       type="button"
                       :disabled="product.inStock === false"
-                      @click.prevent
+                      @click.prevent.stop="addToCartHandler(product)"
                     >
-                      Se detaljer
+                      Legg til kurv
                     </button>
                   </div>
                 </div>
@@ -147,9 +147,9 @@
                     class="product-button-dark"
                     type="button"
                     :disabled="product.inStock === false"
-                    @click.prevent
+                    @click.prevent.stop="addToCartHandler(product)"
                   >
-                    Se detaljer
+                    Legg til kurv
                   </button>
                 </div>
               </div>
@@ -164,11 +164,17 @@
 <script setup lang="ts">
   import Title from "~/components/Title.vue";
   import { useProductsStore } from "~/stores/products.store";
+  import { useCartStore } from "~/stores/cart.store";
 
   const store = useProductsStore();
+  const cartStore = useCartStore();
 
   const breadProducts = computed(() => store.bakingProducts);
   const woodProducts = computed(() => store.woodProducts);
+
+  const addToCartHandler = (product: any) => {
+    cartStore.addToCart(product);
+  };
 
   onMounted(() => {
     store.fetchAllProducts();

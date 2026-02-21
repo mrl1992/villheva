@@ -10,8 +10,8 @@
             src="/logo.png"
             alt="Fersk surdeigbrød"
             height="auto"
-            width="80"
-            max-height="100"
+            width="70"
+            max-width="90"
             contain
           />
         </v-col>
@@ -70,21 +70,36 @@
     flex-wrap: wrap;
     gap: 1.5rem;
     align-items: flex-start;
-    justify-content: space-between;
+    justify-content: center;
   }
 
   .footer-col {
-    flex: 1 1 200px;
-    min-width: 180px;
+    flex: 1 1 160px;
+    min-width: 140px;
   }
 
   .logo-col {
     display: flex;
     justify-content: center;
+    flex-shrink: 0;
+    min-width: auto;
   }
   .v-list {
     background-color: transparent;
   }
+  @media (max-width: 768px) {
+    .footer-columns {
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .footer-col {
+      flex: 0 1 auto;
+      min-width: 120px;
+      max-width: 140px;
+    }
+  }
+
   @media (max-width: 600px) {
     .footer-columns {
       flex-direction: column;
@@ -95,12 +110,13 @@
 
     .footer-col {
       width: 100%;
-      max-width: 320px;
-      max-height: 120px;
+      max-width: 100%;
+      flex: 1 1 auto;
     }
 
     .logo-col {
       order: -1;
+      width: 100%;
     }
 
     .footer-root {

@@ -50,7 +50,7 @@
         </svg>
       </div>
     </section>
-    <section style="height: 80vh; background-color: oklch(0.96 0.01 70)">
+    <section style="min-height: 80vh; background-color: oklch(0.96 0.01 70); display: flex; align-items: center;">
       <about />
     </section>
     <section class="pricelist-section">
@@ -59,7 +59,7 @@
     <section
       id="contact"
       class="d-flex align-center justify-center"
-      style="height: 700px; background-color: linear-gradient(#faf9f7)"
+      style="min-height: 700px; background-color: linear-gradient(#faf9f7); padding: 3rem 1.5rem;"
     >
       <contact-form />
     </section>
@@ -154,33 +154,45 @@
 
   .hero-title {
     font-family: serif;
-    font-size: 3rem;
+    font-size: 2rem;
     font-weight: 400;
     color: white;
     margin-bottom: 1.5rem;
     line-height: 1.2;
   }
 
+  @media (min-width: 480px) {
+    .hero-title {
+      font-size: 2.5rem;
+    }
+  }
+
   @media (min-width: 640px) {
     .hero-title {
-      font-size: 3.75rem;
+      font-size: 3rem;
     }
   }
 
   @media (min-width: 768px) {
     .hero-title {
-      font-size: 4.5rem;
+      font-size: 3.5rem;
     }
   }
 
   @media (min-width: 1024px) {
+    .hero-title {
+      font-size: 4.5rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
     .hero-title {
       font-size: 5rem;
     }
   }
 
   .hero-subtitle {
-    font-size: 1.125rem;
+    font-size: 1rem;
     color: rgba(255, 255, 255, 0.9);
     max-width: 42rem;
     margin: 0 auto 2rem;
@@ -188,6 +200,13 @@
   }
 
   @media (min-width: 640px) {
+    .hero-subtitle {
+      font-size: 1.125rem;
+      margin-bottom: 2.5rem;
+    }
+  }
+
+  @media (min-width: 768px) {
     .hero-subtitle {
       font-size: 1.25rem;
       margin-bottom: 3rem;
@@ -197,14 +216,21 @@
   .button-group {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.75rem;
     align-items: center;
     justify-content: center;
+  }
+
+  @media (min-width: 480px) {
+    .button-group {
+      gap: 1rem;
+    }
   }
 
   @media (min-width: 640px) {
     .button-group {
       flex-direction: row;
+      gap: 1.5rem;
     }
   }
 
