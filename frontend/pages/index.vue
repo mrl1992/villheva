@@ -4,85 +4,87 @@
       <div class="maintenance-overlay">
         <div class="maintenance-content">
           <h1>Nettstedet er under oppsett</h1>
-          <p>Vi arbeider for å få nettstedet klart snart. Takk for tålmodigheten!</p>
+          <p>
+            Vi arbeider for å få nettstedet klart snart. Takk for tålmodigheten!
+          </p>
         </div>
       </div>
     </div>
     <template v-else>
       <section class="hero-section">
-      <v-img
-        :src="site?.heroImageUrl"
-        alt="Fersk surdeigbrød"
-        cover
-        class="hero-image"
-      >
-        <div class="hero-overlay"></div>
-      </v-img>
+        <v-img
+          :src="site?.heroImageUrl"
+          alt="Fersk surdeigbrød"
+          cover
+          class="hero-image"
+        >
+          <div class="hero-overlay"></div>
+        </v-img>
 
-      <div class="hero-content">
-        <div class="content-wrapper">
-          <h2 class="hero-title">
-            {{ site?.heroTitle }}
-          </h2>
+        <div class="hero-content">
+          <div class="content-wrapper">
+            <h2 class="hero-title">
+              {{ site?.heroTitle }}
+            </h2>
 
-          <p class="hero-subtitle">
-            {{ site?.heroSubtitle }}
-          </p>
+            <p class="hero-subtitle">
+              {{ site?.heroSubtitle }}
+            </p>
 
-          <!-- Buttons -->
-          <div class="button-group">
-            <NuxtLink to="/products">
-              <v-btn size="large" class="btn-primary">
-                {{ site?.heroCtaLabel }}
+            <!-- Buttons -->
+            <div class="button-group">
+              <NuxtLink to="/products">
+                <v-btn size="large" class="btn-primary">
+                  {{ site?.heroCtaLabel }}
+                </v-btn>
+              </NuxtLink>
+              <v-btn size="large" variant="outlined" class="btn-secondary">
+                Les vår historie
               </v-btn>
-            </NuxtLink>
-            <v-btn size="large" variant="outlined" class="btn-secondary">
-              Les vår historie
-            </v-btn>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="scroll-indicator">
-        <svg
-          class="bounce-arrow"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M19 14l-7 7m0 0l-7-7m7 7V3"
-          />
-        </svg>
-      </div>
-    </section>
-    <section
-      style="
-        min-height: 80vh;
-        background-color: oklch(0.96 0.01 70);
-        display: flex;
-        align-items: center;
-      "
-    >
-      <about />
-    </section>
-    <section class="pricelist-section">
-      <pricelist />
-    </section>
-    <section
-      id="contact"
-      class="d-flex align-center justify-center"
-      style="
-        min-height: 700px;
-        background-color: linear-gradient(#faf9f7);
-        padding: 3rem 1.5rem;
-      "
-    >
-      <contact-form />
-    </section>
+        <div class="scroll-indicator">
+          <svg
+            class="bounce-arrow"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 14l-7 7m0 0l-7-7m7 7V3"
+            />
+          </svg>
+        </div>
+      </section>
+      <section
+        style="
+          min-height: 80vh;
+          background-color: oklch(0.96 0.01 70);
+          display: flex;
+          align-items: center;
+        "
+      >
+        <about />
+      </section>
+      <section class="pricelist-section">
+        <pricelist />
+      </section>
+      <section
+        id="contact"
+        class="d-flex align-center justify-center"
+        style="
+          min-height: 700px;
+          background-color: linear-gradient(#faf9f7);
+          padding: 3rem 1.5rem;
+        "
+      >
+        <contact-form />
+      </section>
     </template>
   </div>
 </template>
