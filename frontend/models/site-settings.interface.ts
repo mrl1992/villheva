@@ -9,4 +9,5 @@ export interface SiteSettings {
   aboutUsText2?: string;
   aboutUsText3?: string;
   aboutUsImageUrl?: string;
+  ourStory?: string;
 }

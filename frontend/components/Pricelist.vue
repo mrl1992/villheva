@@ -16,7 +16,7 @@
         <h1 class="price-heading text-center">Brød & Bakeverk</h1>
         <div class="d-flex flex-column ga-2 product-list product-list-left">
           <product-card-slim
-            v-for="product in bestSellingBakingProducts.slice(0, 3)"
+            v-for="product in bestSellingBakingProducts.slice(0, 5)"
             :key="product._id"
             :product="product"
             @add="handleAdd"
@@ -27,7 +27,7 @@
         <h1 class="price-heading text-center">Trearbeid</h1>
         <div class="d-flex flex-column ga-2 product-list product-list-right">
           <product-card-slim
-            v-for="product in bestSellingWoodProducts.slice(0, 3)"
+            v-for="product in bestSellingWoodProducts.slice(0, 5)"
             :key="product._id"
             :product="product"
             @add="handleAdd"
@@ -53,10 +53,10 @@
   };
 
   const bestSellingBakingProducts = computed(() =>
-    bakingProducts.value.filter((p) => p.bestSeller === true),
+    bakingProducts.value.filter((p) => p.inStock === true),
   );
   const bestSellingWoodProducts = computed(() =>
-    woodProducts.value.filter((p) => p.bestSeller === true),
+    woodProducts.value.filter((p) => p.inStock === true),
   );
 </script>
 

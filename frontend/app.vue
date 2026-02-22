@@ -33,10 +33,8 @@
   const productStore = useProductsStore();
   const isProduction = process.env.NODE_ENV === "production";
 
-  // Start with loading = true until data is fetched
   const isLoading = ref(true);
 
-  // Fetch products and settings before rendering
   const fetchData = async () => {
     await Promise.all([
       settingsStore.fetchSiteSettings(),

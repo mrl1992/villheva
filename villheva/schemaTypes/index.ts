@@ -3,5 +3,6 @@ import {woodProducts} from './wood-products'
 import {media} from './media'
 import {allergens} from './allergens'
 import {siteSettings} from './site-settings'
+import {employees} from './employees'
 
-export const schemaTypes = [bakingProducts, woodProducts, media, allergens, siteSettings]
+export const schemaTypes = [bakingProducts, woodProducts, media, allergens, siteSettings, employees]

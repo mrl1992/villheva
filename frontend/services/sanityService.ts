@@ -1,6 +1,7 @@
 import { useSanity } from "~/composables/useSanity";
 import type { BakingProduct } from "~/models/baking-product.interface";
 import type { WoodProduct } from "~/models/wood-product.interface";
+import type { Employee } from "~/models/employee.interface";
 
 export const sanityService = {
   // Fetch all products
@@ -84,8 +85,28 @@ export const sanityService = {
   aboutUsTitle,
   aboutUsText1,
   aboutUsText2,
-  aboutUsText3
+  aboutUsText3,
+  "aboutUsImageUrl": aboutUsImage->image.asset->url,
+  ourStory
   }`;
     return client.fetch(query);
+  },
+
+  // Fetch all active employees
+  async getEmployees(): Promise<Employee[]> {
+    const client = useSanity();
+    const query = `*[_type == "employees" && isActive == true] | order(order asc){
+      _id,
+      name,
+      "slug": slug.current,
+      title,
+      bio,
+      email,
+      phone,
+      "imageUrl": image->image.asset->url,
+      order,
+      isActive
+    }`;
+    return await client.fetch(query);
   },
 };

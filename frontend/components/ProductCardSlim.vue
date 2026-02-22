@@ -12,18 +12,14 @@
           <h4 class="text-brown-700 font-weight-medium mb-1">
             {{ product.title }}
           </h4>
-          <p
-            class="text-body-2 text-brown-700 text-opacity-70"
-            v-if="product.weight"
-          >
-            {{ `${product.weight}g` }}
-          </p>
-          <p
-            class="text-body-2 text-brown-700 text-opacity-70"
-            v-else-if="product.inStock"
-          >
-            {{ product.inStock ? "På lager" : "Utsolgt" }}
-          </p>
+          <div style="min-height: 1.5rem">
+            <p
+              class="text-body-2 text-brown-700 text-opacity-70 mb-0"
+              v-if="product.weight"
+            >
+              {{ `${product.weight}g` }}
+            </p>
+          </div>
         </div>
 
         <div class="d-flex align-center ga-3">
