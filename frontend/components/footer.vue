@@ -6,27 +6,37 @@
     >
       <div class="footer-columns w-100">
         <v-col class="footer-col logo-col">
-          <v-img
-            src="/logo.png"
-            alt="Fersk surdeigbrød"
-            height="auto"
-            width="70"
-            max-width="90"
-            contain
-          />
+          <NuxtLink to="/">
+            <v-img
+              src="/logo.png"
+              alt="Fersk surdeigbrød"
+              height="auto"
+              width="70"
+              max-width="90"
+              contain
+            />
+          </NuxtLink>
         </v-col>
         <v-col class="footer-col">
           Produkter
           <v-list>
-            <v-list-item-title>Bakevarer</v-list-item-title>
-            <v-list-item-title>Trearbeid</v-list-item-title>
+            <v-list-item-title>
+              <NuxtLink to="/products">Bakevarer</NuxtLink>
+            </v-list-item-title>
+            <v-list-item-title>
+              <NuxtLink to="/products">Trearbeid</NuxtLink>
+            </v-list-item-title>
           </v-list>
         </v-col>
         <v-col class="footer-col">
           <v-list>
             Om oss
-            <v-list-item-title>Vår historie</v-list-item-title>
-            <v-list-item-title>Prosess</v-list-item-title>
+            <v-list-item-title>
+              <NuxtLink to="/about">Vår historie</NuxtLink>
+            </v-list-item-title>
+            <v-list-item-title>
+              <NuxtLink to="/about">Prosess</NuxtLink>
+            </v-list-item-title>
           </v-list>
         </v-col>
         <v-col class="footer-col">
@@ -84,9 +94,27 @@
     flex-shrink: 0;
     min-width: auto;
   }
+
+  .logo-col a {
+    text-decoration: none;
+    display: flex;
+  }
+
   .v-list {
     background-color: transparent;
   }
+
+  .footer-col :deep(a) {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .footer-col :deep(a:hover) {
+    color: #755f4a;
+    text-decoration: underline;
+  }
+
   @media (max-width: 768px) {
     .footer-columns {
       gap: 1rem;
