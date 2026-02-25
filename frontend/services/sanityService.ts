@@ -87,7 +87,8 @@ export const sanityService = {
   aboutUsText2,
   aboutUsText3,
   "aboutUsImageUrl": aboutUsImage->image.asset->url,
-  ourStory
+  ourStory,
+  process
   }`;
     return client.fetch(query);
   },

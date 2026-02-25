@@ -46,7 +46,7 @@
     setTimeout(async () => {
       await fetchData();
       isLoading.value = false;
-    }, 500); // Optional: small delay to show loader
+    }, 200); // Optional: small delay to show loader
   });
 
   const site = computed(() => settingsStore.siteSettings);

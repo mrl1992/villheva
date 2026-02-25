@@ -6,9 +6,11 @@
       <div v-if="settingsStore.siteSettings" class="about-content">
         <!-- About text sections -->
         <div class="text-section">
-          <p v-if="settingsStore.siteSettings.ourStory" class="about-text">
-            {{ settingsStore.siteSettings.ourStory }}
-          </p>
+          <div
+            v-if="settingsStore.siteSettings.ourStory"
+            class="about-text story-content"
+            v-html="renderedStory"
+          />
         </div>
 
         <!-- About image -->
@@ -30,9 +32,7 @@
       </div>
     </div>
 
-    <!-- Employees Section -->
     <div v-if="employees.length > 0" class="employees-section">
-      <!-- <Title :title="'Vårt team'" /> -->
       <div class="employees-grid">
         <div
           v-for="employee in employees"
@@ -75,7 +75,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from "vue";
+  import { ref, computed } from "vue";
   import { useSettingsStore } from "~/stores/settings.store";
   import { sanityService } from "~/services/sanityService";
   import type { Employee } from "~/models/employee.interface";
@@ -84,6 +84,11 @@
 
   const settingsStore = useSettingsStore();
   const employees = ref<Employee[]>([]);
+  const { renderBlocks } = usePortableText();
+
+  const renderedStory = computed(() =>
+    renderBlocks(settingsStore.siteSettings?.ourStory),
+  );
 
   // Fetch settings on mount
   if (!settingsStore.siteSettings) {
@@ -133,6 +138,62 @@
     line-height: 1.6;
     color: #333;
     margin: 0;
+  }
+
+  .story-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .story-content :deep(p) {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+    color: #333;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .story-content :deep(h1),
+  .story-content :deep(h2),
+  .story-content :deep(h3) {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .story-content :deep(h1) {
+    font-size: 1.875rem;
+  }
+
+  .story-content :deep(h2) {
+    font-size: 1.5rem;
+  }
+
+  .story-content :deep(h3) {
+    font-size: 1.25rem;
+  }
+
+  .story-content :deep(strong) {
+    font-weight: 600;
+  }
+
+  .story-content :deep(em) {
+    font-style: italic;
+  }
+
+  .story-content :deep(u) {
+    text-decoration: underline;
+  }
+
+  .story-content :deep(code) {
+    background-color: #f3f4f6;
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem;
+    font-family: monospace;
   }
 
   .image-section {
