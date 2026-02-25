@@ -158,8 +158,7 @@
   }
 
   function nextImage() {
-    const nextIndex =
-      (currentImageIndex.value + 1) % productMedia.value.length;
+    const nextIndex = (currentImageIndex.value + 1) % productMedia.value.length;
     selectedImage.value = productMedia.value[nextIndex];
     currentImageIndex.value = nextIndex;
   }
