@@ -10,7 +10,9 @@
       <div class="d-flex align-center justify-space-between ga-4">
         <div class="flex-1-1">
           <h4 class="text-brown-700 font-weight-medium mb-1">
-            {{ product.title }}
+            <NuxtLink :to="`/products/${product.slug}`" class="product-link">
+              {{ product.title }}
+            </NuxtLink>
           </h4>
           <div style="min-height: 1.5rem">
             <p
@@ -49,6 +51,7 @@
   interface Item {
     id: string | number;
     title: string;
+    slug: string;
     price: number;
     weight?: number;
     inStock?: boolean;
@@ -85,5 +88,15 @@
     width: 100%;
     max-width: 520px;
     margin: 0 auto;
+  }
+
+  .product-link {
+    color: inherit;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .product-link:hover {
+    opacity: 0.7;
   }
 </style>

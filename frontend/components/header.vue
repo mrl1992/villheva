@@ -74,7 +74,7 @@
   .logo {
     height: auto;
     max-height: 60px;
-    width: auto;
+    width: 30px;
     margin: 0;
     display: block;
   }

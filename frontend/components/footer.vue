@@ -1,18 +1,18 @@
 <template>
   <v-footer class="footer-root">
     <div
-      class="d-flex flex-column w-100"
+      class="footer-wrapper d-flex flex-column w-100"
       style="max-width: 2200px; margin: 0 auto"
     >
       <div class="footer-columns w-100">
         <v-col class="footer-col logo-col">
           <NuxtLink to="/">
             <v-img
-              src="/logo.png"
+              src="/footer-logo.png"
               alt="Fersk surdeigbrød"
               height="auto"
-              width="70"
-              max-width="90"
+              width="250"
+              max-width="250"
               contain
             />
           </NuxtLink>
@@ -79,8 +79,9 @@
     display: flex;
     flex-wrap: wrap;
     gap: 1.5rem;
-    align-items: flex-start;
+
     justify-content: center;
+    align-items: center;
   }
 
   .footer-col {
