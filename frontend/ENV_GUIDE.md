@@ -6,19 +6,19 @@ Create a `.env.local` file in the `frontend` directory with these variables:
 
 ```bash
 # Site Configuration
-NUXT_PUBLIC_SITE_URL=https://villheva.no
-NUXT_PUBLIC_SITE_NAME=Villheva
+NUXT_PUBLIC_SITE_URL=https://your-domain.com
+NUXT_PUBLIC_SITE_NAME=Your Business Name
 
 # Sanity CMS
-SANITY_PROJECT_ID=u8jecufq
-SANITY_DATASET=product
+SANITY_PROJECT_ID=your_project_id
+SANITY_DATASET=production
 SANITY_API_TOKEN=your_token_here
 
 # Analytics (After setup)
 NUXT_PUBLIC_GA_ID=G-XXXXXXXXXX  # Google Analytics 4 ID
 
 # Email Configuration
-NUXT_PUBLIC_CONTACT_EMAIL=contact@villheva.no
+NUXT_PUBLIC_CONTACT_EMAIL=contact@your-domain.com
 ```
 
 ## SEO Environment Variables Explained
@@ -27,14 +27,14 @@ NUXT_PUBLIC_CONTACT_EMAIL=contact@villheva.no
 
 - **Purpose**: Base URL for your website
 - **Used for**: Sitemaps, canonical URLs, Open Graph tags
-- **Example**: `https://villheva.no`
+- **Example**: `https://your-domain.com`
 - **Important**: No trailing slash, must include protocol
 
 ### NUXT_PUBLIC_SITE_NAME
 
 - **Purpose**: Your business name
 - **Used for**: Meta titles, structured data
-- **Example**: `Villheva`
+- **Example**: `Your Business Name`
 
 ## Production vs Development
 
@@ -47,7 +47,7 @@ NUXT_PUBLIC_SITE_URL=http://localhost:3000
 ### Production (.env.production)
 
 ```bash
-NUXT_PUBLIC_SITE_URL=https://villheva.no
+NUXT_PUBLIC_SITE_URL=https://your-domain.com
 ```
 
 ## Where These Variables Are Used
@@ -74,11 +74,11 @@ NUXT_PUBLIC_SITE_URL=https://villheva.no
 const config = useRuntimeConfig();
 
 // Public variables (accessible everywhere)
-const siteUrl = config.public.siteUrl; // https://villheva.no
-const siteName = config.public.siteName; // Villheva
+const siteUrl = config.public.siteUrl; // https://your-domain.com
+const siteName = config.public.siteName; // Your Business Name
 
 // Usage example
-const canonicalUrl = `${config.public.siteUrl}/products/rugbrod`;
+const canonicalUrl = `${config.public.siteUrl}/products/your-slug`;
 ```
 
 ## Required Before Launch
@@ -102,12 +102,12 @@ The sitemap automatically uses `NUXT_PUBLIC_SITE_URL` to build full URLs:
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://villheva.no/</loc>
+    <loc>https://your-domain.com/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://villheva.no/products/rugbrod</loc>
+    <loc>https://your-domain.com/products/your-product</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -176,14 +176,14 @@ Once your site is live, verify environment variables are correctly set:
 
 ```bash
 # SSH into your production server
-ssh user@villheva.no
+ssh user@your-server.com
 
 # Check env variables are loaded
 env | grep NUXT_PUBLIC
 
 # Should output:
-# NUXT_PUBLIC_SITE_URL=https://villheva.no
-# NUXT_PUBLIC_SITE_NAME=Villheva
+# NUXT_PUBLIC_SITE_URL=https://your-domain.com
+# NUXT_PUBLIC_SITE_NAME=Your Business Name
 ```
 
 ## Hosting Platform Specific Instructions
