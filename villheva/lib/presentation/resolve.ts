@@ -14,7 +14,7 @@ export const locations = {
       slug: 'slug.current',
     },
     resolve: (doc) => ({
-      locations: [{title: doc.title, href: `/product/${doc.slug}`}],
+      locations: [{title: doc.title, href: `/products/${doc.slug}`}],
     }),
   }),
   // Map wood-products to frontend routes
@@ -24,7 +24,7 @@ export const locations = {
       slug: 'slug.current',
     },
     resolve: (doc) => ({
-      locations: [{title: doc.title, href: `/product/${doc.slug}`}],
+      locations: [{title: doc.title, href: `/products/${doc.slug}`}],
     }),
   }),
 }
@@ -36,11 +36,11 @@ export const mainDocuments = defineDocuments([
     filter: `_type == "site-settings"`,
   },
   {
-    route: '/product/:slug',
+    route: '/products/:slug',
     filter: `_type == "baking-products" && slug.current == $slug`,
   },
   {
-    route: '/product/:slug',
+    route: '/products/:slug',
     filter: `_type == "wood-products" && slug.current == $slug`,
   },
 ])

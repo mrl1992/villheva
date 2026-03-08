@@ -11,13 +11,13 @@ export default defineNuxtPlugin((nuxtApp) => {
     const shouldEnable = isDraftMode || isInIframe;
 
     if (!shouldEnable) {
-      console.log("[Visual Editing] Not enabled");
+      console.log("[Visual Editing] Not enabled - not in draft mode or iframe");
       return;
     }
 
-    console.log("[Visual Editing] Enabling...");
+    console.log("[Visual Editing] Enabling visual editing...");
 
-    // Simple enablement without complex history handling
+    // Enable visual editing with proper configuration
     const cleanup = enableVisualEditing({
       zIndex: 999999,
     });
@@ -33,6 +33,6 @@ export default defineNuxtPlugin((nuxtApp) => {
       });
     }
   } catch (error) {
-    console.error("[Visual Editing] Error:", error);
+    console.error("[Visual Editing] Error during setup:", error);
   }
 });

@@ -9,10 +9,10 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  // Enable draft mode by setting a cookie with the token
-  // Use secure: true for production (https), false for localhost (http)
-  const isProduction = process.env.NODE_ENV === "production";
+  // Determine if production
+  const isProduction = process.env.NODE_ENV === "production" || process.env.VERCEL === "1";
 
+  // Set the preview cookie with proper configuration
   setCookie(event, "__sanity_preview", token, {
     httpOnly: true,
     sameSite: isProduction ? "none" : "lax",
@@ -20,6 +20,8 @@ export default defineEventHandler(async (event) => {
     maxAge: 60 * 60 * 24, // 24 hours
     path: "/",
   });
+
+  console.log("[Draft Mode] Enabled with token");
 
   // Redirect back to the provided URL or home
   const redirectUrl = (query.redirect as string) || "/";
