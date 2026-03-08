@@ -2,8 +2,20 @@ import { createClient } from "@sanity/client";
 
 export const useSanity = () => {
   const config = useRuntimeConfig();
-  const previewCookie = useCookie("__sanity_preview");
-  const isDraftMode = !!previewCookie.value;
+  let isDraftMode = false;
+  let token: string | undefined = undefined;
+
+  // Safely read cookie - may fail in sandboxed iframes
+  try {
+    const previewCookie = useCookie("__sanity_preview");
+    isDraftMode = !!previewCookie.value;
+    token = previewCookie.value ?? undefined;
+  } catch (e) {
+    // Cookie access failed (likely sandboxed iframe)
+    isDraftMode = false;
+    token = undefined;
+  }
+
   const isDev = process.dev;
 
   // Determine the studio URL based on environment
@@ -15,7 +27,7 @@ export const useSanity = () => {
       window.location.hostname === "127.0.0.1";
     if (isLocalhost) {
       studioUrl = "http://localhost:3333";
-    } else {
+    } else {token
       // For production/deployed environments
       studioUrl = "https://villheva.sanity.studio";
     }
@@ -27,7 +39,7 @@ export const useSanity = () => {
     apiVersion: config.public.sanityApiVersion,
     useCdn: false,
     perspective: isDraftMode ? "previewDrafts" : "published",
-    token: isDraftMode ? (previewCookie.value ?? undefined) : undefined,
+    token: token,
     stega: {
       enabled: isDev || isDraftMode,
       studioUrl: studioUrl,
