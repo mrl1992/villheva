@@ -10,11 +10,13 @@ export default defineEventHandler(async (event) => {
   }
 
   // Enable draft mode by setting a cookie with the token
-  // For localhost we avoid secure/none so the cookie works over http
+  // Use secure: true for production (https), false for localhost (http)
+  const isProduction = process.env.NODE_ENV === "production";
+
   setCookie(event, "__sanity_preview", token, {
     httpOnly: true,
-    sameSite: "lax",
-    secure: false,
+    sameSite: isProduction ? "none" : "lax",
+    secure: isProduction,
     maxAge: 60 * 60 * 24, // 24 hours
     path: "/",
   });
