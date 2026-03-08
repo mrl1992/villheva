@@ -27,7 +27,8 @@ export const useSanity = () => {
       window.location.hostname === "127.0.0.1";
     if (isLocalhost) {
       studioUrl = "http://localhost:3333";
-    } else {token
+    } else {
+      token;
       // For production/deployed environments
       studioUrl = "https://villheva.sanity.studio";
     }
