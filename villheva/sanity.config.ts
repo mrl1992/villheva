@@ -16,7 +16,13 @@ const previewUrl = isDev
 const allowOrigins = (
   isDev
     ? ['http://localhost:*']
-    : ['http://localhost:*', 'https://villheva.sanity.studio', 'https://villheva.no', previewUrl]
+    : [
+        'http://localhost:*',
+        'https://villheva.sanity.studio',
+        'https://villheva.no',
+        'https://villheva.vercel.app',
+        previewUrl,
+      ]
 ).filter((origin) => {
   // Validate that the origin is not just '*' and is a valid pattern
   if (!origin || origin === '*') return false
