@@ -10,6 +10,7 @@ export interface BakingProduct {
   imageUrls?: string[];
   price: number;
   weight: number;
+  description?: string;
   allergens: Allergen[];
   inStock?: boolean;
   bestSeller?: boolean;

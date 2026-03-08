@@ -30,6 +30,7 @@ export const sanityService = {
       "imageUrls": images[]->image.asset->url,
       price,
       weight,
+      description,
       "allergens": allergens[]->{_id, title},
       bestSeller,
       inStock
