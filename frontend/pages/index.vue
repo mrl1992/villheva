@@ -89,7 +89,7 @@
 
   // SEO
   useSeo({
-    title: "Villheva",
+    title: "Villheva - Bakst og trearbeide",
     description:
       "Opplev autentisk norsk baking. Villheva lager friskt surdeigbrød og bakevarer daglig. Besøk oss eller bestill online.",
     type: "website",
