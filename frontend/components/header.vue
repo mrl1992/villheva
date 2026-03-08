@@ -3,7 +3,24 @@
     <template v-slot:prepend>
       <NuxtLink to="/">
         <div class="brand">
-          <img src="/logo.png" alt="Villheva" class="logo" />
+          <v-img
+            class="mr-n11"
+            src="/logo.png"
+            alt="Fersk surdeigbrød"
+            height="40"
+            width="40"
+            max-width="40"
+            contain
+          />
+          <v-img
+            class="mt-2"
+            src="/logo-text.png"
+            alt="Fersk surdeigbrød"
+            height="auto"
+            width="150"
+            max-width="150"
+            contain
+          />
         </div>
       </NuxtLink>
     </template>
@@ -90,8 +107,6 @@
   .brand {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding-left: 12px;
   }
 
   .brand-name {

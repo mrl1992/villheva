@@ -81,17 +81,44 @@
             />
           </div>
 
+          <div v-if="errorMessage" class="error-message">
+            {{ errorMessage }}
+          </div>
+
           <div class="form-actions">
             <NuxtLink to="/products" class="cancel-btn"
               >Fortsett shopping</NuxtLink
             >
-            <button class="submit-btn" @click="submitOrder">
-              Fullfør bestilling
+            <button
+              class="submit-btn"
+              @click="submitOrder"
+              :disabled="isLoading"
+            >
+              {{ isLoading ? "Sender bestilling..." : "Fullfør bestilling" }}
             </button>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Success Snackbar -->
+    <v-snackbar
+      v-model="showSuccessMessage"
+      color="success"
+      location="top"
+      :timeout="5000"
+    >
+      <div class="d-flex align-center">
+        <v-icon icon="mdi-check-circle" class="mr-2" />
+        <span
+          >Bestilling sendt! Takk for din ordre. Sjekk e-posten din for
+          kvittering.</span
+        >
+      </div>
+      <template v-slot:actions>
+        <v-btn variant="text" @click="showSuccessMessage = false"> Lukk </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 
@@ -105,28 +132,55 @@
     notes: "",
   });
 
-  const submitOrder = () => {
+  const isLoading = ref(false);
+  const errorMessage = ref("");
+  const showSuccessMessage = ref(false);
+
+  const submitOrder = async () => {
+    // Reset messages
+    errorMessage.value = "";
+
     // Validate form
     if (
       !formData.value.name ||
       !formData.value.email ||
       !formData.value.phone
     ) {
-      alert("Vennligst fyll ut alle obligatoriske felt");
+      errorMessage.value = "Vennligst fyll ut alle obligatoriske felt";
       return;
     }
 
-    // Here you would typically send the order to your backend
-    console.log("Order submitted:", {
-      items: cartStore.items,
-      total: cartStore.cartTotal,
-      customer: formData.value,
-    });
+    isLoading.value = true;
 
-    // Clear cart and redirect
-    cartStore.clearCart();
-    alert("Bestilling sendt! Takk for din ordre.");
-    navigateTo("/");
+    try {
+      const response = await $fetch("/api/order", {
+        method: "POST",
+        body: {
+          items: cartStore.items,
+          total: cartStore.cartTotal,
+          customer: formData.value,
+        },
+      });
+
+      if (response.success) {
+        // Clear cart and show success message
+        cartStore.clearCart();
+        showSuccessMessage.value = true;
+
+        // Navigate to home after a short delay
+        setTimeout(() => {
+          navigateTo("/");
+        }, 1500);
+      }
+    } catch (error: any) {
+      console.error("Order submission error:", error);
+      errorMessage.value =
+        error.data?.message ||
+        error.message ||
+        "En feil oppstod under behandling av bestillingen. Vennligst prøv igjen.";
+    } finally {
+      isLoading.value = false;
+    }
   };
 </script>
 
@@ -370,6 +424,16 @@
   .submit-btn:disabled {
     background-color: #ccc;
     cursor: not-allowed;
+  }
+
+  .error-message {
+    padding: 12px 15px;
+    background-color: #fee;
+    border: 1px solid #fcc;
+    border-radius: 0.5rem;
+    color: #c33;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
   }
 
   @media (max-width: 768px) {

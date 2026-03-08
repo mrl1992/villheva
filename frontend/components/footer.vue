@@ -6,16 +6,24 @@
     >
       <div class="footer-columns w-100">
         <v-col class="footer-col logo-col">
-          <NuxtLink to="/">
-            <v-img
-              src="/footer-logo.png"
-              alt="Fersk surdeigbrød"
-              height="auto"
-              width="250"
-              max-width="250"
-              contain
-            />
-          </NuxtLink>
+          <v-img
+            class="mr-n12"
+            src="/logo.png"
+            alt="Fersk surdeigbrød"
+            height="auto"
+            width="150"
+            max-width="150"
+            contain
+          />
+          <v-img
+            class="ml-n12"
+            src="/footer-logo.png"
+            alt="Fersk surdeigbrød"
+            height="auto"
+            width="250"
+            max-width="250"
+            contain
+          />
         </v-col>
         <v-col class="footer-col">
           Produkter
@@ -62,7 +70,7 @@
         </v-col>
       </div>
       <v-divider class="w-100"></v-divider>
-      <div class="d-flex justify-center py-4 w-100">© 2026 Villheva</div>
+      <div class="d-flex justify-center py-4 w-100">© 2025 Villheva</div>
     </div>
   </v-footer>
 </template>
