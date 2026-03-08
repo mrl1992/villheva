@@ -29,7 +29,7 @@
                   <img
                     v-if="product.imageUrls?.length"
                     :src="product.imageUrls[0]"
-                    :alt="product.title"
+                    :alt="`${product.title} - Villheva bakevarer`"
                     class="product-image"
                   />
                   <div v-else class="image-placeholder">/placeholder.svg</div>
@@ -175,6 +175,14 @@
   const addToCartHandler = (product: any) => {
     cartStore.addToCart(product);
   };
+
+  // SEO
+  useSeo({
+    title: "Produkter - Brød & Bakevarer | Villheva",
+    description:
+      "Utforsk vårt utvalg av fersk surdeigbrød, bakevarer og håndlagde trearbeider.",
+    type: "website",
+  });
 
   onMounted(() => {
     store.fetchAllProducts();

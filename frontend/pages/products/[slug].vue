@@ -34,6 +34,7 @@
               >
                 <v-img
                   :src="imageUrl"
+                  :alt="`${product?.title} - bakevare fra Villheva`"
                   aspect-ratio="1"
                   class="rounded-lg"
                   cover
@@ -52,6 +53,7 @@
             <v-img
               v-else-if="product.imageUrls?.length"
               :src="product.imageUrls[0]"
+              :alt="`${product.title} - bakevare fra Villheva`"
               aspect-ratio="1"
               class="rounded-lg"
               cover
@@ -194,6 +196,7 @@
   const route = useRoute();
   const slug = route.params.slug as string;
   const cartStore = useCartStore();
+  const config = useRuntimeConfig();
 
   const {
     data: product,
@@ -203,6 +206,44 @@
     `product-${slug}`,
     () => sanityService.getProductBySlug(slug),
     { watch: [() => route.params.slug] },
+  );
+
+  // SEO - Update meta tags when product loads
+  watch(
+    product,
+    (newProduct) => {
+      if (newProduct) {
+        useSeo({
+          title: newProduct.title,
+          description:
+            newProduct.description || `Kjøp ${newProduct.title} på Villheva`,
+          image: newProduct.imageUrls?.[0],
+          url: `${config.public.siteUrl}/products/${newProduct.slug}`,
+          type: "product",
+        });
+
+        // Add structured data for product
+        useStructuredData(
+          createProductSchema(newProduct, config.public.siteUrl),
+        );
+
+        // Breadcrumb structured data
+        useStructuredData(
+          createBreadcrumbSchema(
+            [
+              { name: "Hjem", url: config.public.siteUrl },
+              { name: "Produkter", url: `${config.public.siteUrl}/products` },
+              {
+                name: newProduct.title,
+                url: `${config.public.siteUrl}/products/${newProduct.slug}`,
+              },
+            ],
+            config.public.siteUrl,
+          ),
+        );
+      }
+    },
+    { immediate: true },
   );
 
   // Quantity state

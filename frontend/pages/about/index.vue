@@ -90,6 +90,14 @@
     renderBlocks(settingsStore.siteSettings?.ourStory),
   );
 
+  // SEO
+  useSeo({
+    title: "Om oss - Villheva",
+    description:
+      "Lær om Villhevas historie, verdier og dedikasjon til tradisjonell norsk baking.",
+    type: "website",
+  });
+
   // Fetch settings on mount
   if (!settingsStore.siteSettings) {
     await settingsStore.fetchSiteSettings();

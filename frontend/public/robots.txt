@@ -1,2 +1,17 @@
+# Villheva
 User-Agent: *
-Disallow:
+Allow: /
+Disallow: /admin/
+Disallow: /.nuxt/
+Disallow: /dist/
+Disallow: /.git/
+
+# Specific rules for common bots
+User-Agent: Googlebot
+Allow: /
+
+User-Agent: Bingbot
+Allow: /
+
+# Sitemaps
+Sitemap: https://villheva.no/sitemap.xml

@@ -83,8 +83,22 @@
   import ContactForm from "~/components/ContactForm.vue";
 
   const settingsStore = useSettingsStore();
+  const config = useRuntimeConfig();
 
   const site = computed(() => settingsStore.siteSettings);
+
+  // SEO
+  useSeo({
+    title: "Villheva - Fersk Surdeigbrød & Håndlagde Bakevarer",
+    description:
+      "Opplev autentisk norsk baking. Villheva lager friskt surdeigbrød og bakevarer daglig. Besøk oss eller bestill online.",
+    type: "website",
+  });
+
+  // Structured data for organization
+  useStructuredData(
+    createOrganizationSchema(site.value, config.public.siteUrl),
+  );
 </script>
 
 <style scoped>

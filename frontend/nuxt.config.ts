@@ -15,6 +15,37 @@ export default defineNuxtConfig({
       sanityDataset: process.env.SANITY_DATASET || "product",
       sanityApiVersion: "2023-09-01",
       sanityToken: process.env.SANITY_API_TOKEN || "",
+      siteUrl: process.env.SITE_URL || "https://villheva.no",
+      siteName: "Villheva",
+    },
+  },
+  app: {
+    head: {
+      htmlAttrs: {
+        lang: "no",
+      },
+      meta: [
+        { charset: "utf-8" },
+        {
+          name: "viewport",
+          content: "width=device-width, initial-scale=1",
+        },
+        {
+          "http-equiv": "X-UA-Compatible",
+          content: "ie=edge",
+        },
+      ],
+      link: [
+        {
+          rel: "icon",
+          type: "image/png",
+          href: "/logo.png",
+        },
+        {
+          rel: "canonical",
+          href: "https://villheva.no",
+        },
+      ],
     },
   },
   vite: {
