@@ -89,7 +89,7 @@
 
   // SEO
   useSeo({
-    title: "Villheva - Fersk Surdeigbrød & Håndlagde Bakevarer",
+    title: "Villheva",
     description:
       "Opplev autentisk norsk baking. Villheva lager friskt surdeigbrød og bakevarer daglig. Besøk oss eller bestill online.",
     type: "website",
