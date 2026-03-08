@@ -240,6 +240,8 @@ export default defineEventHandler(async (event) => {
       to: customer.email,
       subject: `Din bestilling er mottatt - ${orderNumber}`,
       html: customerEmailHtml,
+      from: "noreply@villheva.no",
+      replyTo: "post@villheva.no",
     });
 
     // Send order notification to admin
@@ -248,6 +250,7 @@ export default defineEventHandler(async (event) => {
       to: adminEmail,
       subject: `Ny bestilling: ${orderNumber}`,
       html: adminEmailHtml,
+      from: "noreply@villheva.no",
     });
 
     return {

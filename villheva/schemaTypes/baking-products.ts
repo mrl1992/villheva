@@ -7,7 +7,11 @@ export const bakingProducts = defineType({
   type: 'document',
   fields: [
     ...productBaseFields,
-
+    defineField({
+      name: 'description',
+      title: 'Beskrivelse',
+      type: 'text',
+    }),
     defineField({
       name: 'weight',
       title: 'Vekt (gram)',
