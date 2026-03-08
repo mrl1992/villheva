@@ -3,7 +3,8 @@
     <div class="mb-12">
       <Title title="Prisliste" color="#c0ae94" />
       <p class="text-center" style="color: #c0ae94">
-        Fersk brød bakt daglig og håndlagde trevarer laget med omsorg
+        Våre brød og bakeverk lages hver helg, i ferier og høytider, men også på
+        forespørsel
       </p>
     </div>
     <v-row
