@@ -10,7 +10,8 @@ export default defineEventHandler(async (event) => {
   }
 
   // Determine if production
-  const isProduction = process.env.NODE_ENV === "production" || process.env.VERCEL === "1";
+  const isProduction =
+    process.env.NODE_ENV === "production" || process.env.VERCEL === "1";
 
   // Set the preview cookie with proper configuration
   setCookie(event, "__sanity_preview", token, {
