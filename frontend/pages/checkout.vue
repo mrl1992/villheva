@@ -81,6 +81,27 @@
             />
           </div>
 
+          <div class="privacy-consent-box">
+            <label class="checkbox-label">
+              <input
+                type="checkbox"
+                v-model="privacyConsent"
+                class="checkbox-input"
+              />
+              <span class="checkbox-text">
+                Jeg godtar at mine opplysninger behandles i henhold til
+                <NuxtLink
+                  to="/privacy-policy"
+                  target="_blank"
+                  class="privacy-link"
+                >
+                  personvernserklæringen
+                </NuxtLink>
+                *
+              </span>
+            </label>
+          </div>
+
           <div v-if="errorMessage" class="error-message">
             {{ errorMessage }}
           </div>
@@ -92,7 +113,7 @@
             <button
               class="submit-btn"
               @click="submitOrder"
-              :disabled="isLoading"
+              :disabled="isLoading || !privacyConsent"
             >
               {{ isLoading ? "Sender bestilling..." : "Fullfør bestilling" }}
             </button>
@@ -135,10 +156,33 @@
   const isLoading = ref(false);
   const errorMessage = ref("");
   const showSuccessMessage = ref(false);
+  const privacyConsent = ref(false);
+
+  // Check if user has already consented
+  onMounted(() => {
+    if (process.client) {
+      const consent = localStorage.getItem("villheva_privacy_consent");
+      if (consent === "accepted") {
+        privacyConsent.value = true;
+      }
+    }
+  });
 
   const submitOrder = async () => {
     // Reset messages
     errorMessage.value = "";
+
+    // Check privacy consent
+    if (!privacyConsent.value) {
+      errorMessage.value =
+        "Du må godta personvernserklæringen for å legge inn en bestilling.";
+      return;
+    }
+
+    // Store consent if accepted
+    if (process.client && privacyConsent.value) {
+      localStorage.setItem("villheva_privacy_consent", "accepted");
+    }
 
     // Validate form
     if (
@@ -424,6 +468,45 @@
   .submit-btn:disabled {
     background-color: #ccc;
     cursor: not-allowed;
+  }
+
+  .privacy-consent-box {
+    background-color: #f8f7f6;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid #e5e3e0;
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    cursor: pointer;
+    gap: 0.75rem;
+  }
+
+  .checkbox-input {
+    margin-top: 3px;
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  .checkbox-text {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #444;
+  }
+
+  .privacy-link {
+    color: #755f4a;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .privacy-link:hover {
+    text-decoration: underline;
   }
 
   .error-message {

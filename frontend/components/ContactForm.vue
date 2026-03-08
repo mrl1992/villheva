@@ -24,6 +24,16 @@
         placeholder="Skriv din melding her..."
         :rules="messageRules"
       />
+      <v-checkbox v-model="privacyConsent" class="mb-6" hide-details>
+        <template #label>
+          <span class="text-sm">
+            Jeg godtar at mine opplysninger behandles i henhold til
+            <NuxtLink to="/privacy-policy" target="_blank" class="privacy-link">
+              personvernserklæringen
+            </NuxtLink>
+          </span>
+        </template>
+      </v-checkbox>
       <div class="d-flex justify-center">
         <v-btn
           block
@@ -31,7 +41,7 @@
           class="rounded-xl"
           @click="sendMessage"
           :loading="isLoading"
-          :disabled="isLoading"
+          :disabled="isLoading || !privacyConsent"
         >
           Send melding
         </v-btn>
@@ -47,6 +57,7 @@
   const form = useTemplateRef("form");
   const isLoading = ref(false);
   const successMessage = ref("");
+  const privacyConsent = ref(false);
 
   const contactInfo = reactive({
     name: "",
@@ -70,7 +81,7 @@
   const sendMessage = async () => {
     // Validate form
     const { valid } = (await form.value?.validate()) || { valid: false };
-    if (!valid) {
+    if (!valid || !privacyConsent.value) {
       return;
     }
 
@@ -145,5 +156,15 @@
       opacity: 1;
       transform: translateY(0);
     }
+  }
+
+  .privacy-link {
+    color: #755f4a;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .privacy-link:hover {
+    text-decoration: underline;
   }
 </style>

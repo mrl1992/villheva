@@ -9,12 +9,14 @@
         <NuxtPage />
       </v-main>
       <Footer />
+      <PrivacyPolicyConsent />
     </v-app>
   </div>
 </template>
 
 <script setup lang="ts">
   import LoadingOverlay from "./components/LoadingOverlay.vue";
+  import PrivacyPolicyConsent from "./components/PrivacyPolicyConsent.vue";
 
   const settingsStore = useSettingsStore();
   const productStore = useProductsStore();

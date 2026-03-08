@@ -70,7 +70,12 @@
         </v-col>
       </div>
       <v-divider class="w-100"></v-divider>
-      <div class="d-flex justify-center py-4 w-100">© 2025 Villheva</div>
+      <div class="footer-bottom">
+        <div class="d-flex justify-center py-4 w-100">© 2025 Villheva</div>
+        <div class="footer-links">
+          <NuxtLink to="/privacy-policy">Personvernserklæring</NuxtLink>
+        </div>
+      </div>
     </div>
   </v-footer>
 </template>
@@ -120,6 +125,29 @@
   }
 
   .footer-col :deep(a:hover) {
+    color: #755f4a;
+    text-decoration: underline;
+  }
+
+  .footer-bottom {
+    width: 100%;
+  }
+
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 0.5rem 0;
+    font-size: 0.9rem;
+  }
+
+  .footer-links a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .footer-links a:hover {
     color: #755f4a;
     text-decoration: underline;
   }

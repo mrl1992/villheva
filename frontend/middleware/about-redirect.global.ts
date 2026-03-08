@@ -6,7 +6,14 @@ export default defineNuxtRouteMiddleware((to) => {
   if (to.hash) return;
 
   // List of actual routes that should not be redirected
-  const actualRoutes = ["/products", "/gallery", "/about", "cart", "/checkout"];
+  const actualRoutes = [
+    "/products",
+    "/gallery",
+    "/about",
+    "cart",
+    "/checkout",
+    "/privacy-policy",
+  ];
 
   // Check if the path is an actual route
   const isActualRoute = actualRoutes.some(
