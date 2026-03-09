@@ -88,6 +88,7 @@ export const sanityService = {
   aboutUsText2,
   aboutUsText3,
   "aboutUsImageUrl": aboutUsImage->image.asset->url,
+  "frontpageAboutSectionPictureUrl": frontpageAboutSectionPicture->image.asset->url,
   ourStory,
   process
   }`;
