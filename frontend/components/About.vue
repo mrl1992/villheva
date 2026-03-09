@@ -3,7 +3,7 @@
     <div class="about-container">
       <div class="image-column">
         <v-img
-          src="/hero-sourdough.png"
+          :src="siteSettings?.frontpageAboutSectionPictureUrl"
           alt="Fersk surdeigbrød"
           class="hero-image rounded-xl"
           cover

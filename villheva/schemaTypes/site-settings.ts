@@ -26,6 +26,12 @@ export const siteSettings = defineType({
       to: [{type: 'media'}],
     }),
     defineField({
+      name: 'frontpageAboutSectionPicture',
+      title: 'Forside - Om oss seksjon bilde',
+      type: 'reference',
+      to: [{type: 'media'}],
+    }),
+    defineField({
       name: 'ourStory',
       title: 'Vår historie',
       type: 'array',

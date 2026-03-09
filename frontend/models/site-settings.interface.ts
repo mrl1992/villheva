@@ -31,6 +31,7 @@ export interface SiteSettings {
   aboutUsText2?: string;
   aboutUsText3?: string;
   aboutUsImageUrl?: string;
+  frontpageAboutSectionPictureUrl?: string;
   ourStory?: PortableTextBlock[];
   process?: PortableTextBlock[];
 }
