@@ -20,6 +20,7 @@ const allowOrigins = (
         'http://localhost:*',
         'https://villheva.sanity.studio',
         'https://villheva.vercel.app',
+        'https://www.villheva.vercel.app',
         previewUrl,
       ]
 ).filter((origin) => {
