@@ -5,14 +5,16 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   try {
     const isInIframe = window.self !== window.top;
-    
+
     // Always enable visual editing when in an iframe (Presentation Tool)
     if (!isInIframe) {
       console.log("[Visual Editing] Not in iframe, skipping");
       return;
     }
 
-    console.log("[Visual Editing] Enabling visual editing for Presentation Tool...");
+    console.log(
+      "[Visual Editing] Enabling visual editing for Presentation Tool...",
+    );
 
     // Enable visual editing with proper configuration
     enableVisualEditing({
