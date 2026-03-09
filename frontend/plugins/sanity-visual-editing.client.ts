@@ -5,25 +5,14 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   try {
     const isInIframe = window.self !== window.top;
-    let isDraftMode = false;
-
-    // Safely read cookie - may fail in sandboxed iframes
-    try {
-      const previewCookie = useCookie("__sanity_preview");
-      isDraftMode = !!previewCookie.value;
-    } catch (e) {
-      // Cookie access failed (likely sandboxed iframe)
-      isDraftMode = false;
-    }
-
-    const shouldEnable = isDraftMode || isInIframe;
-
-    if (!shouldEnable) {
-      console.log("[Visual Editing] Not enabled - not in draft mode or iframe");
+    
+    // Always enable visual editing when in an iframe (Presentation Tool)
+    if (!isInIframe) {
+      console.log("[Visual Editing] Not in iframe, skipping");
       return;
     }
 
-    console.log("[Visual Editing] Enabling visual editing...");
+    console.log("[Visual Editing] Enabling visual editing for Presentation Tool...");
 
     // Enable visual editing with proper configuration
     enableVisualEditing({

@@ -9,15 +9,12 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  // Determine if production
-  const isProduction =
-    process.env.NODE_ENV === "production" || process.env.VERCEL === "1";
-
-  // Set the preview cookie with proper configuration
+  // Always use secure settings for iframe compatibility
+  // sameSite: "none" is required for cross-origin iframes (Presentation Tool)
   setCookie(event, "__sanity_preview", token, {
-    httpOnly: true,
-    sameSite: isProduction ? "none" : "lax",
-    secure: isProduction,
+    httpOnly: false, // Must be false for client-side access
+    sameSite: "none", // Required for iframe usage
+    secure: true, // Required when sameSite is "none"
     maxAge: 60 * 60 * 24, // 24 hours
     path: "/",
   });
