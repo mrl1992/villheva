@@ -15,7 +15,7 @@ export default defineNuxtConfig({
       sanityDataset: process.env.SANITY_DATASET || "product",
       sanityApiVersion: "2023-09-01",
       sanityToken: process.env.SANITY_API_TOKEN || "",
-      siteUrl: process.env.SITE_URL || "https://villheva.vercel.app",
+      siteUrl: process.env.SITE_URL || "https://www.villheva.no",
       siteName: "Villheva",
     },
   },
@@ -43,7 +43,7 @@ export default defineNuxtConfig({
         },
         {
           rel: "canonical",
-          href: "https://villheva.vercel.app",
+          href: "https://www.villheva.no",
         },
       ],
     },

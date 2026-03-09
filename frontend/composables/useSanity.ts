@@ -17,6 +17,7 @@ export const useSanity = () => {
   }
 
   const isDev = process.dev;
+  const isInIframe = typeof window !== "undefined" && window.self !== window.top;
 
   // Determine the studio URL based on environment
   let studioUrl = "http://localhost:3333";
@@ -42,7 +43,7 @@ export const useSanity = () => {
     perspective: isDraftMode ? "previewDrafts" : "published",
     token: token,
     stega: {
-      enabled: isDev || isDraftMode,
+      enabled: isDev || isDraftMode || isInIframe,
       studioUrl: studioUrl,
     },
   });

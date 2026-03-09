@@ -9,7 +9,7 @@ import {locations, mainDocuments} from './lib/presentation/resolve'
 const isDev = process.env.NODE_ENV === 'development'
 const previewUrl = isDev
   ? 'http://localhost:3000'
-  : process.env.SANITY_STUDIO_PREVIEW_URL || 'https://villheva.vercel.app'
+  : process.env.SANITY_STUDIO_PREVIEW_URL || 'https://www.villheva.no'
 
 // Ensure allowOrigins only contains valid URL patterns
 // Must be proper URLs with http/https or patterns like http://localhost:*
@@ -19,8 +19,9 @@ const allowOrigins = (
     : [
         'http://localhost:*',
         'https://villheva.sanity.studio',
-        'https://villheva.vercel.app',
         'https://www.villheva.vercel.app',
+        'https://villheva.no',
+        'https://www.villheva.no',
         previewUrl,
       ]
 ).filter((origin) => {
