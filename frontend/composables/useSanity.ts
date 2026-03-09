@@ -17,7 +17,8 @@ export const useSanity = () => {
   }
 
   const isDev = process.dev;
-  const isInIframe = typeof window !== "undefined" && window.self !== window.top;
+  const isInIframe =
+    typeof window !== "undefined" && window.self !== window.top;
 
   // Determine the studio URL based on environment
   let studioUrl = "http://localhost:3333";
