@@ -255,7 +255,8 @@
 
   .product-row {
     display: flex;
-    gap: 1.5rem;
+    flex-direction: column;
+    gap: 1rem;
     padding: 1rem;
     border-radius: 1.5rem;
     transition: background-color 0.3s ease;
@@ -279,8 +280,8 @@
   }
 
   .product-image-wrap {
-    width: 8rem;
-    height: 8rem;
+    width: 100%;
+    height: 12rem;
     border-radius: 1rem;
     overflow: hidden;
     flex-shrink: 0;
@@ -331,12 +332,24 @@
     font-family: "Playfair Display", serif;
     font-size: 1.25rem;
     color: #4d4738;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    line-height: 1.3;
+    flex: 1 1 0;
+    min-width: 0;
   }
 
   .product-title-dark {
     font-family: "Playfair Display", serif;
     font-size: 1.25rem;
     color: #f5f2ed;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    line-height: 1.3;
+    flex: 1 1 0;
+    min-width: 0;
   }
 
   .product-badge-light {
@@ -382,17 +395,20 @@
     align-items: center;
     justify-content: space-between;
     margin-top: 0.75rem;
+    gap: 0.75rem;
   }
 
   .price-stock-wrapper {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
+    flex-shrink: 0;
   }
 
   .stock-indicator {
     font-size: 0.75rem;
     font-weight: 500;
+    white-space: nowrap;
   }
 
   .in-stock-light {
@@ -416,6 +432,7 @@
     font-size: 1.5rem;
     color: #755f4a;
     font-weight: 600;
+    white-space: nowrap;
   }
 
   .product-price-dark {
@@ -423,6 +440,7 @@
     font-size: 1.5rem;
     color: #c0ae94;
     font-weight: 600;
+    white-space: nowrap;
   }
 
   .product-button-light {
@@ -435,6 +453,8 @@
     font-size: 0.875rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
   .product-button-light:hover:not(:disabled) {
@@ -458,6 +478,8 @@
     font-size: 0.875rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
   .product-button-dark:hover:not(:disabled) {
@@ -505,6 +527,11 @@
 
     .products-list {
       grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .product-row {
+      flex-direction: row;
+      gap: 1.5rem;
     }
 
     .product-image-wrap {

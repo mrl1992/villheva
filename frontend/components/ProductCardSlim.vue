@@ -8,8 +8,8 @@
       variant="elevated"
     >
       <div class="d-flex align-center justify-space-between ga-4">
-        <div class="flex-1-1">
-          <h4 class="text-brown-700 font-weight-medium mb-1">
+        <div class="product-info">
+          <h4 class="product-title text-brown-700 font-weight-medium mb-1">
             <NuxtLink :to="`/products/${product.slug}`" class="product-link">
               {{ product.title }}
             </NuxtLink>
@@ -24,7 +24,7 @@
           </div>
         </div>
 
-        <div class="d-flex align-center ga-3">
+        <div class="product-actions">
           <span
             class="text-h6 font-serif font-weight-semibold"
             style="color: #755f4a"
@@ -88,6 +88,27 @@
     width: 100%;
     max-width: 520px;
     margin: 0 auto;
+  }
+
+  .product-info {
+    flex: 1 1 0;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .product-title {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    line-height: 1.3;
+  }
+
+  .product-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+    white-space: nowrap;
   }
 
   .product-link {
