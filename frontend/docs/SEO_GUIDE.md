@@ -134,7 +134,7 @@ useStructuredData(createBreadcrumbSchema(breadcrumbs, siteUrl));
    - Ensure all images have descriptive alt text
    - Check headings, ARIA labels, and keyboard navigation for accessibility
 
-2. **Performance Optimization**
+5. **Performance Optimization**
    - Install `@nuxt/image`: `npm install @nuxt/image`
    - Replace all `<img>` and `v-img` with `<NuxtImg>`
    - Automatically optimizes images and lazy loads
@@ -144,12 +144,12 @@ useStructuredData(createBreadcrumbSchema(breadcrumbs, siteUrl));
    modules: ["@nuxt/image"];
    ```
 
-3. **Domain Setup**
+6. **Domain Setup**
    - Send Google Search Console verification
    - Update `siteUrl` in environment variables
    - Submit sitemap to Google Search Console and Bing Webmaster Tools
 
-4. **Mobile Responsiveness (Already Good)**
+7. **Mobile Responsiveness (Already Good)**
    - Verify all pages look good on mobile (appears to be done)
    - Test with Google's Mobile-Friendly Test tool
 

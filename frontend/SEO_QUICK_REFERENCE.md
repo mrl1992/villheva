@@ -129,9 +129,9 @@ curl https://villheva.no/robots.txt
 1. Open DevTools (F12)
 2. Use the "Accessibility" panel to check alt text, headings, and ARIA labels
 3. Test keyboard navigation (Tab, Shift+Tab, Enter, Space)
-2. Go to Elements tab
-3. Look in `<head>` section
-4. Check for `<meta>` tags and `<title>`
+4. Go to Elements tab
+5. Look in `<head>` section
+6. Check for `<meta>` tags and `<title>`
 
 ### Test Structured Data
 

@@ -36,22 +36,35 @@ export default defineNuxtConfig({
         },
         {
           name: "description",
-          content: "Villheva mikrobakeri – surdeigsbrød, bakevarer og trearbeid i Norge. Ferske produkter, håndverk og lokal kvalitet.",
+          content:
+            "Villheva mikrobakeri – surdeigsbrød, bakevarer og trearbeid i Norge. Ferske produkter, håndverk og lokal kvalitet.",
         },
         {
           name: "keywords",
-          content: "villheva, mikrobakeri, surdeigsbrød, bakevarer, håndverk, trearbeid, norsk, lokalmat, bakeri, brød, håndlaget",
+          content:
+            "villheva, mikrobakeri, surdeigsbrød, bakevarer, håndverk, trearbeid, norsk, lokalmat, bakeri, brød, håndlaget",
         },
         // Open Graph
         { name: "og:title", content: "Villheva – Mikrobakeri & Surdeigsbrød" },
-        { name: "og:description", content: "Villheva mikrobakeri – surdeigsbrød, bakevarer og trearbeid i Norge. Ferske produkter, håndverk og lokal kvalitet." },
+        {
+          name: "og:description",
+          content:
+            "Villheva mikrobakeri – surdeigsbrød, bakevarer og trearbeid i Norge. Ferske produkter, håndverk og lokal kvalitet.",
+        },
         { name: "og:type", content: "website" },
         { name: "og:image", content: "/og-image.png" },
         { name: "og:url", content: "https://www.villheva.no" },
         // Twitter
         { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:title", content: "Villheva – Mikrobakeri & Surdeigsbrød" },
-        { name: "twitter:description", content: "Villheva mikrobakeri – surdeigsbrød, bakevarer og trearbeid i Norge. Ferske produkter, håndverk og lokal kvalitet." },
+        {
+          name: "twitter:title",
+          content: "Villheva – Mikrobakeri & Surdeigsbrød",
+        },
+        {
+          name: "twitter:description",
+          content:
+            "Villheva mikrobakeri – surdeigsbrød, bakevarer og trearbeid i Norge. Ferske produkter, håndverk og lokal kvalitet.",
+        },
         { name: "twitter:image", content: "/og-image.png" },
       ],
       link: [
