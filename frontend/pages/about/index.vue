@@ -71,6 +71,28 @@
         </div>
       </div>
     </div>
+
+    <!-- Process Section -->
+    <div v-if="settingsStore.siteSettings?.process" class="process-section">
+      <h2 class="process-title">Vår Prosess</h2>
+      <div class="">
+        <v-timeline class="w-50">
+          <v-timeline-item
+            :dot-color="'oak'"
+            :line-color="'oak'"
+            :fill-dot="true"
+            :size="'x-small'"
+            v-for="(item, index) in processItems"
+            :key="index"
+          >
+            <v-card class="step-content elevation-0">
+              <div>{{ "Steg" + " " + (index + 1) }}</div>
+              <div v-html="item"></div>
+            </v-card>
+          </v-timeline-item>
+        </v-timeline>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -89,6 +111,24 @@
   const renderedStory = computed(() =>
     renderBlocks(settingsStore.siteSettings?.ourStory),
   );
+
+  const renderedProcess = computed(() =>
+    renderBlocks(settingsStore.siteSettings?.process),
+  );
+
+  const processItems = computed(() => {
+    if (!settingsStore.siteSettings?.process) return [];
+    // Split rendered HTML by paragraph tags
+    return settingsStore.siteSettings.process
+      .filter(
+        (block: any) => block._type === "block" && block.children?.length > 0,
+      )
+      .map((block: any) => {
+        const text = block.children.map((child: any) => child.text).join("");
+        return text;
+      })
+      .filter((text: string) => text.trim());
+  });
 
   // SEO
   useSeo({

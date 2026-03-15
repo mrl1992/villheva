@@ -75,11 +75,14 @@ useStructuredData( createProductSchema(newProduct, config.public.siteUrl) ); }
 
 **Phase 1: This Week**
 
-- [ ] Create OG image (1200x630px) and save to `/public/og-image.png`
+- [x] Create OG image (1200x630px) and save to `/public/og-image.png` (done)
 - [ ] Update `SITE_URL` environment variable to your domain
-- [ ] Verify all pages have proper meta descriptions
+- [ ] Verify all pages have proper meta descriptions (unique for every page)
 - [ ] Test mobile responsiveness on actual device
 - [ ] Run Lighthouse audit (target >90 score)
+  - Use Chrome DevTools: `Lighthouse` tab → Analyze page
+  - Address any issues in Performance, Accessibility, Best Practices, SEO
+  - Focus on Core Web Vitals (LCP, FID, CLS)
 
 **Phase 2: Deployment Week**
 
@@ -87,7 +90,11 @@ useStructuredData( createProductSchema(newProduct, config.public.siteUrl) ); }
 - [ ] Set up Bing Webmaster Tools
 - [ ] Submit sitemap to both tools
 - [ ] Set up Google Analytics 4
+  - Go to [Google Analytics](https://analytics.google.com)
+  - Create property, get Measurement ID, and add to your app (see Nuxt docs or use a plugin)
 - [ ] Set up Google Tag Manager
+  - Go to [Google Tag Manager](https://tagmanager.google.com)
+  - Create container, get GTM ID, and add to your app
 - [ ] Verify HTTPS is configured
 - [ ] Test sitemap.xml loads correctly
 - [ ] Test robots.txt blocks unwanted areas
@@ -99,6 +106,8 @@ useStructuredData( createProductSchema(newProduct, config.public.siteUrl) ); }
 - [ ] Verify products are indexable
 - [ ] Check click-through rates
 - [ ] Set up alerts for ranking changes
+- [ ] Review structured data for all products and organization (use [schema.org validator](https://validator.schema.org/))
+- [ ] Review accessibility: alt text, headings, ARIA labels, keyboard navigation
 
 ## 🔍 Testing Your SEO
 
@@ -118,6 +127,8 @@ curl https://villheva.no/robots.txt
 ### Test Meta Tags (Chrome DevTools)
 
 1. Open DevTools (F12)
+2. Use the "Accessibility" panel to check alt text, headings, and ARIA labels
+3. Test keyboard navigation (Tab, Shift+Tab, Enter, Space)
 2. Go to Elements tab
 3. Look in `<head>` section
 4. Check for `<meta>` tags and `<title>`

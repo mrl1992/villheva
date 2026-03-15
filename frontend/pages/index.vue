@@ -57,6 +57,7 @@
         display: flex;
         align-items: center;
       "
+      class="py-4"
     >
       <about />
     </section>

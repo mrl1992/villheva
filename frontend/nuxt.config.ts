@@ -34,6 +34,25 @@ export default defineNuxtConfig({
           "http-equiv": "X-UA-Compatible",
           content: "ie=edge",
         },
+        {
+          name: "description",
+          content: "Villheva mikrobakeri – surdeigsbrød, bakevarer og trearbeid i Norge. Ferske produkter, håndverk og lokal kvalitet.",
+        },
+        {
+          name: "keywords",
+          content: "villheva, mikrobakeri, surdeigsbrød, bakevarer, håndverk, trearbeid, norsk, lokalmat, bakeri, brød, håndlaget",
+        },
+        // Open Graph
+        { name: "og:title", content: "Villheva – Mikrobakeri & Surdeigsbrød" },
+        { name: "og:description", content: "Villheva mikrobakeri – surdeigsbrød, bakevarer og trearbeid i Norge. Ferske produkter, håndverk og lokal kvalitet." },
+        { name: "og:type", content: "website" },
+        { name: "og:image", content: "/og-image.png" },
+        { name: "og:url", content: "https://www.villheva.no" },
+        // Twitter
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: "Villheva – Mikrobakeri & Surdeigsbrød" },
+        { name: "twitter:description", content: "Villheva mikrobakeri – surdeigsbrød, bakevarer og trearbeid i Norge. Ferske produkter, håndverk og lokal kvalitet." },
+        { name: "twitter:image", content: "/og-image.png" },
       ],
       link: [
         {
@@ -41,10 +60,7 @@ export default defineNuxtConfig({
           type: "image/png",
           href: "/logo.png",
         },
-        {
-          rel: "canonical",
-          href: "https://www.villheva.no",
-        },
+        // Canonical will be set dynamically per page by useSeo composable
       ],
     },
   },

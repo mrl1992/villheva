@@ -120,6 +120,20 @@ useStructuredData(createBreadcrumbSchema(breadcrumbs, siteUrl));
    image: "https://villheva.no/og-image.png";
    ```
 
+2. **Google Analytics 4 & Tag Manager**
+   - Set up [Google Analytics 4](https://analytics.google.com) and [Google Tag Manager](https://tagmanager.google.com)
+   - Add Measurement ID and GTM container to your Nuxt app (see Nuxt docs or use a plugin)
+   - Verify data is being collected before launch
+
+3. **Lighthouse Audit**
+   - Use Chrome DevTools → Lighthouse tab to audit Performance, Accessibility, Best Practices, SEO
+   - Address any issues, especially Core Web Vitals
+
+4. **Structured Data & Accessibility Review**
+   - Validate all structured data with [schema.org validator](https://validator.schema.org/)
+   - Ensure all images have descriptive alt text
+   - Check headings, ARIA labels, and keyboard navigation for accessibility
+
 2. **Performance Optimization**
    - Install `@nuxt/image`: `npm install @nuxt/image`
    - Replace all `<img>` and `v-img` with `<NuxtImg>`
