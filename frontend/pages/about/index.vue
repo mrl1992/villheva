@@ -94,20 +94,31 @@
             :line-color="'oak'"
             :fill-dot="true"
             :size="'x-small'"
+            :side="timelineSide"
             v-for="(item, index) in processItems"
             :key="index"
           >
             <v-card class="step-content elevation-0">
-              <div :class="['step-label', index % 2 && 'step-label-right']">
+              <div
+                :class="[
+                  'step-label',
+                  !timelineSide && index % 2 && 'step-label-right',
+                ]"
+              >
                 {{ "Steg" + " " + item.step }}
               </div>
-              <h3 :class="['step-title', index % 2 && 'step-title-right']">
+              <h3
+                :class="[
+                  'step-title',
+                  !timelineSide && index % 2 && 'step-title-right',
+                ]"
+              >
                 {{ item.title }}
               </h3>
               <div
                 :class="[
                   'step-description',
-                  index % 2 && 'step-description-right',
+                  !timelineSide && index % 2 && 'step-description-right',
                 ]"
               >
                 {{ item.description }}
@@ -130,6 +141,7 @@
 
 <script setup lang="ts">
   import { ref, computed } from "vue";
+  import { useDisplay } from "vuetify";
   import { useSettingsStore } from "~/stores/settings.store";
   import { sanityService } from "~/services/sanityService";
   import type { Employee } from "~/models/employee.interface";
@@ -140,6 +152,9 @@
   const settingsStore = useSettingsStore();
   const employees = ref<Employee[]>([]);
   const { renderBlocks } = usePortableText();
+  const { smAndDown } = useDisplay();
+
+  const timelineSide = computed(() => (smAndDown.value ? "end" : undefined));
 
   const renderedStory = computed(() =>
     renderBlocks(settingsStore.siteSettings?.ourStory),
@@ -409,7 +424,7 @@
   /* Process Section Timeline */
   .process-section {
     width: 100%;
-    margin: 4rem auto;
+
     padding: 2rem 1rem;
     background-color: #4d4738;
   }
