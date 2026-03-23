@@ -20,6 +20,20 @@ export interface PortableTextBlock {
   }>;
 }
 
+export interface ProcessStep {
+  title: string;
+  description: string;
+}
+
+export interface Process {
+  _id?: string;
+  title: string;
+  subtitle: string;
+  description?: string;
+  steps: ProcessStep[];
+  finalRemark?: string;
+}
+
 export interface SiteSettings {
   heroTitle?: string;
   heroSubtitle?: string;
@@ -33,5 +47,5 @@ export interface SiteSettings {
   aboutUsImageUrl?: string;
   frontpageAboutSectionPictureUrl?: string;
   ourStory?: PortableTextBlock[];
-  process?: PortableTextBlock[];
+  process?: Process;
 }

@@ -1,8 +1,8 @@
 <template>
-  <div style="padding: 4rem 1.5rem">
+  <div class="pt-6 h-100">
     <Title :title="'Vår historie'" :show-header-lines="true" />
 
-    <div class="about-container">
+    <div class="about-container" style="padding: 4rem 1.5rem">
       <div v-if="settingsStore.siteSettings" class="about-content">
         <!-- About text sections -->
         <div class="text-section">
@@ -74,9 +74,21 @@
 
     <!-- Process Section -->
     <div v-if="settingsStore.siteSettings?.process" class="process-section">
-      <h2 class="process-title">Vår Prosess</h2>
-      <div class="">
-        <v-timeline class="w-50">
+      <Title :title="settingsStore.siteSettings.process.title" color="white" />
+      <p
+        v-if="settingsStore.siteSettings.process.subtitle"
+        class="process-subtitle"
+      >
+        {{ settingsStore.siteSettings.process.subtitle }}
+      </p>
+      <p
+        v-if="settingsStore.siteSettings.process.description"
+        class="process-description"
+      >
+        {{ settingsStore.siteSettings.process.description }}
+      </p>
+      <div class="timeline-container">
+        <v-timeline class="w-75">
           <v-timeline-item
             :dot-color="'oak'"
             :line-color="'oak'"
@@ -86,11 +98,31 @@
             :key="index"
           >
             <v-card class="step-content elevation-0">
-              <div>{{ "Steg" + " " + (index + 1) }}</div>
-              <div v-html="item"></div>
+              <div :class="['step-label', index % 2 && 'step-label-right']">
+                {{ "Steg" + " " + item.step }}
+              </div>
+              <h3 :class="['step-title', index % 2 && 'step-title-right']">
+                {{ item.title }}
+              </h3>
+              <div
+                :class="[
+                  'step-description',
+                  index % 2 && 'step-description-right',
+                ]"
+              >
+                {{ item.description }}
+              </div>
             </v-card>
           </v-timeline-item>
         </v-timeline>
+      </div>
+      <div class="final-remark-wrapper">
+        <p
+          v-if="settingsStore.siteSettings.process.finalRemark"
+          class="process-final-remark"
+        >
+          {{ settingsStore.siteSettings.process.finalRemark }}
+        </p>
       </div>
     </div>
   </div>
@@ -101,6 +133,7 @@
   import { useSettingsStore } from "~/stores/settings.store";
   import { sanityService } from "~/services/sanityService";
   import type { Employee } from "~/models/employee.interface";
+  import type { ProcessStep } from "~/models/process.interface";
   import Title from "~/components/Title.vue";
   import LoadingOverlay from "~/components/LoadingOverlay.vue";
 
@@ -112,29 +145,22 @@
     renderBlocks(settingsStore.siteSettings?.ourStory),
   );
 
-  const renderedProcess = computed(() =>
-    renderBlocks(settingsStore.siteSettings?.process),
-  );
-
   const processItems = computed(() => {
-    if (!settingsStore.siteSettings?.process) return [];
-    // Split rendered HTML by paragraph tags
-    return settingsStore.siteSettings.process
-      .filter(
-        (block: any) => block._type === "block" && block.children?.length > 0,
-      )
-      .map((block: any) => {
-        const text = block.children.map((child: any) => child.text).join("");
-        return text;
-      })
-      .filter((text: string) => text.trim());
+    if (!settingsStore.siteSettings?.process?.steps) return [];
+    return settingsStore.siteSettings.process.steps.map(
+      (step: ProcessStep, index: number) => ({
+        title: step.title,
+        step: `${index + 1}`,
+        description: step.description,
+      }),
+    );
   });
 
   // SEO
   useSeo({
     title: "Om oss - Villheva",
     description:
-      "Lær om Villhevas historie, verdier og dedikasjon til tradisjonell norsk baking.",
+      "Lær om Villhevas historie, verdier og dedikasjon til tradisjonell baking.",
     type: "website",
   });
 
@@ -290,6 +316,7 @@
   .employee-card {
     width: 100%;
     max-width: 180px;
+    min-height: 320px;
     background: #fff;
     border-radius: 8px;
     padding: 1rem;
@@ -379,6 +406,140 @@
     text-decoration: underline;
   }
 
+  /* Process Section Timeline */
+  .process-section {
+    width: 100%;
+    margin: 4rem auto;
+    padding: 2rem 1rem;
+    background-color: #4d4738;
+  }
+
+  .process-title {
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 1rem;
+    color: white;
+  }
+
+  .process-subtitle {
+    font-size: 1rem;
+    text-align: center;
+    font-style: italic;
+    font-weight: 200;
+    margin-bottom: 2rem;
+    color: #f0f0f0;
+    line-height: 1.6;
+    max-width: 500px;
+    margin: 0 auto;
+    padding-bottom: 2rem;
+  }
+
+  .process-description {
+    font-size: 0.95rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    color: #f0f0f0;
+    line-height: 1.8;
+    max-width: 600px;
+    margin: 0 auto;
+    padding-bottom: 3rem;
+  }
+
+  .timeline-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+
+  .step-content {
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: white;
+    background-color: transparent !important;
+    max-width: 300px;
+  }
+
+  .step-label {
+    color: #c0ae94;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .step-label-right {
+    display: flex;
+    justify-content: flex-end;
+    text-align: right;
+  }
+
+  .step-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: white;
+    margin: 0 0 0.75rem 0;
+  }
+
+  .step-title-right {
+    display: flex;
+    justify-content: flex-end;
+    text-align: right;
+  }
+
+  .step-description {
+    font-size: 0.95rem;
+    color: #f0f0f0;
+    line-height: 1.6;
+  }
+
+  .step-description-right {
+    display: flex;
+    justify-content: flex-end;
+    text-align: right;
+  }
+
+  .final-remark-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+
+  .process-final-remark {
+    display: inline-block;
+    border: 1px solid #c0ae94;
+    border-radius: 1rem;
+    padding: 1.5rem 2rem;
+    max-width: 42rem;
+    font-size: 0.95rem;
+    text-align: center;
+    color: #c0ae94;
+    line-height: 1.6;
+    font-style: italic;
+    margin: 0;
+  }
+
+  /* Reduce timeline dot size */
+  .process-section :deep(.v-timeline-divider__dot) {
+    width: 16px !important;
+    height: 16px !important;
+    min-width: 16px !important;
+    background-color: #c0ae94 !important;
+  }
+  .process-section :deep(.v-timeline-divider__after) {
+    background-color: #c0ae94 !important;
+  }
+  .process-section :deep(.v-timeline-divider__before) {
+    background-color: #c0ae94 !important;
+  }
+
+  .process-section :deep(.v-timeline-divider__line) {
+    border-color: #c0ae94 !important;
+  }
+
   /* Responsive design */
   @media (max-width: 768px) {
     .about-content {
@@ -396,6 +557,16 @@
 
     .employees-title {
       font-size: 1.5rem;
+    }
+
+    .process-section {
+      max-width: 100%;
+      margin: 4rem 0;
+      padding: 2rem 1rem;
+    }
+
+    .timeline-container {
+      width: 100%;
     }
   }
 </style>

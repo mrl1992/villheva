@@ -4,5 +4,14 @@ import {media} from './media'
 import {allergens} from './allergens'
 import {siteSettings} from './site-settings'
 import {employees} from './employees'
+import {process} from './process'
 
-export const schemaTypes = [bakingProducts, woodProducts, media, allergens, siteSettings, employees]
+export const schemaTypes = [
+  bakingProducts,
+  woodProducts,
+  media,
+  allergens,
+  siteSettings,
+  employees,
+  process,
+]

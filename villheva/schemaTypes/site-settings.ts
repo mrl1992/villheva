@@ -72,42 +72,9 @@ export const siteSettings = defineType({
     }),
     defineField({
       name: 'process',
-      title: 'Prosess (Baking/Trearbeid)',
-      type: 'array',
-      of: [
-        {
-          type: 'block',
-          marks: {
-            decorators: [
-              {title: 'Bold', value: 'strong'},
-              {title: 'Italic', value: 'em'},
-              {title: 'Underline', value: 'underline'},
-              {title: 'Code', value: 'code'},
-            ],
-            annotations: [
-              {
-                name: 'fontSize',
-                title: 'Font Size',
-                type: 'object',
-                fields: [
-                  {
-                    name: 'size',
-                    title: 'Size (px)',
-                    type: 'string',
-                    options: {list: ['12', '14', '16', '18', '20', '24', '32']},
-                  },
-                ],
-              },
-            ],
-          },
-          styles: [
-            {title: 'Normal', value: 'normal'},
-            {title: 'Heading 1', value: 'h1'},
-            {title: 'Heading 2', value: 'h2'},
-            {title: 'Heading 3', value: 'h3'},
-          ],
-        },
-      ],
+      title: 'Prosess',
+      type: 'reference',
+      to: [{type: 'process'}],
     }),
   ],
 })

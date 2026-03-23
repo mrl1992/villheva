@@ -90,7 +90,16 @@ export const sanityService = {
   "aboutUsImageUrl": aboutUsImage->image.asset->url,
   "frontpageAboutSectionPictureUrl": frontpageAboutSectionPicture->image.asset->url,
   ourStory,
-  process
+  "process": process->{
+    title,
+    subtitle,
+    description,
+    steps[]{
+      title,
+      description
+    },
+    finalRemark
+  }
   }`;
     return client.fetch(query);
   },
