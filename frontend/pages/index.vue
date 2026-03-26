@@ -92,7 +92,7 @@
   useSeo({
     title: "Villheva - Bakst og trearbeide",
     description:
-      "Opplev autentisk norsk baking. Villheva lager friskt surdeigbrød og bakevarer daglig. Besøk oss eller bestill online.",
+      "Opplev autentisk surdeigsbaking. Kontakt oss eller bestill online.",
     type: "website",
   });
 
