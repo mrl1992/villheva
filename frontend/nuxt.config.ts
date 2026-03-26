@@ -68,16 +68,10 @@ export default defineNuxtConfig({
         { name: "twitter:image", content: "/og-image.png" },
       ],
       link: [
-        // Favicon - multiple formats for best compatibility
-        {
-          rel: "icon",
-          type: "image/x-icon",
-          href: "/favicon.ico",
-        },
+        // Favicon - your custom logo
         {
           rel: "icon",
           type: "image/png",
-          sizes: "192x192",
           href: "/logo.png",
         },
         {
