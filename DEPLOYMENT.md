@@ -1,7 +1,7 @@
 # Deploying Villheva to Cloudflare
 
-The site is a Nuxt app deployed to **Cloudflare Pages** with server-side
-rendering. Cloudflare runs Nuxt natively, so the Nuxt server routes in
+The site is a Nuxt app deployed to **Cloudflare Workers** with server-side
+rendering, currently live at `https://villheva.nn76kg9y4d.workers.dev`. Cloudflare runs Nuxt natively, so the Nuxt server routes in
 `frontend/server/` work as-is — there is no separate backend to maintain.
 
 **Registrar is domene.no; host is Cloudflare.** The domain stays registered at
@@ -23,6 +23,10 @@ Build settings:
 | Build output directory | `dist` |
 | Root directory | `frontend` |
 
+Nuxt detects Cloudflare and picks the Nitro preset itself. To reproduce the
+same build locally, set `NITRO_PRESET=cloudflare_pages` (the preset name is
+historical; it produces the Worker bundle Cloudflare runs either way).
+
 Nuxt detects Cloudflare and selects the right Nitro preset on its own, so
 nothing in `nuxt.config.ts` needs to name a preset.
 
@@ -39,6 +43,7 @@ Settings → **Environment variables**, for both Production and Preview:
 | `RESEND_API_KEY` | `re_…` (mark as a **secret**) |
 | `RESEND_FROM_EMAIL` | `noreply@villheva.no` |
 | `ADMIN_EMAIL` | `post@villheva.no` |
+| `SANITY_API_READ_TOKEN` | **Viewer** token — required for Presentation preview (see below) |
 
 ### 3. Domain, DNS and redirects
 
@@ -102,6 +107,43 @@ Keep Vercel live until the Cloudflare deployment is confirmed.
 - [ ] `/sitemap.xml` and `/robots.txt` load
 - [ ] email to your @villheva.no addresses still arrives (MX records survived)
 
+## Sanity Presentation (visual editing)
+
+The Studio's Presentation tool loads the live site in an iframe and lets you
+edit in place. Three things have to line up.
+
+**1. Preview URL** — set in `villheva/.env`:
+
+```
+SANITY_STUDIO_PREVIEW_URL=https://villheva.nn76kg9y4d.workers.dev
+```
+
+`sanity.config.ts` falls back to the same URL and lists it in `allowOrigins`,
+so a Studio built without the `.env` still works. When the custom domain goes
+live, change both to `https://www.villheva.no`.
+
+**2. A read token.** Presentation opens `/api/draft-mode/enable` with a
+one-time `sanity-preview-secret`. Validating that secret means reading a
+`sanity.previewUrlSecret` document from the dataset, which needs a token:
+
+- sanity.io/manage → your project → **API** → **Tokens** → **Add API token**
+- Name it something like `preview`, permission **Viewer**
+- Add it to the Worker's environment as `SANITY_API_READ_TOKEN`
+
+Without it, `/api/draft-mode/enable` returns 500 and preview will not start.
+The token ends up in a browser cookie so client-side draft queries work, so it
+must be **Viewer**, never Editor or Deploy.
+
+**3. A CORS origin.** sanity.io/manage → **API** → **CORS origins** → add
+`https://villheva.nn76kg9y4d.workers.dev` with **Allow credentials** ticked
+(and the custom domain later). Without it the iframe loads but draft content
+never arrives.
+
+To check it end to end: open the Studio, go to Presentation, and confirm the
+site loads in the iframe and edits appear live. `/api/draft-mode/enable`
+returning 401 means the secret was rejected; 500 means the token is missing or
+wrong — the Worker log says which.
+
 ## How deploys work
 
 Push to `main` → Cloudflare builds and deploys. Pull requests get their own
@@ -151,5 +193,7 @@ which is fine for local checks but is not what Cloudflare runs.
 | Path | Purpose |
 | --- | --- |
 | `frontend/server/api/` | Contact and order endpoints (run as Workers functions). |
+| `frontend/server/api/draft-mode/` | Presentation preview entry points. |
+| `villheva/sanity.config.ts` | Studio config, incl. the Presentation preview URL. |
 | `frontend/server/routes/sitemap.xml.ts` | Sitemap, generated per request. |
 | `frontend/nuxt.config.ts` | Runtime config, SEO defaults, cascade layer order. |

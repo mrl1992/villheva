@@ -41,7 +41,7 @@ export const useSanity = () => {
     dataset: config.public.sanityDataset,
     apiVersion: config.public.sanityApiVersion,
     useCdn: false,
-    perspective: isDraftMode ? "previewDrafts" : "published",
+    perspective: isDraftMode ? "drafts" : "published",
     token: token,
     stega: {
       enabled: isDev || isDraftMode || isInIframe,
