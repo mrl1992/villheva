@@ -1,0 +1,74 @@
+name: Build and deploy to domene.no
+
+on:
+  push:
+    branches: [main]
+  # Sanity webhook target, so publishing content rebuilds the static site.
+  # Configure in Sanity: POST https://api.github.com/repos/mrl1992/villheva/dispatches
+  #   Authorization: Bearer <PAT with 'repo' scope>
+  #   Body: {"event_type": "sanity-publish"}
+  repository_dispatch:
+    types: [sanity-publish]
+  workflow_dispatch:
+
+# Never let two deploys write to the same FTP tree at once.
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Prerender the site
+        working-directory: frontend
+        env:
+          SANITY_PROJECT_ID: ${{ secrets.SANITY_PROJECT_ID }}
+          SANITY_DATASET: ${{ secrets.SANITY_DATASET }}
+          SANITY_API_TOKEN: ${{ secrets.SANITY_API_TOKEN }}
+          SITE_URL: https://www.villheva.no
+        run: npm run generate
+
+      # A build that silently loses its content is worse than a failed one.
+      - name: Verify the prerender produced real content
+        working-directory: frontend
+        run: |
+          set -euo pipefail
+          test -f .output/public/index.html
+          test -f .output/public/.htaccess
+          test -f .output/public/api/contact.php
+          test -f .output/public/sitemap.xml
+          product_pages=$(find .output/public/products -name '*.html' | wc -l)
+          echo "product pages: $product_pages"
+          test "$product_pages" -gt 0
+          # /products must list products, not just chrome
+          grep -q 'kr' .output/public/products.html
+
+      - name: Deploy over FTPS
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          local-dir: frontend/.output/public/
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}
+          # The server-side secrets file is created by hand on the host and is
+          # not in the repo; it must survive every deploy.
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            api/lib/config.php

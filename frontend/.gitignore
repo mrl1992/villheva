@@ -22,3 +22,6 @@ logs
 .env
 .env.*
 !.env.example
+
+# Server-side secrets for the PHP endpoints (created on the host)
+public/api/lib/config.php

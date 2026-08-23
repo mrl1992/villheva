@@ -146,6 +146,12 @@
 <script setup lang="ts">
   const cartStore = useCartStore();
 
+  // Transactional page: no SEO value and the cart is empty at build time.
+  useHead({
+    title: "Kasse | Villheva",
+    meta: [{ name: "robots", content: "noindex, nofollow" }],
+  });
+
   const formData = ref({
     name: "",
     email: "",

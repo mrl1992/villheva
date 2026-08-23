@@ -1,8 +1,5 @@
 import { defineNuxtPlugin } from "#app";
-import "vuetify/styles";
 import { createVuetify } from "vuetify";
-import * as components from "vuetify/components";
-import * as directives from "vuetify/directives";
 import "@mdi/font/css/materialdesignicons.css";
 
 export default defineNuxtPlugin((nuxtApp) => {
@@ -10,8 +7,6 @@ export default defineNuxtPlugin((nuxtApp) => {
     // Required for SSR/prerender: makes useDisplay() resolve to SSR-safe
     // defaults and update after mount instead of mismatching on hydration.
     ssr: true,
-    components,
-    directives,
     defaults: {
       VTextField: {
         variant: "outlined",
