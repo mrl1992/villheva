@@ -1,6 +1,6 @@
 <template>
   <div class="pt-6 h-100">
-    <Title :title="'Vår historie'" :show-header-lines="true" />
+    <Title :title="'Vår historie'" :show-header-lines="true" :level="1" />
 
     <div class="about-container" style="padding: 4rem 1.5rem">
       <div v-if="settingsStore.siteSettings" class="about-content">
@@ -52,7 +52,7 @@
             }}</span>
           </div>
           <div class="employee-info">
-            <h3 class="employee-name">{{ employee.name }}</h3>
+            <h2 class="employee-name">{{ employee.name }}</h2>
             <p class="employee-title">{{ employee.title }}</p>
             <p v-if="employee.bio" class="employee-bio">{{ employee.bio }}</p>
             <div class="employee-contact">

@@ -13,28 +13,15 @@ export default defineNuxtConfig({
   css: ["~/assets/styles/global.scss", "vuetify/styles"],
   features: {
     // Vuetify's stylesheet is ~840 kB; inlining it put an identical copy in
-    // every prerendered page. Linking the hashed file instead means one
-    // download, cached immutably by the .htaccess rules.
+    // every rendered page. Linking the hashed file instead means one download,
+    // then Cloudflare's CDN serves it from cache.
     inlineStyles: false,
-  },
-  nitro: {
-    prerender: {
-      // Follow in-page links so every product detail page is generated.
-      crawlLinks: true,
-      // Emit /products.html instead of /products/index.html so Apache can serve
-      // the canonical, trailing-slash-free URLs without a redirect hop.
-      autoSubfolderIndex: false,
-      // A page that fails to render must break the build, not ship empty.
-      failOnError: true,
-      routes: ["/", "/sitemap.xml"],
-    },
   },
   runtimeConfig: {
     public: {
       sanityProjectId: process.env.SANITY_PROJECT_ID || "u8jecufq",
       sanityDataset: process.env.SANITY_DATASET || "product",
       sanityApiVersion: "2023-09-01",
-      sanityToken: process.env.SANITY_API_TOKEN || "",
       siteUrl: process.env.SITE_URL || "https://www.villheva.no",
       siteName: "Villheva",
     },
@@ -98,6 +85,22 @@ export default defineNuxtConfig({
         { name: "twitter:image", content: "/og-image.png" },
       ],
       link: [
+        // Fonts. Loaded here rather than via @import in global.scss: an
+        // @import makes the browser fetch the CSS, parse it, then fetch the
+        // font files -- a serial chain that blocks first paint. The
+        // preconnects open both connections up front.
+        { rel: "preconnect", href: "https://fonts.googleapis.com" },
+        {
+          rel: "preconnect",
+          href: "https://fonts.gstatic.com",
+          crossorigin: "",
+        },
+        // Product and gallery images are all served from Sanity's CDN.
+        { rel: "preconnect", href: "https://cdn.sanity.io" },
+        {
+          rel: "stylesheet",
+          href: "https://fonts.googleapis.com/css2?family=Bree+Serif&family=Cardo:ital@0;1&display=swap",
+        },
         // Favicon - your custom logo
         {
           rel: "icon",

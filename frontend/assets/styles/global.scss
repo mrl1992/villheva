@@ -2,7 +2,6 @@
 // the CSS minifier strips bare @layer statements from stylesheets, and the
 // browser fixes layer priority from the first occurrence it sees.
 
-@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Cardo:ital@0;1&display=swap");
 
 // Font family definitions
 $font-title: "Bree Serif", serif;
@@ -41,6 +40,20 @@ $oak: #c0ae94;
 
 // Deliberate app styling, layered above Vuetify components so it wins.
 @layer app {
+  // Available to assistive tech and to crawlers, but takes no visual space.
+  // Used for the /products page heading, which the design has no room for.
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
   // Vuetify 4 moved to MD3, which drops the MD2 button letter-spacing. Without
   // it every button renders ~10% narrower than the design was built against.
   .v-btn {

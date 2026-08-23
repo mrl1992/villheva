@@ -1,7 +1,9 @@
 <template>
   <div class="header-content">
     <div v-if="showHeaderLines" class="header-line" />
-    <h1 class="hero-title" :style="{ color }">{{ title }}</h1>
+    <component :is="`h${level}`" class="hero-title" :style="{ color }">
+      {{ title }}
+    </component>
     <div v-if="showHeaderLines" class="header-line" />
   </div>
 </template>
@@ -11,11 +13,18 @@
     title: string;
     color?: string;
     showHeaderLines?: boolean;
+    /**
+     * Heading level. Defaults to 2 -- this component marks up section
+     * headings, and a page must have exactly one h1. Pass level="1" only on
+     * the heading that names the page.
+     */
+    level?: 1 | 2 | 3;
   }
   const {
     title,
     color = "black",
     showHeaderLines = false,
+    level = 2,
   } = defineProps<Props>();
 </script>
 

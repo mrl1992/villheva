@@ -14,7 +14,7 @@
       no-gutters
     >
       <v-col class="pricelist-col">
-        <h1 class="price-heading text-center">Brød & Bakeverk</h1>
+        <h3 class="price-heading text-center">Brød & Bakeverk</h3>
         <div class="d-flex flex-column ga-2 product-list product-list-left">
           <product-card-slim
             v-for="product in bestSellingBakingProducts.slice(0, 4)"
@@ -25,7 +25,7 @@
         </div>
       </v-col>
       <v-col class="wood-column pricelist-col">
-        <h1 class="price-heading text-center">Trearbeid</h1>
+        <h3 class="price-heading text-center">Trearbeid</h3>
         <div class="d-flex flex-column ga-2 product-list product-list-right">
           <product-card-slim
             v-for="product in bestSellingWoodProducts.slice(0, 4)"

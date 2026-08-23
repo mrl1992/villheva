@@ -3,7 +3,7 @@
     <div class="gallery-container">
       <!-- Header -->
       <div class="gallery-header">
-        <Title :title="'Galleri'" :show-header-lines="true" />
+        <Title :title="'Galleri'" :show-header-lines="true" :level="1" />
         <p class="gallery-subtitle">
           Utforsk vårt bildearkiv av håndverk og produkter
         </p>
@@ -42,7 +42,7 @@
                 <span>Ingen bilde</span>
               </div>
               <div class="image-overlay">
-                <h3 class="image-title">{{ item.title }}</h3>
+                <h2 class="image-title">{{ item.title }}</h2>
                 <p v-if="item.description" class="image-description">
                   {{ item.description }}
                 </p>
@@ -120,6 +120,13 @@
     description?: string;
     slug: string;
   }
+
+  useSeo({
+    title: "Galleri - Bilder av håndverk og bakevarer | Villheva",
+    description:
+      "Se bilder fra Villheva: surdeigsbrød, bakevarer og håndlagde trearbeider fra vårt mikrobakeri.",
+    type: "website",
+  });
 
   const selectedImage = ref<MediaItem | null>(null);
   const currentImageIndex = ref(0);

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1 class="visually-hidden">Produkter</h1>
     <section class="section-light">
       <div class="section-container">
         <div v-if="store.loading" class="state-center">
