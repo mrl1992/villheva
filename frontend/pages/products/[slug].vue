@@ -78,7 +78,7 @@
         <v-col cols="12" md="6" class="product-info-column">
           <div class="product-info-layout">
             <div class="product-info">
-              <Title style="justify-content: start" :title="product.title" />
+              <Title style="justify-content: start" :title="product.title" :level="1" />
 
               <!-- Price and Stock -->
               <div class="d-flex align-center gap-3 mb-6">

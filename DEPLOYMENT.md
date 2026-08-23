@@ -4,6 +4,9 @@ The site is a Nuxt app deployed to **Cloudflare Pages** with server-side
 rendering. Cloudflare runs Nuxt natively, so the Nuxt server routes in
 `frontend/server/` work as-is — there is no separate backend to maintain.
 
+**Registrar is domene.no; host is Cloudflare.** The domain stays registered at
+domene.no — you are only repointing where it resolves, not transferring it.
+
 ## One-time setup
 
 ### 1. Connect the repository
@@ -30,31 +33,62 @@ Settings → **Environment variables**, for both Production and Preview:
 | Variable | Value |
 | --- | --- |
 | `SANITY_PROJECT_ID` | `u8jecufq` |
-| `SANITY_DATASET` | `product` |
+| `SANITY_DATASET` | `product` — **not** `production`, which exists but is empty |
 | `SANITY_API_TOKEN` | read token from sanity.io/manage |
 | `SITE_URL` | `https://www.villheva.no` |
 | `RESEND_API_KEY` | `re_…` (mark as a **secret**) |
 | `RESEND_FROM_EMAIL` | `noreply@villheva.no` |
 | `ADMIN_EMAIL` | `post@villheva.no` |
 
-### 3. Domain and redirects
+### 3. Domain, DNS and redirects
 
-Custom domains → add `www.villheva.no` and `villheva.no`.
+The domain is registered at **domene.no**, and Cloudflare needs to serve DNS
+for it. Two ways, in order of preference:
 
-Every canonical URL the site emits uses `www`, so add a bulk redirect (or a
-redirect rule) sending `villheva.no/*` to `https://www.villheva.no/$1` with a
-301. Cloudflare handles HTTPS and the certificate; there is no server config
-to write.
+**A. Move nameservers to Cloudflare (recommended).** Cloudflare then manages
+DNS, proxying, caching and the certificate.
 
-### 4. DNS cutover
+1. In Cloudflare: **Add a site** → `villheva.no` → pick the Free plan. It scans
+   your current records — check the list carefully, especially the **MX and TXT
+   records for email**, since a missing MX record silently breaks incoming mail.
+2. Cloudflare gives you two nameservers, e.g. `xxx.ns.cloudflare.com`.
+3. In the domene.no Kundeweb: **Mine produkter** → **Domenenavn** →
+   **Administrere** next to `villheva.no` → the nameserver / navnetjener
+   setting → replace domene.no's nameservers with Cloudflare's two.
+4. Propagation is usually under an hour. Cloudflare's dashboard flips the zone
+   to **Active** when it sees the change.
+
+Note that moving nameservers moves *all* DNS for the domain, including any
+email records that currently point at domene.no's mail service. Copy those
+across first.
+
+**B. Keep DNS at domene.no.** Leave the nameservers alone and add a `CNAME`
+for `www` pointing at your `*.pages.dev` hostname, plus a redirect for the
+apex. This is more fiddly — the apex cannot be a CNAME at most registrars —
+and you lose Cloudflare's proxying and caching. Only worth it if something
+else depends on domene.no's DNS.
+
+**Custom domains and the www redirect**
+
+Once DNS is on Cloudflare: Workers & Pages → your project → **Custom domains**
+→ add `www.villheva.no` and `villheva.no`.
+
+Every canonical URL the site emits uses `www`, so add a **Redirect Rule**
+(Rules → Redirect Rules) sending `villheva.no/*` to
+`https://www.villheva.no/$1` with a **301**. Cloudflare issues and renews the
+TLS certificate automatically; there is no server config to write.
+
+### 4. Cutover
 
 Keep Vercel live until the Cloudflare deployment is confirmed.
 
 1. Deploy and test on the `*.pages.dev` URL first.
 2. Walk the checklist below.
-3. Point the `villheva.no` nameservers (or the A/CNAME records) at Cloudflare.
+3. Repoint the nameservers at domene.no as described above.
 4. Leave Vercel running for a few days as a rollback.
-5. Resubmit `https://www.villheva.no/sitemap.xml` in Google Search Console.
+5. Take the Vercel deployment down once you are confident — while both serve
+   the same content, they compete as duplicates.
+6. Resubmit `https://www.villheva.no/sitemap.xml` in Google Search Console.
 
 **Checklist**
 
@@ -66,6 +100,7 @@ Keep Vercel live until the Cloudflare deployment is confirmed.
 - [ ] the contact form sends both the admin mail and the confirmation
 - [ ] a test order sends both the receipt and the admin notification
 - [ ] `/sitemap.xml` and `/robots.txt` load
+- [ ] email to your @villheva.no addresses still arrives (MX records survived)
 
 ## How deploys work
 
@@ -94,10 +129,11 @@ which is fine for local checks but is not what Cloudflare runs.
   `child_process` and similar. This is why `server/utils/email.ts` calls the
   Resend REST API with `$fetch` instead of using the `resend` SDK — the SDK
   pulls in `@react-email/render`, which cannot be bundled for Workers.
-- **`SANITY_API_TOKEN` is currently exposed** via `runtimeConfig.public` in
-  `nuxt.config.ts`, which inlines it into the client bundle. Now that the app
-  is server-rendered it no longer needs to be public; worth moving out of
-  `public` and reading it server-side only.
+- **The `product` / `production` dataset trap.** The Sanity content lives in
+  the dataset called `product`. There is also a `production` dataset, and it is
+  empty. Pointing at it makes every page render its layout with no content and
+  produces no error — the queries just return `[]`. If pages look structurally
+  right but blank, check `SANITY_DATASET` first.
 - **Vuetify 4 cascade layers.** The layer order is declared as an inline
   `<style>` in `nuxt.config.ts`, because the CSS minifier strips bare
   `@layer a, b, c;` statements and the browser fixes layer priority from the

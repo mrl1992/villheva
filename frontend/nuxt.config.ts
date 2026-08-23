@@ -22,7 +22,6 @@ export default defineNuxtConfig({
       sanityProjectId: process.env.SANITY_PROJECT_ID || "u8jecufq",
       sanityDataset: process.env.SANITY_DATASET || "product",
       sanityApiVersion: "2023-09-01",
-      sanityToken: process.env.SANITY_API_TOKEN || "",
       siteUrl: process.env.SITE_URL || "https://www.villheva.no",
       siteName: "Villheva",
     },
@@ -86,6 +85,22 @@ export default defineNuxtConfig({
         { name: "twitter:image", content: "/og-image.png" },
       ],
       link: [
+        // Fonts. Loaded here rather than via @import in global.scss: an
+        // @import makes the browser fetch the CSS, parse it, then fetch the
+        // font files -- a serial chain that blocks first paint. The
+        // preconnects open both connections up front.
+        { rel: "preconnect", href: "https://fonts.googleapis.com" },
+        {
+          rel: "preconnect",
+          href: "https://fonts.gstatic.com",
+          crossorigin: "",
+        },
+        // Product and gallery images are all served from Sanity's CDN.
+        { rel: "preconnect", href: "https://cdn.sanity.io" },
+        {
+          rel: "stylesheet",
+          href: "https://fonts.googleapis.com/css2?family=Bree+Serif&family=Cardo:ital@0;1&display=swap",
+        },
         // Favicon - your custom logo
         {
           rel: "icon",

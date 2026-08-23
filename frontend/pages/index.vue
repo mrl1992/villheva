@@ -12,9 +12,9 @@
 
       <div class="hero-content">
         <div class="content-wrapper">
-          <h2 class="hero-title">
+          <h1 class="hero-title">
             {{ site?.heroTitle }}
-          </h2>
+          </h1>
 
           <p class="hero-subtitle">
             {{ site?.heroSubtitle }}

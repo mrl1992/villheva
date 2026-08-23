@@ -2,9 +2,9 @@
   <div class="privacy-policy-container">
     <div class="content-wrapper">
       <section class="privacy-section">
-        <h2>Personvernserklæring</h2>
+        <h1>Personvernserklæring</h1>
 
-        <h3>Innsamling av personopplysninger</h3>
+        <h2>Innsamling av personopplysninger</h2>
         <p>
           Vi samler kun inn følgende personopplysninger når du kontakter oss
           eller legger inn en bestilling:
@@ -15,7 +15,7 @@
           <li>Telefonnummer</li>
         </ul>
 
-        <h3>Hvordan vi bruker dine opplysninger</h3>
+        <h2>Hvordan vi bruker dine opplysninger</h2>
         <p>Vi bruker disse opplysningene utelukkende til å:</p>
         <ul>
           <li>Behandle og bekrefte dine bestillinger</li>
@@ -23,7 +23,7 @@
           <li>Svare på henvendelser fra deg</li>
         </ul>
 
-        <h3>Lagring av data</h3>
+        <h2>Lagring av data</h2>
         <p>
           Dine personopplysninger lagres utelukkende i vår bedriftsepostboks. Vi
           benytter ingen separate databaser eller lagringssystemer for kunde-
@@ -31,7 +31,7 @@
           dine opplysninger.
         </p>
 
-        <h3>Dine rettigheter</h3>
+        <h2>Dine rettigheter</h2>
         <p>Du har rett til å:</p>
         <ul>
           <li>Få innsyn i dine personopplysninger</li>
@@ -43,7 +43,7 @@
           rettighetene.
         </p>
 
-        <h3>Kontakt oss</h3>
+        <h2>Kontakt oss</h2>
         <p>
           Hvis du har spørsmål om vår behandling av personopplysninger,
           vennligst kontakt oss via kontaktskjemaet på siden vår.
@@ -54,21 +54,14 @@
 </template>
 
 <script setup lang="ts">
-  import Title from "~/components/Title.vue";
-
   definePageMeta({
     layout: "default",
   });
 
-  useHead({
+  useSeo({
     title: "Personvernserklæring | Villheva",
-    meta: [
-      {
-        name: "description",
-        content:
-          "Les vår personvernserklæring. Vi behandler kun nødvendige personopplysninger og lagrer de sikkert.",
-      },
-    ],
+    description:
+      "Les vår personvernserklæring. Vi behandler kun nødvendige personopplysninger og lagrer de sikkert.",
   });
 </script>
 
@@ -94,7 +87,7 @@
     color: #333;
   }
 
-  .privacy-section h2 {
+  .privacy-section h1 {
     font-size: 2rem;
     margin-bottom: 2rem;
     color: #2c2c2c;
@@ -102,7 +95,7 @@
     padding-bottom: 1rem;
   }
 
-  .privacy-section h3 {
+  .privacy-section h2 {
     font-size: 1.3rem;
     margin-top: 2rem;
     margin-bottom: 1rem;
@@ -133,11 +126,11 @@
       padding: 1.5rem;
     }
 
-    .privacy-section h2 {
+    .privacy-section h1 {
       font-size: 1.5rem;
     }
 
-    .privacy-section h3 {
+    .privacy-section h2 {
       font-size: 1.1rem;
     }
   }
