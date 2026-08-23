@@ -25,6 +25,11 @@ export default defineNuxtConfig({
       sanityProjectId: process.env.SANITY_PROJECT_ID || "u8jecufq",
       sanityDataset: process.env.SANITY_DATASET || "product",
       sanityApiVersion: "2023-09-01",
+      // Studio location for stega click-to-edit links. villheva.sanity.studio
+      // only redirects here; this is where the Studio is really served.
+      sanityStudioUrl:
+        process.env.SANITY_STUDIO_URL ||
+        "https://www.sanity.io/@oqSD5A2tA/studio/cina5t95esciu3e0u5najma8",
       siteUrl: process.env.SITE_URL || "https://www.villheva.no",
       siteName: "Villheva",
     },

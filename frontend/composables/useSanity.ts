@@ -20,21 +20,16 @@ export const useSanity = () => {
   const isInIframe =
     typeof window !== "undefined" && window.self !== window.top;
 
-  // Determine the studio URL based on environment
-  let studioUrl = "http://localhost:3333";
-  if (typeof window !== "undefined") {
-    // In browser, use the current origin
-    const isLocalhost =
-      window.location.hostname === "localhost" ||
-      window.location.hostname === "127.0.0.1";
-    if (isLocalhost) {
-      studioUrl = "http://localhost:3333";
-    } else {
-      token;
-      // For production/deployed environments
-      studioUrl = "https://villheva.sanity.studio";
-    }
-  }
+  // Where the Studio lives, for stega click-to-edit links. Note that
+  // villheva.sanity.studio is only a redirect -- the Studio is actually served
+  // from sanity.io, so that is the origin the Presentation iframe runs on.
+  const isLocalhost =
+    typeof window !== "undefined" &&
+    (window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1");
+  const studioUrl = isLocalhost
+    ? "http://localhost:3333"
+    : config.public.sanityStudioUrl;
 
   return createClient({
     projectId: config.public.sanityProjectId,

@@ -20,6 +20,9 @@ const allowOrigins = (
     ? ['http://localhost:*']
     : [
         'http://localhost:*',
+        // The Studio is served from sanity.io -- villheva.sanity.studio is
+        // only a redirect, so it is NOT the origin the iframe runs on.
+        'https://www.sanity.io',
         'https://villheva.sanity.studio',
         'https://villheva.nn76kg9y4d.workers.dev',
         'https://villheva.no',
