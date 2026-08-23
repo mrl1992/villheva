@@ -7,9 +7,11 @@ import {locations, mainDocuments} from './lib/presentation/resolve'
 
 // Determine environment mode
 const isDev = process.env.NODE_ENV === 'development'
+// The deployed frontend. .env can override it per environment; the fallback is
+// the Cloudflare Worker the site currently runs on.
 const previewUrl = isDev
   ? 'http://localhost:3000'
-  : process.env.SANITY_STUDIO_PREVIEW_URL || 'https://www.villheva.no'
+  : process.env.SANITY_STUDIO_PREVIEW_URL || 'https://villheva.nn76kg9y4d.workers.dev'
 
 // Ensure allowOrigins only contains valid URL patterns
 // Must be proper URLs with http/https or patterns like http://localhost:*
@@ -19,12 +21,14 @@ const allowOrigins = (
     : [
         'http://localhost:*',
         'https://villheva.sanity.studio',
-        'https://www.villheva.vercel.app',
+        'https://villheva.nn76kg9y4d.workers.dev',
         'https://villheva.no',
         'https://www.villheva.no',
         previewUrl,
       ]
-).filter((origin) => {
+)
+  .filter((origin, i, all) => all.indexOf(origin) === i)
+  .filter((origin) => {
   // Validate that the origin is not just '*' and is a valid pattern
   if (!origin || origin === '*') return false
   if (typeof origin !== 'string') return false

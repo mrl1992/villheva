@@ -18,6 +18,9 @@ export default defineNuxtConfig({
     inlineStyles: false,
   },
   runtimeConfig: {
+    // Server-only. Needed by /api/draft-mode/enable to validate the Presentation
+    // tool's preview secret. Set SANITY_API_READ_TOKEN in the host's env.
+    sanityReadToken: process.env.SANITY_API_READ_TOKEN || "",
     public: {
       sanityProjectId: process.env.SANITY_PROJECT_ID || "u8jecufq",
       sanityDataset: process.env.SANITY_DATASET || "product",
