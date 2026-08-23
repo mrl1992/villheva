@@ -13,21 +13,9 @@ export default defineNuxtConfig({
   css: ["~/assets/styles/global.scss", "vuetify/styles"],
   features: {
     // Vuetify's stylesheet is ~840 kB; inlining it put an identical copy in
-    // every prerendered page. Linking the hashed file instead means one
-    // download, cached immutably by the .htaccess rules.
+    // every rendered page. Linking the hashed file instead means one download,
+    // then Cloudflare's CDN serves it from cache.
     inlineStyles: false,
-  },
-  nitro: {
-    prerender: {
-      // Follow in-page links so every product detail page is generated.
-      crawlLinks: true,
-      // Emit /products.html instead of /products/index.html so Apache can serve
-      // the canonical, trailing-slash-free URLs without a redirect hop.
-      autoSubfolderIndex: false,
-      // A page that fails to render must break the build, not ship empty.
-      failOnError: true,
-      routes: ["/", "/sitemap.xml"],
-    },
   },
   runtimeConfig: {
     public: {

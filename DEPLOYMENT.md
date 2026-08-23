@@ -1,152 +1,119 @@
-# Deploying Villheva to domene.no
+# Deploying Villheva to Cloudflare
 
-The site is a Nuxt app that is **prerendered to static HTML** (`nuxt generate`)
-and served by Apache. domene.no has PHP 8 but no Node runtime, so the two form
-endpoints that used to be Nuxt server routes are now PHP.
-
-Everything below the `## One-time setup` heading only needs doing once.
-
----
-
-## How a deploy works
-
-`.github/workflows/deploy.yml` runs on:
-
-- a push to `main`
-- a `sanity-publish` repository dispatch (so publishing content rebuilds the site)
-- a manual **Run workflow** click
-
-It installs dependencies, runs `npm run generate`, asserts the output actually
-contains content, and uploads `frontend/.output/public/` over FTPS.
-
-To build and inspect locally:
-
-```bash
-cd frontend
-npm run generate          # output lands in .output/public/
-npx serve .output/public  # rough preview; does not apply .htaccess rules
-```
-
----
+The site is a Nuxt app deployed to **Cloudflare Pages** with server-side
+rendering. Cloudflare runs Nuxt natively, so the Nuxt server routes in
+`frontend/server/` work as-is — there is no separate backend to maintain.
 
 ## One-time setup
 
-### 1. GitHub repository secrets
+### 1. Connect the repository
 
-**Settings → Secrets and variables → Actions**
+Cloudflare dashboard → **Workers & Pages** → **Create** → **Pages** →
+**Connect to Git** → pick `mrl1992/villheva`.
 
-| Secret | Value |
+Build settings:
+
+| Setting | Value |
+| --- | --- |
+| Framework preset | Nuxt |
+| Build command | `npm run build` |
+| Build output directory | `dist` |
+| Root directory | `frontend` |
+
+Nuxt detects Cloudflare and selects the right Nitro preset on its own, so
+nothing in `nuxt.config.ts` needs to name a preset.
+
+### 2. Environment variables
+
+Settings → **Environment variables**, for both Production and Preview:
+
+| Variable | Value |
 | --- | --- |
 | `SANITY_PROJECT_ID` | `u8jecufq` |
 | `SANITY_DATASET` | `product` |
-| `SANITY_API_TOKEN` | a **read** token from sanity.io/manage |
-| `FTP_SERVER` | the FTP host from domene.no |
-| `FTP_USERNAME` | FTP user |
-| `FTP_PASSWORD` | FTP password |
-| `FTP_SERVER_DIR` | web root, usually `./public_html/` — **must end in a slash** |
+| `SANITY_API_TOKEN` | read token from sanity.io/manage |
+| `SITE_URL` | `https://www.villheva.no` |
+| `RESEND_API_KEY` | `re_…` (mark as a **secret**) |
+| `RESEND_FROM_EMAIL` | `noreply@villheva.no` |
+| `ADMIN_EMAIL` | `post@villheva.no` |
 
-### 2. Server-side secrets for the PHP endpoints
+### 3. Domain and redirects
 
-The Resend API key must never be in the repo. After the first deploy, over
-FTP or the cPanel file manager:
+Custom domains → add `www.villheva.no` and `villheva.no`.
 
-```bash
-cd public_html/api/lib
-cp config.example.php config.php
-# then edit config.php and fill in:
-#   RESEND_API_KEY     re_...
-#   RESEND_FROM_EMAIL  noreply@villheva.no
-#   ADMIN_EMAIL        post@villheva.no
-```
+Every canonical URL the site emits uses `www`, so add a bulk redirect (or a
+redirect rule) sending `villheva.no/*` to `https://www.villheva.no/$1` with a
+301. Cloudflare handles HTTPS and the certificate; there is no server config
+to write.
 
-`config.php` is git-ignored, excluded from the FTP sync, and blocked from the
-web by the `.htaccess`. Deploys will not overwrite or delete it.
+### 4. DNS cutover
 
-Verify it is unreachable — this must return 404:
+Keep Vercel live until the Cloudflare deployment is confirmed.
 
-```bash
-curl -o /dev/null -w '%{http_code}\n' https://www.villheva.no/api/lib/config.php
-```
-
-### 3. Rebuild when content is published
-
-In **sanity.io/manage → API → Webhooks**, add:
-
-- URL `https://api.github.com/repos/mrl1992/villheva/dispatches`
-- Method `POST`
-- HTTP header `Authorization: Bearer <GitHub PAT with 'repo' scope>`
-- HTTP header `Accept: application/vnd.github+json`
-- Body `{"event_type": "sanity-publish"}`
-- Trigger on create / update / delete
-
-Without this, Sanity edits will not appear until the next push to `main`.
-
-### 4. DNS cutover — do this last
-
-Keep the Vercel deployment live until the new host is confirmed good.
-
-1. Deploy to domene.no and test against the host directly (a `hosts` file
-   entry pointing `www.villheva.no` at the domene.no IP is the cleanest way).
+1. Deploy and test on the `*.pages.dev` URL first.
 2. Walk the checklist below.
-3. Only then point the `A` / `CNAME` records for `villheva.no` and
-   `www.villheva.no` at domene.no, and enable their free SSL certificate.
+3. Point the `villheva.no` nameservers (or the A/CNAME records) at Cloudflare.
 4. Leave Vercel running for a few days as a rollback.
-5. After the cutover, resubmit `https://www.villheva.no/sitemap.xml` in Google
-   Search Console.
+5. Resubmit `https://www.villheva.no/sitemap.xml` in Google Search Console.
 
-**Post-cutover checklist**
+**Checklist**
 
-- [ ] `https://www.villheva.no/` loads and shows content with JavaScript disabled
+- [ ] pages load and show content with JavaScript disabled
 - [ ] `/products` lists products in the HTML source
 - [ ] a product page loads directly, not just via in-app navigation
-- [ ] `http://villheva.no/about` 301s to `https://www.villheva.no/about`
+- [ ] `villheva.no/about` redirects to `https://www.villheva.no/about`
 - [ ] `/nonexistent` returns a real 404
 - [ ] the contact form sends both the admin mail and the confirmation
 - [ ] a test order sends both the receipt and the admin notification
-- [ ] `/api/lib/config.php` returns 404
 - [ ] `/sitemap.xml` and `/robots.txt` load
 
----
+## How deploys work
 
-## Known consequences of going static
+Push to `main` → Cloudflare builds and deploys. Pull requests get their own
+preview URL. There is no GitHub Actions workflow and no FTP step.
 
-- **Sanity draft mode / visual editing no longer works in production.** There is
-  no server to toggle the preview cookie. Use `npm run dev` locally for it. The
-  `server/` directory is kept so dev and any future SSR deploy still work.
-- **Content is only as fresh as the last build.** That is what the Sanity
-  webhook in step 3 is for.
-- **No CDN.** Everything is served from one Norwegian server, which is why the
-  `.htaccess` sets long cache lifetimes and gzip, and why the images in
-  `frontend/public/` were reduced from 11 MB to 88 KB.
+Because the site is server-rendered, **content is always live**: publishing in
+Sanity shows up on the next request with no rebuild. The `repository_dispatch`
+webhook that a static build would have needed is not required — you can delete
+it from sanity.io/manage → API → Webhooks if you set one up.
 
-## Vuetify 4 notes
+To build locally the way Cloudflare does:
 
-The app runs Vuetify 4, which introduced CSS cascade layers. Two things follow
-from that and will bite anyone editing styles:
+```bash
+cd frontend
+NITRO_PRESET=cloudflare_pages npm run build
+npx wrangler pages dev dist        # runs the real Workers runtime
+```
 
-- **The layer order is declared as an inline `<style>` in `nuxt.config.ts`,
-  not in a stylesheet.** The CSS minifier strips bare `@layer a, b, c;`
-  statements, and the browser fixes layer priority from the first occurrence it
-  sees. If that inline style is removed, layer order becomes whatever the
-  bundler happens to emit.
-- **Unlayered CSS beats every Vuetify rule, regardless of specificity.** The
-  reset in `global.scss` sits in `@layer app-reset` (below Vuetify's components)
-  precisely so `* { padding: 0 }` cannot strip the padding off every component.
-  Deliberate overrides sit in `@layer app` (above the components). Put new
-  global rules in the right one.
+Plain `npm run build` produces a Node server (`node .output/server/index.mjs`),
+which is fine for local checks but is not what Cloudflare runs.
 
-`global.scss` and `plugins/vuetify.ts` also carry explicit restorations of v3
-behaviour that Vuetify 4 changed: the light default theme, the v3 breakpoints,
-uppercase buttons, MD2 button letter-spacing, and the v3 container max-widths.
-Each is commented with why. The MD2 typography classes (`text-h4`, `text-body-1`
-…) were removed in v4 and have been replaced with their MD3 equivalents.
+## Things worth knowing
+
+- **The Workers runtime is not Node.** Server code cannot use `fs`,
+  `child_process` and similar. This is why `server/utils/email.ts` calls the
+  Resend REST API with `$fetch` instead of using the `resend` SDK — the SDK
+  pulls in `@react-email/render`, which cannot be bundled for Workers.
+- **`SANITY_API_TOKEN` is currently exposed** via `runtimeConfig.public` in
+  `nuxt.config.ts`, which inlines it into the client bundle. Now that the app
+  is server-rendered it no longer needs to be public; worth moving out of
+  `public` and reading it server-side only.
+- **Vuetify 4 cascade layers.** The layer order is declared as an inline
+  `<style>` in `nuxt.config.ts`, because the CSS minifier strips bare
+  `@layer a, b, c;` statements and the browser fixes layer priority from the
+  first occurrence it sees. Unlayered CSS beats every Vuetify rule regardless
+  of specificity, so the reset in `global.scss` lives in `@layer app-reset`
+  (below Vuetify's components) and deliberate branding in `@layer app` (above
+  them). Put new global rules in the right one.
+- `plugins/vuetify.ts` and `global.scss` carry explicit restorations of v3
+  behaviour that Vuetify 4 changed — light default theme, v3 breakpoints,
+  uppercase buttons, MD2 button letter-spacing, v3 container max-widths. Each
+  is commented with why.
 
 ## Where things live
 
 | Path | Purpose |
 | --- | --- |
-| `frontend/public/.htaccess` | Apache config — routing, canonical redirects, caching. Edit here, never on the server. |
-| `frontend/public/api/*.php` | The contact and order endpoints. |
-| `frontend/public/api/lib/` | Shared PHP + credentials. Blocked from the web. |
-| `frontend/server/` | Nuxt server routes. Used by `npm run dev` and the sitemap prerender; not deployed as code. |
-| `.github/workflows/deploy.yml` | Build and FTPS upload. |
+| `frontend/server/api/` | Contact and order endpoints (run as Workers functions). |
+| `frontend/server/routes/sitemap.xml.ts` | Sitemap, generated per request. |
+| `frontend/nuxt.config.ts` | Runtime config, SEO defaults, cascade layer order. |
