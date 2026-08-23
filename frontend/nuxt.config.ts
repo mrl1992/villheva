@@ -8,7 +8,27 @@ export default defineNuxtConfig({
   modules: [
     "@pinia/nuxt", // ✅ Pinia integration
   ],
+  // global.scss declares the cascade layer order and must be parsed before
+  // Vuetify's stylesheet, which would otherwise fix the order itself.
   css: ["~/assets/styles/global.scss", "vuetify/styles"],
+  features: {
+    // Vuetify's stylesheet is ~840 kB; inlining it put an identical copy in
+    // every prerendered page. Linking the hashed file instead means one
+    // download, cached immutably by the .htaccess rules.
+    inlineStyles: false,
+  },
+  nitro: {
+    prerender: {
+      // Follow in-page links so every product detail page is generated.
+      crawlLinks: true,
+      // Emit /products.html instead of /products/index.html so Apache can serve
+      // the canonical, trailing-slash-free URLs without a redirect hop.
+      autoSubfolderIndex: false,
+      // A page that fails to render must break the build, not ship empty.
+      failOnError: true,
+      routes: ["/", "/sitemap.xml"],
+    },
+  },
   runtimeConfig: {
     public: {
       sanityProjectId: process.env.SANITY_PROJECT_ID || "u8jecufq",
@@ -24,6 +44,16 @@ export default defineNuxtConfig({
       htmlAttrs: {
         lang: "no",
       },
+      // Declares the Vuetify 4 cascade layer order. It lives here rather than
+      // in a stylesheet because the CSS minifier strips bare @layer statements,
+      // and the browser fixes layer priority from the first occurrence it sees.
+      style: [
+        {
+          children:
+            "@layer app-reset,vuetify-core,vuetify-components,vuetify-overrides,app,vuetify-utilities,vuetify-final;",
+          tagPriority: -100,
+        },
+      ],
       meta: [
         { charset: "utf-8" },
         {

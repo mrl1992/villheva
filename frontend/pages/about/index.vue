@@ -150,7 +150,6 @@
   import LoadingOverlay from "~/components/LoadingOverlay.vue";
 
   const settingsStore = useSettingsStore();
-  const employees = ref<Employee[]>([]);
   const { renderBlocks } = usePortableText();
   const { smAndDown } = useDisplay();
 
@@ -179,17 +178,18 @@
     type: "website",
   });
 
-  // Fetch settings on mount
+  // Fallback: app.vue already loads settings during SSR/prerender.
   if (!settingsStore.siteSettings) {
     await settingsStore.fetchSiteSettings();
   }
 
-  // Fetch employees
-  try {
-    employees.value = await sanityService.getEmployees();
-  } catch (error) {
-    console.error("Failed to fetch employees:", error);
-  }
+  // Resolved during SSR/prerender and carried over in the payload, so the
+  // employee cards are in the served HTML rather than fetched after mount.
+  const { data: employees } = await useAsyncData(
+    "about-employees",
+    () => sanityService.getEmployees(),
+    { default: (): Employee[] => [] },
+  );
 
   // Helper function to get initials from name
   const getInitials = (name: string): string => {

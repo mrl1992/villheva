@@ -11,12 +11,11 @@ export default defineEventHandler(async (event) => {
 
     // Static pages
     const staticPages = [
-      { url: "", changefreq: "weekly", priority: 1.0 },
+      { url: "/", changefreq: "weekly", priority: 1.0 },
       { url: "/products", changefreq: "weekly", priority: 0.8 },
       { url: "/about", changefreq: "monthly", priority: 0.7 },
       { url: "/gallery", changefreq: "monthly", priority: 0.6 },
-      { url: "/cart", changefreq: "weekly", priority: 0.5 },
-      { url: "/checkout", changefreq: "weekly", priority: 0.5 },
+      { url: "/privacy-policy", changefreq: "yearly", priority: 0.3 },
     ];
 
     // Product pages

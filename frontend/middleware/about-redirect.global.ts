@@ -10,7 +10,7 @@ export default defineNuxtRouteMiddleware((to) => {
     "/products",
     "/gallery",
     "/about",
-    "cart",
+    "/cart",
     "/checkout",
     "/privacy-policy",
   ];

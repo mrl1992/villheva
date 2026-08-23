@@ -14,4 +14,4 @@ User-Agent: Bingbot
 Allow: /
 
 # Sitemaps
-Sitemap: https://villheva.no/sitemap.xml
+Sitemap: https://www.villheva.no/sitemap.xml

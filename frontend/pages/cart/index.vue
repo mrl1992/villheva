@@ -62,6 +62,12 @@
 
 <script setup lang="ts">
   const cartStore = useCartStore();
+
+  // Transactional page: no SEO value and the cart is empty at build time.
+  useHead({
+    title: "Handlekurv | Villheva",
+    meta: [{ name: "robots", content: "noindex, nofollow" }],
+  });
 </script>
 
 <style scoped>
