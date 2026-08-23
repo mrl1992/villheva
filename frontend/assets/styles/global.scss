@@ -1,3 +1,7 @@
+// Cascade layer order is declared as an inline <style> in nuxt.config.ts —
+// the CSS minifier strips bare @layer statements from stylesheets, and the
+// browser fixes layer priority from the first occurrence it sees.
+
 @import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Cardo:ital@0;1&display=swap");
 
 // Font family definitions
@@ -10,63 +14,115 @@ $seafoam: #bab9a7;
 $earth: #755f4a;
 $oak: #c0ae94;
 
-// Global styles
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html,
-body {
-  font-family: $font-body;
-  width: 100%;
-  overflow-x: hidden;
-}
-a {
-  color: $olive;
-}
-// Heading styles
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: $font-title;
-}
-
-// Title classes
-.title,
-.heading,
-.app-bar-title {
-  font-family: $font-title;
-}
-
-// Body text
-p,
-span,
-a,
-button,
-input,
-textarea {
-  font-family: $font-body;
-}
-
-// Hero title style
-.hero-title {
-  margin-bottom: 1.5rem;
-  font-family: serif;
-  font-weight: 400;
-  font-size: 2.25rem;
-  line-height: 2.75rem;
-  color: #4d4738;
-  text-wrap: balance;
-}
-
-@media (min-width: 640px) {
-  .hero-title {
-    font-size: 3rem;
-    line-height: 1.1;
+// Global reset. Layered so it ranks below Vuetify's component styles —
+// unlayered, `* { padding: 0 }` would beat every .v-btn/.v-card rule and strip
+// the padding off every Vuetify component.
+@layer app-reset {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
   }
+
+  // Vuetify 4 dropped its CSS reset, which brings back native borders and
+  // background colours on form controls. Restore just that part.
+  button,
+  input,
+  select,
+  textarea {
+    background-color: transparent;
+    border-style: none;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+}
+
+// Deliberate app styling, layered above Vuetify components so it wins.
+@layer app {
+  // Vuetify 4 moved to MD3, which drops the MD2 button letter-spacing. Without
+  // it every button renders ~10% narrower than the design was built against.
+  .v-btn {
+    letter-spacing: 0.0892857143em;
+  }
+
+  // Vuetify 4 lowered the breakpoints and rounds container max-widths down to
+  // the nearest 100px (lg went 1200px -> 1000px), which narrows every page
+  // built on v-container. Restore the v3 widths.
+  @media (min-width: 960px) {
+    .v-container {
+      max-width: 900px;
+    }
+  }
+  @media (min-width: 1280px) {
+    .v-container {
+      max-width: 1200px;
+    }
+  }
+  @media (min-width: 1920px) {
+    .v-container {
+      max-width: 1800px;
+    }
+  }
+  @media (min-width: 2560px) {
+    .v-container {
+      max-width: 2400px;
+    }
+  }
+
+  html,
+  body {
+    font-family: $font-body;
+    width: 100%;
+    overflow-x: hidden;
+  }
+  a {
+    color: $olive;
+  }
+  // Heading styles
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: $font-title;
+  }
+
+  // Title classes
+  .title,
+  .heading,
+  .app-bar-title {
+    font-family: $font-title;
+  }
+
+  // Body text
+  p,
+  span,
+  a,
+  button,
+  input,
+  textarea {
+    font-family: $font-body;
+  }
+
+  // Hero title style
+  .hero-title {
+    margin-bottom: 1.5rem;
+    font-family: serif;
+    font-weight: 400;
+    font-size: 2.25rem;
+    line-height: 2.75rem;
+    color: #4d4738;
+    text-wrap: balance;
+  }
+
+  @media (min-width: 640px) {
+    .hero-title {
+      font-size: 3rem;
+      line-height: 1.1;
+    }
+  }
+
 }

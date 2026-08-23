@@ -16,7 +16,7 @@
           </h4>
           <div style="min-height: 1.5rem">
             <p
-              class="text-body-2 text-brown-700 text-opacity-70 mb-0"
+              class="text-body-medium text-brown-700 text-opacity-70 mb-0"
               v-if="product.weight"
             >
               {{ `${product.weight}g` }}
@@ -26,7 +26,7 @@
 
         <div class="product-actions">
           <span
-            class="text-h6 font-serif font-weight-semibold"
+            class="text-title-large font-serif font-weight-semibold"
             style="color: #755f4a"
           >
             {{ product.price }} kr

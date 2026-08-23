@@ -82,7 +82,7 @@
 
               <!-- Price and Stock -->
               <div class="d-flex align-center gap-3 mb-6">
-                <p class="product-price text-h4 font-weight-bold mb-0">
+                <p class="product-price text-headline-large font-weight-bold mb-0">
                   {{ product.price }} kr
                 </p>
                 <v-chip
@@ -103,7 +103,7 @@
               <!-- Weight -->
               <p
                 v-if="product.weight"
-                class="text-body-1 text-medium-emphasis mb-4"
+                class="text-body-large text-medium-emphasis mb-4"
               >
                 <v-icon icon="mdi-weight" size="small" class="mr-1" />
                 {{ product.weight }}g
@@ -112,7 +112,7 @@
               <!-- Description -->
               <p
                 v-if="product.description"
-                class="text-body-1 mb-6 product-description"
+                class="text-body-large mb-6 product-description"
               >
                 {{ product.description }}
               </p>
@@ -166,7 +166,7 @@
                   <v-expansion-panel-title class="allergens-panel-title">
                     <div class="d-flex align-center">
                       <v-icon icon="mdi-alert-circle-outline" class="mr-2" />
-                      <span class="text-subtitle-1">Allergener</span>
+                      <span class="text-body-large">Allergener</span>
                     </div>
                   </v-expansion-panel-title>
                   <v-expansion-panel-text>

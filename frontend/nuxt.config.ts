@@ -44,6 +44,16 @@ export default defineNuxtConfig({
       htmlAttrs: {
         lang: "no",
       },
+      // Declares the Vuetify 4 cascade layer order. It lives here rather than
+      // in a stylesheet because the CSS minifier strips bare @layer statements,
+      // and the browser fixes layer priority from the first occurrence it sees.
+      style: [
+        {
+          children:
+            "@layer app-reset,vuetify-core,vuetify-components,vuetify-overrides,app,vuetify-utilities,vuetify-final;",
+          tagPriority: -100,
+        },
+      ],
       meta: [
         { charset: "utf-8" },
         {

@@ -119,6 +119,28 @@ Keep the Vercel deployment live until the new host is confirmed good.
   `.htaccess` sets long cache lifetimes and gzip, and why the images in
   `frontend/public/` were reduced from 11 MB to 88 KB.
 
+## Vuetify 4 notes
+
+The app runs Vuetify 4, which introduced CSS cascade layers. Two things follow
+from that and will bite anyone editing styles:
+
+- **The layer order is declared as an inline `<style>` in `nuxt.config.ts`,
+  not in a stylesheet.** The CSS minifier strips bare `@layer a, b, c;`
+  statements, and the browser fixes layer priority from the first occurrence it
+  sees. If that inline style is removed, layer order becomes whatever the
+  bundler happens to emit.
+- **Unlayered CSS beats every Vuetify rule, regardless of specificity.** The
+  reset in `global.scss` sits in `@layer app-reset` (below Vuetify's components)
+  precisely so `* { padding: 0 }` cannot strip the padding off every component.
+  Deliberate overrides sit in `@layer app` (above the components). Put new
+  global rules in the right one.
+
+`global.scss` and `plugins/vuetify.ts` also carry explicit restorations of v3
+behaviour that Vuetify 4 changed: the light default theme, the v3 breakpoints,
+uppercase buttons, MD2 button letter-spacing, and the v3 container max-widths.
+Each is commented with why. The MD2 typography classes (`text-h4`, `text-body-1`
+…) were removed in v4 and have been replaced with their MD3 equivalents.
+
 ## Where things live
 
 | Path | Purpose |
