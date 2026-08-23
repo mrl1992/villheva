@@ -7,6 +7,9 @@ import "@mdi/font/css/materialdesignicons.css";
 
 export default defineNuxtPlugin((nuxtApp) => {
   const vuetify = createVuetify({
+    // Required for SSR/prerender: makes useDisplay() resolve to SSR-safe
+    // defaults and update after mount instead of mismatching on hydration.
+    ssr: true,
     components,
     directives,
     defaults: {

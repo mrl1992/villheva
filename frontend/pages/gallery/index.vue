@@ -121,11 +121,25 @@
     slug: string;
   }
 
-  const loading = ref(true);
-  const error = ref<string | null>(null);
-  const productMedia = ref<MediaItem[]>([]);
   const selectedImage = ref<MediaItem | null>(null);
   const currentImageIndex = ref(0);
+
+  // Resolved during SSR/prerender so the gallery images are in the served HTML
+  // and carried over in the payload instead of refetched after mount.
+  const {
+    data: productMedia,
+    status,
+    error: fetchError,
+  } = await useAsyncData(
+    "gallery-product-media",
+    () => mediaService.getMediaByCategory("product"),
+    { default: (): MediaItem[] => [] },
+  );
+
+  const loading = computed(() => status.value === "pending");
+  const error = computed(() =>
+    fetchError.value ? "Kunne ikke laste bilder" : null,
+  );
 
   function getImageStyle(dimensions?: {
     width: number;
@@ -184,17 +198,7 @@
     }
   }
 
-  onMounted(async () => {
-    try {
-      loading.value = true;
-      const media = await mediaService.getMediaByCategory("product");
-      productMedia.value = media;
-    } catch (err: any) {
-      error.value = err.message || "Kunne ikke laste bilder";
-    } finally {
-      loading.value = false;
-    }
-
+  onMounted(() => {
     window.addEventListener("keydown", handleKeydown);
   });
 

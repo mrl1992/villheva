@@ -184,9 +184,8 @@
     type: "website",
   });
 
-  onMounted(() => {
-    store.fetchAllProducts();
-  });
+  // Products are fetched in app.vue during SSR/prerender, so they are already
+  // in the store (and in the served HTML) by the time this page renders.
 </script>
 
 <style scoped>
