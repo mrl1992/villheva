@@ -41,12 +41,17 @@ Settings → **Environment variables**, for both Production and Preview:
 | `SANITY_API_TOKEN`      | read token from sanity.io/manage                                 |
 | `SITE_URL`              | `https://www.villheva.no`                                        |
 | `RESEND_API_KEY`        | `re_…` (mark as a **secret**)                                    |
-| `RESEND_FROM_EMAIL`     | `noreply@villheva.no`                                            |
-| `ADMIN_EMAIL`           | `post@villheva.no`                                               |
+| `RESEND_FROM_EMAIL`     | `noreply@villheva.no` — **required**, verified Resend sender     |
+| `ADMIN_EMAIL`           | `post@villheva.no` — where form notifications go                 |
 | `SANITY_API_READ_TOKEN` | **Viewer** token — required for Presentation preview (see below) |
 
-Set these as **Secrets** (encrypted) rather than plaintext variables, and
-redeploy afterwards so the Worker picks them up. Note that `frontend/.env` is
+All of them are needed. `RESEND_API_KEY` on its own is not enough: the contact
+endpoint also needs a recipient, and with neither `ADMIN_EMAIL` nor
+`RESEND_FROM_EMAIL` set it fails with "Recipient address is not configured on
+this deployment" before it ever calls Resend.
+
+Set the tokens and the API key as **Secrets** (encrypted) rather than plaintext
+variables, and redeploy afterwards so the Worker picks them up. Note that `frontend/.env` is
 local only — it has no effect on the deployed Worker.
 
 ### 3. Domain, DNS and redirects
