@@ -33,3 +33,36 @@ export function readSecret(
   const fromConfig = (useRuntimeConfig(event) as Record<string, any>)[configKey];
   return fromConfig || undefined;
 }
+
+/**
+ * Diagnostic for the server logs only -- never put this in an HTTP response.
+ *
+ * Reports, per name, which of the three sources had a value, plus the key names
+ * the Worker binding actually exposes. That distinguishes "the variable is not
+ * set at all" from "it is set under a different name" or "bindings are not
+ * reaching Nitro", which is otherwise guesswork from outside.
+ */
+export function describeSecretSources(names: string[], event?: H3Event): string {
+  const bindingEnv = (event?.context as Record<string, any> | undefined)
+    ?.cloudflare?.env as Record<string, unknown> | undefined;
+  const config = useRuntimeConfig(event) as Record<string, unknown>;
+
+  const perName = names
+    .map((n) => {
+      const b = bindingEnv?.[n] ? "yes" : "no";
+      const p = process.env[n] ? "yes" : "no";
+      return `${n}(binding=${b} process=${p})`;
+    })
+    .join(" ");
+
+  const bindingKeys = bindingEnv
+    ? Object.keys(bindingEnv).sort().join(",") || "(empty)"
+    : "(no cloudflare binding on event.context)";
+
+  const configKeys = Object.keys(config)
+    .filter((k) => k !== "public")
+    .map((k) => `${k}=${config[k] ? "set" : "empty"}`)
+    .join(" ");
+
+  return `${perName} | binding keys: ${bindingKeys} | runtimeConfig: ${configKeys}`;
+}

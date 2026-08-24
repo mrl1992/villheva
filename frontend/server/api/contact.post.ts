@@ -1,5 +1,5 @@
 import { sendEmail } from "~/server/utils/email";
-import { readSecret } from "~/server/utils/secrets";
+import { readSecret, describeSecretSources } from "~/server/utils/secrets";
 
 export default defineEventHandler(async (event) => {
   // Only allow POST requests
@@ -63,6 +63,13 @@ export default defineEventHandler(async (event) => {
     if (!adminEmail) {
       console.error(
         "[Contact] Neither ADMIN_EMAIL nor RESEND_FROM_EMAIL is set on this deployment.",
+      );
+      console.error(
+        "[Contact] env diagnostic:",
+        describeSecretSources(
+          ["ADMIN_EMAIL", "RESEND_FROM_EMAIL", "RESEND_API_KEY"],
+          event,
+        ),
       );
       throw createError({
         statusCode: 500,
