@@ -66,6 +66,7 @@ DNS, proxying, caching and the certificate.
    your current records — check the list carefully, especially the **MX and TXT
    records for email**, since a missing MX record silently breaks incoming mail.
 2. Cloudflare gives you two nameservers, e.g. `xxx.ns.cloudflare.com`.
+
 3. In the domene.no Kundeweb: **Mine produkter** → **Domenenavn** →
    **Administrere** next to `villheva.no` → the nameserver / navnetjener
    setting → replace domene.no's nameservers with Cloudflare's two.
@@ -179,7 +180,7 @@ which is fine for local checks but is not what Cloudflare runs.
 
 - **Build-time vs runtime environment variables.** A `process.env.FOO` read
   inside `nuxt.config.ts` happens when the bundle is built, so on Cloudflare it
-  bakes in whatever the *build* saw — usually an empty string — and the secret
+  bakes in whatever the _build_ saw — usually an empty string — and the secret
   you set in the dashboard is ignored. Secrets are therefore read at runtime
   inside the server handlers (`server/utils/email.ts`, `draft-mode/enable.ts`),
   which works because workerd populates `process.env` from the Worker's
