@@ -57,24 +57,25 @@ export default defineEventHandler(async (event) => {
     `;
 
     // Send email to admin
+    // Where the notification goes -- the bakery's inbox, not the visitor's.
+    // ADMIN_EMAIL overrides it; the fallback means a missing variable can never
+    // stop the form from working. The visitor's own address is only used for
+    // the confirmation email and the Reply-To below.
     const adminEmail =
       readSecret("ADMIN_EMAIL", "adminEmail", event) ||
-      readSecret("RESEND_FROM_EMAIL", "resendFromEmail", event);
-    if (!adminEmail) {
-      console.error(
-        "[Contact] Neither ADMIN_EMAIL nor RESEND_FROM_EMAIL is set on this deployment.",
-      );
-      console.error(
-        "[Contact] env diagnostic:",
+      readSecret("RESEND_FROM_EMAIL", "resendFromEmail", event) ||
+      "post@villheva.no";
+
+    if (!readSecret("ADMIN_EMAIL", "adminEmail", event)) {
+      console.warn(
+        "[Contact] ADMIN_EMAIL is not set; falling back to",
+        adminEmail,
+        "|",
         describeSecretSources(
           ["ADMIN_EMAIL", "RESEND_FROM_EMAIL", "RESEND_API_KEY"],
           event,
         ),
       );
-      throw createError({
-        statusCode: 500,
-        statusMessage: "Recipient address is not configured on this deployment",
-      });
     }
 
     await sendEmail({
