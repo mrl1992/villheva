@@ -1,5 +1,6 @@
 import { createClient } from "@sanity/client";
 import { validatePreviewUrl } from "@sanity/preview-url-secret";
+import { readSecret } from "~/server/utils/secrets";
 
 /**
  * Entry point for Sanity's Presentation tool.
@@ -16,10 +17,11 @@ import { validatePreviewUrl } from "@sanity/preview-url-secret";
  */
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
-  // Read at runtime so a plain SANITY_API_READ_TOKEN binding works on Workers;
-  // NUXT_SANITY_READ_TOKEN (via runtimeConfig) works too.
-  const readToken =
-    process.env.SANITY_API_READ_TOKEN || (config.sanityReadToken as string);
+  const readToken = readSecret(
+    "SANITY_API_READ_TOKEN",
+    "sanityReadToken",
+    event,
+  );
 
   if (!readToken) {
     console.error(

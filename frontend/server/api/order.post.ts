@@ -242,7 +242,7 @@ export default defineEventHandler(async (event) => {
       html: customerEmailHtml,
       from: "noreply@villheva.no",
       replyTo: "post@villheva.no",
-    });
+    }, event);
 
     // Send order notification to admin
     const adminEmail = process.env.ADMIN_EMAIL || "post@villheva.no";
@@ -251,7 +251,7 @@ export default defineEventHandler(async (event) => {
       subject: `Ny bestilling: ${orderNumber}`,
       html: adminEmailHtml,
       from: "noreply@villheva.no",
-    });
+    }, event);
 
     return {
       success: true,

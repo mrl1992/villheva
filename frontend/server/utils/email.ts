@@ -7,6 +7,9 @@
  * A single fetch has no such problem and works on any runtime.
  */
 
+import type { H3Event } from "h3";
+import { readSecret } from "./secrets";
+
 export interface EmailOptions {
   to: string | string[];
   subject: string;
@@ -15,23 +18,8 @@ export interface EmailOptions {
   replyTo?: string;
 }
 
-/**
- * Reads a secret in a way that works on both Node and Cloudflare Workers.
- *
- * `process.env.FOO` is read here at *runtime*, which workerd populates from the
- * Worker's bindings -- unlike a read inside nuxt.config.ts, which happens at
- * build time and bakes in an empty string. runtimeConfig is checked too, so a
- * `NUXT_`-prefixed variable works as well.
- */
-function readSecret(envName: string, configKey: string): string | undefined {
-  const fromEnv = process.env[envName];
-  if (fromEnv) return fromEnv;
-  const fromConfig = (useRuntimeConfig() as Record<string, any>)[configKey];
-  return fromConfig || undefined;
-}
-
-export async function sendEmail(options: EmailOptions) {
-  const apiKey = readSecret("RESEND_API_KEY", "resendApiKey");
+export async function sendEmail(options: EmailOptions, event?: H3Event) {
+  const apiKey = readSecret("RESEND_API_KEY", "resendApiKey", event);
 
   if (!apiKey) {
     console.error(
@@ -47,7 +35,7 @@ export async function sendEmail(options: EmailOptions) {
   const body: Record<string, unknown> = {
     from:
       options.from ||
-      readSecret("RESEND_FROM_EMAIL", "resendFromEmail") ||
+      readSecret("RESEND_FROM_EMAIL", "resendFromEmail", event) ||
       "noreply@villheva.no",
     to: Array.isArray(options.to) ? options.to : [options.to],
     subject: options.subject,

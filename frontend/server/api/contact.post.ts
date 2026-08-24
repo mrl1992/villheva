@@ -66,7 +66,7 @@ export default defineEventHandler(async (event) => {
       subject: `Ny henvendelse: ${subject || "Generell"}`,
       html: emailHtml,
       replyTo: email,
-    });
+    }, event);
 
     // Optionally send confirmation email to user
     const confirmationHtml = `
@@ -90,7 +90,7 @@ export default defineEventHandler(async (event) => {
       to: email,
       subject: "Vi mottok meldingen din",
       html: confirmationHtml,
-    });
+    }, event);
 
     return {
       success: true,
