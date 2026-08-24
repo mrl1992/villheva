@@ -45,6 +45,10 @@ Settings → **Environment variables**, for both Production and Preview:
 | `ADMIN_EMAIL`           | `post@villheva.no`                                               |
 | `SANITY_API_READ_TOKEN` | **Viewer** token — required for Presentation preview (see below) |
 
+Set these as **Secrets** (encrypted) rather than plaintext variables, and
+redeploy afterwards so the Worker picks them up. Note that `frontend/.env` is
+local only — it has no effect on the deployed Worker.
+
 ### 3. Domain, DNS and redirects
 
 The domain is registered at **domene.no**, and Cloudflare needs to serve DNS
@@ -130,7 +134,8 @@ one-time `sanity-preview-secret`. Validating that secret means reading a
 - Name it something like `preview`, permission **Viewer**
 - Add it to the Worker's environment as `SANITY_API_READ_TOKEN`
 
-Without it, `/api/draft-mode/enable` returns 500 and preview will not start.
+Without it, `/api/draft-mode/enable` returns 500 with "Preview is not
+configured on this deployment" and preview will not start.
 The token ends up in a browser cookie so client-side draft queries work, so it
 must be **Viewer**, never Editor or Deploy.
 
@@ -167,6 +172,14 @@ which is fine for local checks but is not what Cloudflare runs.
 
 ## Things worth knowing
 
+- **Build-time vs runtime environment variables.** A `process.env.FOO` read
+  inside `nuxt.config.ts` happens when the bundle is built, so on Cloudflare it
+  bakes in whatever the *build* saw — usually an empty string — and the secret
+  you set in the dashboard is ignored. Secrets are therefore read at runtime
+  inside the server handlers (`server/utils/email.ts`, `draft-mode/enable.ts`),
+  which works because workerd populates `process.env` from the Worker's
+  bindings. Both the plain name and the `NUXT_`-prefixed runtimeConfig name are
+  accepted. If you add a new secret, read it in a handler, not in the config.
 - **The Workers runtime is not Node.** Server code cannot use `fs`,
   `child_process` and similar. This is why `server/utils/email.ts` calls the
   Resend REST API with `$fetch` instead of using the `resend` SDK — the SDK

@@ -16,7 +16,10 @@ import { validatePreviewUrl } from "@sanity/preview-url-secret";
  */
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
-  const readToken = config.sanityReadToken as string;
+  // Read at runtime so a plain SANITY_API_READ_TOKEN binding works on Workers;
+  // NUXT_SANITY_READ_TOKEN (via runtimeConfig) works too.
+  const readToken =
+    process.env.SANITY_API_READ_TOKEN || (config.sanityReadToken as string);
 
   if (!readToken) {
     console.error(

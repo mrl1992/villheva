@@ -15,22 +15,40 @@ export interface EmailOptions {
   replyTo?: string;
 }
 
-interface ResendError {
-  message?: string;
-  name?: string;
+/**
+ * Reads a secret in a way that works on both Node and Cloudflare Workers.
+ *
+ * `process.env.FOO` is read here at *runtime*, which workerd populates from the
+ * Worker's bindings -- unlike a read inside nuxt.config.ts, which happens at
+ * build time and bakes in an empty string. runtimeConfig is checked too, so a
+ * `NUXT_`-prefixed variable works as well.
+ */
+function readSecret(envName: string, configKey: string): string | undefined {
+  const fromEnv = process.env[envName];
+  if (fromEnv) return fromEnv;
+  const fromConfig = (useRuntimeConfig() as Record<string, any>)[configKey];
+  return fromConfig || undefined;
 }
 
 export async function sendEmail(options: EmailOptions) {
-  const apiKey = process.env.RESEND_API_KEY;
+  const apiKey = readSecret("RESEND_API_KEY", "resendApiKey");
+
   if (!apiKey) {
-    throw new Error(
-      "RESEND_API_KEY environment variable is not set. Please configure it in your production environment.",
+    console.error(
+      "[Email] RESEND_API_KEY is not set. On Cloudflare add it under Settings -> Variables and Secrets.",
     );
+    // Distinct from a send failure so the cause is visible without log access.
+    throw createError({
+      statusCode: 500,
+      statusMessage: "Email is not configured on this deployment",
+    });
   }
 
   const body: Record<string, unknown> = {
     from:
-      options.from || process.env.RESEND_FROM_EMAIL || "noreply@villheva.no",
+      options.from ||
+      readSecret("RESEND_FROM_EMAIL", "resendFromEmail") ||
+      "noreply@villheva.no",
     to: Array.isArray(options.to) ? options.to : [options.to],
     subject: options.subject,
     html: options.html,
@@ -50,9 +68,13 @@ export async function sendEmail(options: EmailOptions) {
       body,
     });
   } catch (error: any) {
-    const detail: ResendError = error?.data ?? {};
-    const message = detail.message || error?.message || "unknown error";
-    console.error("Email sending failed:", message);
-    throw new Error(`Failed to send email: ${message}`);
+    // Resend puts the useful part in the response body, not the status text.
+    const detail =
+      error?.data?.message || error?.data?.name || error?.message || "unknown";
+    console.error(`[Email] Resend rejected the request: ${detail}`);
+    throw createError({
+      statusCode: 502,
+      statusMessage: `Email provider rejected the request: ${detail}`,
+    });
   }
 }
