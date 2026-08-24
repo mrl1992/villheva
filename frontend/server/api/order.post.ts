@@ -1,4 +1,5 @@
 import { sendEmail } from "~/server/utils/email";
+import { readSecret } from "~/server/utils/secrets";
 
 // Simple HTML escaping function
 function escapeHtml(text: string): string {
@@ -245,7 +246,8 @@ export default defineEventHandler(async (event) => {
     }, event);
 
     // Send order notification to admin
-    const adminEmail = process.env.ADMIN_EMAIL || "post@villheva.no";
+    const adminEmail =
+      readSecret("ADMIN_EMAIL", "adminEmail", event) || "post@villheva.no";
     await sendEmail({
       to: adminEmail,
       subject: `Ny bestilling: ${orderNumber}`,

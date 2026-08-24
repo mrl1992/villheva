@@ -1,4 +1,5 @@
 import { sendEmail } from "~/server/utils/email";
+import { readSecret } from "~/server/utils/secrets";
 
 export default defineEventHandler(async (event) => {
   // Only allow POST requests
@@ -56,9 +57,17 @@ export default defineEventHandler(async (event) => {
     `;
 
     // Send email to admin
-    const adminEmail = process.env.ADMIN_EMAIL || process.env.RESEND_FROM_EMAIL;
+    const adminEmail =
+      readSecret("ADMIN_EMAIL", "adminEmail", event) ||
+      readSecret("RESEND_FROM_EMAIL", "resendFromEmail", event);
     if (!adminEmail) {
-      throw new Error("Admin email not configured");
+      console.error(
+        "[Contact] Neither ADMIN_EMAIL nor RESEND_FROM_EMAIL is set on this deployment.",
+      );
+      throw createError({
+        statusCode: 500,
+        statusMessage: "Recipient address is not configured on this deployment",
+      });
     }
 
     await sendEmail({

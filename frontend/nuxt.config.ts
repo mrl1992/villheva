@@ -23,6 +23,7 @@ export default defineNuxtConfig({
     sanityReadToken: process.env.SANITY_API_READ_TOKEN || "",
     resendApiKey: process.env.RESEND_API_KEY || "",
     resendFromEmail: process.env.RESEND_FROM_EMAIL || "",
+    adminEmail: process.env.ADMIN_EMAIL || "",
     public: {
       sanityProjectId: process.env.SANITY_PROJECT_ID || "u8jecufq",
       sanityDataset: process.env.SANITY_DATASET || "product",
