@@ -16,12 +16,12 @@ Cloudflare dashboard → **Workers & Pages** → **Create** → **Pages** →
 
 Build settings:
 
-| Setting | Value |
-| --- | --- |
-| Framework preset | Nuxt |
-| Build command | `npm run build` |
-| Build output directory | `dist` |
-| Root directory | `frontend` |
+| Setting                | Value           |
+| ---------------------- | --------------- |
+| Framework preset       | Nuxt            |
+| Build command          | `npm run build` |
+| Build output directory | `dist`          |
+| Root directory         | `frontend`      |
 
 Nuxt detects Cloudflare and picks the Nitro preset itself. To reproduce the
 same build locally, set `NITRO_PRESET=cloudflare_pages` (the preset name is
@@ -34,15 +34,15 @@ nothing in `nuxt.config.ts` needs to name a preset.
 
 Settings → **Environment variables**, for both Production and Preview:
 
-| Variable | Value |
-| --- | --- |
-| `SANITY_PROJECT_ID` | `u8jecufq` |
-| `SANITY_DATASET` | `product` — **not** `production`, which exists but is empty |
-| `SANITY_API_TOKEN` | read token from sanity.io/manage |
-| `SITE_URL` | `https://www.villheva.no` |
-| `RESEND_API_KEY` | `re_…` (mark as a **secret**) |
-| `RESEND_FROM_EMAIL` | `noreply@villheva.no` |
-| `ADMIN_EMAIL` | `post@villheva.no` |
+| Variable                | Value                                                            |
+| ----------------------- | ---------------------------------------------------------------- |
+| `SANITY_PROJECT_ID`     | `u8jecufq`                                                       |
+| `SANITY_DATASET`        | `product` — **not** `production`, which exists but is empty      |
+| `SANITY_API_TOKEN`      | read token from sanity.io/manage                                 |
+| `SITE_URL`              | `https://www.villheva.no`                                        |
+| `RESEND_API_KEY`        | `re_…` (mark as a **secret**)                                    |
+| `RESEND_FROM_EMAIL`     | `noreply@villheva.no`                                            |
+| `ADMIN_EMAIL`           | `post@villheva.no`                                               |
 | `SANITY_API_READ_TOKEN` | **Viewer** token — required for Presentation preview (see below) |
 
 ### 3. Domain, DNS and redirects
@@ -63,7 +63,7 @@ DNS, proxying, caching and the certificate.
 4. Propagation is usually under an hour. Cloudflare's dashboard flips the zone
    to **Active** when it sees the change.
 
-Note that moving nameservers moves *all* DNS for the domain, including any
+Note that moving nameservers moves _all_ DNS for the domain, including any
 email records that currently point at domene.no's mail service. Copy those
 across first.
 
@@ -190,10 +190,10 @@ which is fine for local checks but is not what Cloudflare runs.
 
 ## Where things live
 
-| Path | Purpose |
-| --- | --- |
-| `frontend/server/api/` | Contact and order endpoints (run as Workers functions). |
-| `frontend/server/api/draft-mode/` | Presentation preview entry points. |
-| `villheva/sanity.config.ts` | Studio config, incl. the Presentation preview URL. |
-| `frontend/server/routes/sitemap.xml.ts` | Sitemap, generated per request. |
-| `frontend/nuxt.config.ts` | Runtime config, SEO defaults, cascade layer order. |
+| Path                                    | Purpose                                                 |
+| --------------------------------------- | ------------------------------------------------------- |
+| `frontend/server/api/`                  | Contact and order endpoints (run as Workers functions). |
+| `frontend/server/api/draft-mode/`       | Presentation preview entry points.                      |
+| `villheva/sanity.config.ts`             | Studio config, incl. the Presentation preview URL.      |
+| `frontend/server/routes/sitemap.xml.ts` | Sitemap, generated per request.                         |
+| `frontend/nuxt.config.ts`               | Runtime config, SEO defaults, cascade layer order.      |
