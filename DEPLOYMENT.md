@@ -160,8 +160,9 @@ wrong — the Worker log says which.
 Push to `main` → Cloudflare builds and deploys. Pull requests get their own
 preview URL. There is no GitHub Actions workflow and no FTP step.
 
-Because the site is server-rendered, **content is always live**: publishing in
-Sanity shows up on the next request with no rebuild. The `repository_dispatch`
+Because the site is server-rendered, **content needs no rebuild**: publishing
+in Sanity shows up within five minutes, the lifetime of the page cache (see
+below). Sanity preview always shows drafts immediately. The `repository_dispatch`
 webhook that a static build would have needed is not required — you can delete
 it from sanity.io/manage → API → Webhooks if you set one up.
 
@@ -169,14 +170,26 @@ To build locally the way Cloudflare does:
 
 ```bash
 cd frontend
-NITRO_PRESET=cloudflare_pages npm run build
-npx wrangler pages dev dist        # runs the real Workers runtime
+NITRO_PRESET=cloudflare_module npm run build
+npx wrangler dev .output/server/index.mjs --assets .output/public
 ```
 
 Plain `npm run build` produces a Node server (`node .output/server/index.mjs`),
 which is fine for local checks but is not what Cloudflare runs.
 
 ## Things worth knowing
+
+- **Pages are cached at the edge for five minutes.** The Workers free plan
+  allows 10 ms of CPU per request, and rendering a Vuetify page takes longer,
+  so Cloudflare was cutting requests off ("Your Workers hit the free tier CPU
+  time limit"). `server/middleware/page-cache.ts` keeps rendered HTML in
+  Cloudflare's Cache API, so a page is rendered at most once per Cloudflare
+  location every five minutes. Check it with `curl -sI https://www.villheva.no/`
+  — the `x-page-cache` header says `HIT` or `MISS`. Preview requests and
+  `/api/*` are never cached, and nothing is cached on `*.workers.dev`, where the
+  Cache API is inactive. A deploy starts with an empty cache because the key
+  includes the build id. If the CPU warnings keep coming, Workers Paid
+  ($5/month) raises the limit.
 
 - **Build-time vs runtime environment variables.** A `process.env.FOO` read
   inside `nuxt.config.ts` happens when the bundle is built, so on Cloudflare it
